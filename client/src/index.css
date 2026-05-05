@@ -1,0 +1,203 @@
+@import "tailwindcss";
+
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap');
+
+@theme {
+  --color-navy: #2F3142;
+  --color-navy-dark: #1E2030;
+  --color-navy-deeper: #141622;
+  --color-navy-light: #3D4060;
+
+  --color-gold: #C8A75B;
+  --color-gold-dark: #A88A3D;
+  --color-gold-light: #DFC07A;
+  --color-gold-pale: #F9F3E6;
+
+  --color-bg: #F4F6F8;
+  --color-surface: #FFFFFF;
+  --color-steel: #6B7280;
+  --color-steel-light: #D1D5DB;
+  --color-steel-pale: #E8EAED;
+
+  --color-text-primary: #2F3142;
+  --color-text-secondary: #2F3142;
+  /* ← was #6B7280 */
+  --color-text-muted: #2F3142;
+  /* ← was #9CA3AF */
+
+  --font-serif: "Cormorant Garamond", Georgia, serif;
+  --font-sans: "Inter", "Helvetica Neue", sans-serif;
+}
+
+@layer base {
+  body {
+    background-color: #F4F6F8;
+    color: #2F3142;
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── Force all text elements to navy ── */
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  p,
+  span,
+  li,
+  a,
+  label,
+  td,
+  th,
+  blockquote,
+  figcaption,
+  input,
+  textarea,
+  select,
+  button {
+    color: #2F3142;
+  }
+
+  /* ── Exceptions: gold accents and white-on-dark text stay as-is ── */
+  a:where([class*="gold"]),
+  [class*="btn-gold"],
+  [class*="btn-navy"],
+  [class*="btn-outline"] {
+    color: inherit;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-serif);
+  }
+
+  * {
+    scroll-behavior: smooth;
+    box-sizing: border-box;
+  }
+}
+
+@layer components {
+  .btn-gold {
+    @apply inline-block px-8 py-3 text-xs tracking-widest uppercase transition-all duration-300 cursor-pointer;
+    background-color: #C8A75B;
+    color: white !important;
+    font-family: var(--font-sans);
+  }
+
+  .btn-gold:hover {
+    background-color: #A88A3D;
+  }
+
+  .btn-outline {
+    @apply inline-block px-8 py-3 text-xs tracking-widest uppercase transition-all duration-300 cursor-pointer;
+    border: 1px solid #C8A75B;
+    color: #C8A75B !important;
+    font-family: var(--font-sans);
+  }
+
+  .btn-outline:hover {
+    background-color: #C8A75B;
+    color: white !important;
+  }
+
+  .btn-navy {
+    @apply inline-block px-8 py-3 text-xs tracking-widest uppercase transition-all duration-300 cursor-pointer;
+    background-color: #2F3142;
+    color: white !important;
+    font-family: var(--font-sans);
+  }
+
+  .btn-navy:hover {
+    background-color: #1E2030;
+  }
+
+  .gold-line {
+    @apply block w-12 h-px my-4;
+    background-color: #C8A75B;
+  }
+
+  .section-title {
+    @apply text-4xl md:text-5xl leading-tight;
+    font-family: var(--font-serif);
+    color: #2F3142;
+  }
+
+  .section-pad {
+    @apply py-20 md:py-28;
+  }
+
+  .container-max {
+    @apply max-w-7xl mx-auto px-6 md:px-12;
+  }
+
+  .project-card {
+    @apply overflow-hidden cursor-pointer relative;
+    transition: transform 0.35s ease, box-shadow 0.35s ease;
+  }
+
+  .project-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 24px 60px rgba(47, 49, 66, 0.14);
+  }
+
+  /* ── Text on dark backgrounds (navbar, footer, admin) ── */
+  .text-on-dark {
+    color: rgba(244, 246, 248, 0.85) !important;
+  }
+
+  .text-on-dark-muted {
+    color: rgba(244, 246, 248, 0.5) !important;
+  }
+
+  .text-gold {
+    color: #C8A75B !important;
+  }
+
+  .text-navy {
+    color: #2F3142 !important;
+  }
+
+  .text-steel {
+    color: #6B7280 !important;
+  }
+}
+
+/* ── Mobile Navbar ── */
+@media (max-width: 768px) {
+
+  /* Show hamburger */
+  .mobile-menu-btn {
+    display: flex !important;
+  }
+
+  /* Hide desktop nav */
+  header nav:not(.mobile-nav) {
+    display: none !important;
+  }
+
+  /* Navbar inner padding */
+  header>div:first-child {
+    padding: 0 20px !important;
+  }
+
+  /* Logo size on mobile */
+  header img {
+    width: 180px !important;
+  }
+
+  /* Mobile dropdown nav links — keep light text on dark bg */
+  header .mobile-nav a,
+  header .mobile-nav span {
+    color: #2F3142 !important;
+  }
+}
+
+/* Hide scrollbar on filter bar */
+section div::-webkit-scrollbar {
+  display: none;
+}
