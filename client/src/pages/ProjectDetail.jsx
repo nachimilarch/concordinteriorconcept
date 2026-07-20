@@ -5,7 +5,7 @@ import { useInView } from "framer-motion";
 import api from "../api/axios";
 
 const NAVY = "#22221E";
-const GOLD = "#C2A87A";
+const GOLD = "#FBB316";
 const BG = "#F5F0EB";
 
 /* ── Image URL helper ─────────────────────────── */
@@ -48,7 +48,7 @@ function BeforeAfterSlider({ before, after }) {
 
       {/* Labels */}
       <div style={{ position: "absolute", top: 20, left: 20, background: "rgba(24,24,21,0.75)", color: "white", padding: "4px 12px", fontFamily: "Inter, sans-serif", fontSize: 10, letterSpacing: "0.18em", textTransform: "uppercase" }}>Before</div>
-      <div style={{ position: "absolute", top: 20, right: 20, background: `rgba(194,168,122,0.9)`, color: "white", padding: "4px 12px", fontFamily: "Inter, sans-serif", fontSize: 10, letterSpacing: "0.18em", textTransform: "uppercase" }}>After</div>
+      <div style={{ position: "absolute", top: 20, right: 20, background: `rgba(251,179,22,0.9)`, color: "white", padding: "4px 12px", fontFamily: "Inter, sans-serif", fontSize: 10, letterSpacing: "0.18em", textTransform: "uppercase" }}>After</div>
 
       {/* Divider handle */}
       <div style={{ position: "absolute", top: 0, bottom: 0, left: `${pos}%`, transform: "translateX(-50%)", width: 2, background: "white", pointerEvents: "none" }}>

@@ -8,7 +8,7 @@ import { useLocation } from "react-router-dom";
  * the button stays hidden until the user has scrolled past the pinned
  * scroll journey (~500vh). On every other page it shows immediately.
  */
-const GOLD = "#C2A87A";
+const GOLD = "#FBB316";
 
 export default function WhatsAppButton({ number = "919876543210" }) {
   const { pathname } = useLocation();
@@ -44,7 +44,7 @@ export default function WhatsAppButton({ number = "919876543210" }) {
         background: GOLD, borderRadius: "50%",
         width: 58, height: 58,
         display: "flex", alignItems: "center", justifyContent: "center",
-        boxShadow: "0 8px 24px rgba(194,168,122,0.45)",
+        boxShadow: "0 8px 24px rgba(251,179,22,0.45)",
         textDecoration: "none",
         opacity: visible ? 1 : 0,
         transform: visible ? "scale(1) translateY(0)" : "scale(0.8) translateY(8px)",
@@ -58,9 +58,9 @@ export default function WhatsAppButton({ number = "919876543210" }) {
       }} />
       <style>{`
         @keyframes wapulseGold {
-          0% { box-shadow: 0 0 0 0 rgba(194,168,122,0.55); }
-          70% { box-shadow: 0 0 0 18px rgba(194,168,122,0); }
-          100% { box-shadow: 0 0 0 0 rgba(194,168,122,0); }
+          0% { box-shadow: 0 0 0 0 rgba(251,179,22,0.55); }
+          70% { box-shadow: 0 0 0 18px rgba(251,179,22,0); }
+          100% { box-shadow: 0 0 0 0 rgba(251,179,22,0); }
         }
       `}</style>
       <svg viewBox="0 0 24 24" width="26" height="26" fill="white" aria-hidden>

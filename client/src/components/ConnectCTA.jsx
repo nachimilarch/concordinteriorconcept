@@ -5,8 +5,8 @@ import { motion, useInView } from "framer-motion";
 /* ── Brand tokens ─────────────────────────────── */
 const INK = "#181815";
 const IVORY = "#F5F0EB";
-const BEIGE = "#C2A87A";
-const BEIGE_LIGHT = "#DCCBA6";
+const BEIGE = "#FBB316";
+const BEIGE_LIGHT = "#FCC94E";
 const FOREST_DEEP = "#1C332A";
 
 function FadeIn({ children, delay = 0 }) {
@@ -38,8 +38,8 @@ export default function ConnectCTA() {
       overflow: "hidden",
     }}>
       {/* Editorial hairlines top and bottom */}
-      <div style={{ position: "absolute", top: 36, left: 40, right: 40, borderTop: "1px solid rgba(194,168,122,0.3)" }} />
-      <div style={{ position: "absolute", bottom: 36, left: 40, right: 40, borderTop: "1px solid rgba(194,168,122,0.3)" }} />
+      <div style={{ position: "absolute", top: 36, left: 40, right: 40, borderTop: "1px solid rgba(251,179,22,0.3)" }} />
+      <div style={{ position: "absolute", bottom: 36, left: 40, right: 40, borderTop: "1px solid rgba(251,179,22,0.3)" }} />
 
       {/* Faint compass arc motif */}
       <svg
@@ -67,7 +67,7 @@ export default function ConnectCTA() {
         background: "rgba(245,240,235,0.06)",
         backdropFilter: "blur(18px) saturate(140%)",
         WebkitBackdropFilter: "blur(18px) saturate(140%)",
-        border: "1px solid rgba(194,168,122,0.28)",
+        border: "1px solid rgba(251,179,22,0.28)",
         borderRadius: 32,
         padding: "clamp(40px, 6vw, 72px) clamp(24px, 5vw, 64px)",
         boxShadow: "0 24px 64px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.1)",

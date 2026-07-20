@@ -5,7 +5,7 @@ import api from "../api/axios";
 
 const INK = "#181815";
 const IVORY = "#F5F0EB";
-const GOLD = "#C2A87A";
+const GOLD = "#FBB316";
 const STEEL = "#778088";
 
 export default function Footer() {
@@ -59,13 +59,13 @@ export default function Footer() {
       overflow: "hidden",
     }}>
       {/* Beige hairline top */}
-      <div style={{ borderTop: "1px solid rgba(194,168,122,0.4)" }} />
+      <div style={{ borderTop: "1px solid rgba(251,179,22,0.4)" }} />
 
       {/* Faint blueprint grid backdrop */}
       <div aria-hidden style={{
         position: "absolute", inset: 0,
         backgroundImage:
-          "linear-gradient(rgba(194,168,122,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(194,168,122,0.04) 1px, transparent 1px)",
+          "linear-gradient(rgba(251,179,22,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(251,179,22,0.04) 1px, transparent 1px)",
         backgroundSize: "56px 56px",
         pointerEvents: "none",
       }} />
@@ -101,7 +101,7 @@ export default function Footer() {
               </span>
             </span>
           </div>
-          <p style={{ fontFamily: "Cormorant Garamond, serif", fontSize: 15, fontStyle: "italic", color: "rgba(220,203,166,0.95)", margin: "0 0 8px", lineHeight: 1.55, maxWidth: 300 }}>{brandTagline}</p>
+          <p style={{ fontFamily: "Cormorant Garamond, serif", fontSize: 15, fontStyle: "italic", color: "rgba(252,201,78,0.95)", margin: "0 0 8px", lineHeight: 1.55, maxWidth: 300 }}>{brandTagline}</p>
           <p style={{ fontFamily: "Inter, sans-serif", fontSize: 10, letterSpacing: "0.14em", color: "rgba(245,240,235,0.6)", margin: "0 0 16px", textTransform: "uppercase" }}>{companyTagline}</p>
           {socials.length > 0 && (
             <div style={{ display: "flex", gap: 10, marginTop: 12, flexWrap: "wrap" }}>
@@ -117,7 +117,7 @@ export default function Footer() {
                     WebkitBackdropFilter: "blur(8px)",
                     transition: "color 0.2s, border-color 0.2s",
                   }}
-                  onMouseEnter={e => { e.currentTarget.style.color = GOLD; e.currentTarget.style.borderColor = "rgba(194,168,122,0.6)"; }}
+                  onMouseEnter={e => { e.currentTarget.style.color = GOLD; e.currentTarget.style.borderColor = "rgba(251,179,22,0.6)"; }}
                   onMouseLeave={e => { e.currentTarget.style.color = "rgba(245,240,235,0.75)"; e.currentTarget.style.borderColor = "rgba(245,240,235,0.2)"; }}
                 >{label}</a>
               ))}

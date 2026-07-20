@@ -20,8 +20,8 @@ const imgUrl = (p) => {
 const INK = "#181815";
 const IVORY = "#F5F0EB";
 const IVORY_WARM = "#F2EDE5";
-const BEIGE = "#C2A87A";
-const BEIGE_DEEP = "#A08760";
+const BEIGE = "#FBB316";
+const BEIGE_DEEP = "#DE9E08";
 const FOREST = "#2C4A3B";
 const FOREST_DEEP = "#1C332A";
 const FOREST_LIGHT = "#7FA08C";
@@ -301,7 +301,7 @@ function InteriorsShowcase() {
               flexShrink: 0, width: "clamp(260px, 24vw, 380px)",
               display: "flex", flexDirection: "column",
               alignItems: "center", justifyContent: "center",
-              border: `1px solid rgba(194,168,122,0.4)`,
+              border: `1px solid rgba(251,179,22,0.4)`,
               borderRadius: 18,
               background: "rgba(245,240,235,0.05)",
               backdropFilter: "blur(14px)",
@@ -383,7 +383,7 @@ function WhatWeCreate({ disciplines = DISCIPLINES }) {
                     fontSize: 64, fontWeight: 400, lineHeight: 1,
                     color: BEIGE,
                   }}>{d.letter}</span>
-                  <span style={{ flex: 1, borderTop: `1px solid rgba(194,168,122,0.5)` }} />
+                  <span style={{ flex: 1, borderTop: `1px solid rgba(251,179,22,0.5)` }} />
                 </div>
                 <h3 style={{
                   fontFamily: "Cormorant Garamond, serif",

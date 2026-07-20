@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback } from "react";
 import api from "../api/axios";
 import toast from "react-hot-toast";
 
-const GOLD = "#C9A96E";
+const GOLD = "#FBB316";
 const NAVY = "#1A1A2E";
 
 function Modal({ title, onClose, children }) {

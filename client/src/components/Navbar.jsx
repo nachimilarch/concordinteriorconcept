@@ -13,8 +13,8 @@ const NAV_LINKS = [
 
 const INK = "#181815";
 const INK_SOFT = "#22221E";
-const GOLD = "#C2A87A";
-const GOLD_D = "#A08760";
+const GOLD = "#FBB316";
+const GOLD_D = "#DE9E08";
 const FOREST = "#2C4A3B";
 const STEEL = "#778088";
 const IVORY = "#F5F0EB";
@@ -86,8 +86,8 @@ export default function Navbar() {
     : "1px solid rgba(255,255,255,0.65)";
 
   const capsuleShadow = onDark
-    ? "0 12px 40px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.08)"
-    : "0 10px 36px rgba(24,24,21,0.12), inset 0 1px 0 rgba(255,255,255,0.6)";
+    ? "0 4px 24px rgba(0,0,0,0.22), inset 0 1px 0 rgba(255,255,255,0.08)"
+    : "0 4px 20px rgba(24,24,21,0.07), inset 0 1px 0 rgba(255,255,255,0.6)";
 
   const wordmarkColor = onDark ? IVORY : INK_SOFT;
   const linkColorBase = onDark ? "rgba(245,240,235,0.92)" : INK_SOFT;
@@ -249,7 +249,7 @@ export default function Navbar() {
                     color: isActive ? linkColorActive : linkColorBase,
                     background: isActive
                       ? onDark
-                        ? "rgba(194,168,122,0.14)"
+                        ? "rgba(251,179,22,0.14)"
                         : "rgba(44,74,59,0.10)"
                       : "transparent",
                     padding: "9px 16px",
@@ -278,17 +278,17 @@ export default function Navbar() {
                   textTransform: "uppercase",
                   transition: "background 0.3s, box-shadow 0.3s",
                   whiteSpace: "nowrap",
-                  boxShadow: "0 4px 18px rgba(194,168,122,0.45)",
+                  boxShadow: "0 4px 18px rgba(251,179,22,0.45)",
                 }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.background = "#DCCBA6";
+                  e.currentTarget.style.background = "#FCC94E";
                   e.currentTarget.style.boxShadow =
-                    "0 6px 24px rgba(194,168,122,0.6)";
+                    "0 6px 24px rgba(251,179,22,0.6)";
                 }}
                 onMouseLeave={(e) => {
                   e.currentTarget.style.background = GOLD;
                   e.currentTarget.style.boxShadow =
-                    "0 4px 18px rgba(194,168,122,0.45)";
+                    "0 4px 18px rgba(251,179,22,0.45)";
                 }}
               >
                 Get a Quote
@@ -399,7 +399,7 @@ export default function Navbar() {
                   fontWeight: 700,
                   letterSpacing: "0.22em",
                   textTransform: "uppercase",
-                  boxShadow: "0 4px 16px rgba(194,168,122,0.4)",
+                  boxShadow: "0 4px 16px rgba(251,179,22,0.4)",
                 }}
               >
                 Get a Quote

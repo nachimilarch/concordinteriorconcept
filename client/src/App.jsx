@@ -77,7 +77,7 @@ const Loader = () => (
         alignItems: "center", justifyContent: "center", background: "#F5F0EB"
     }}>
         <div style={{
-            width: 40, height: 40, border: "2px solid #C9A96E",
+            width: 40, height: 40, border: "2px solid #FBB316",
             borderTopColor: "transparent", borderRadius: "50%",
             animation: "spin 0.8s linear infinite"
         }} />

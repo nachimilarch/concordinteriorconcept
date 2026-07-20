@@ -9,7 +9,7 @@ router.get("/", async (req, res) => {
   const [rows] = await pool.query(`
     SELECT c.*, COUNT(p.id) AS project_count
     FROM categories c
-    LEFT JOIN projects p ON p.category_id = c.id
+    LEFT JOIN projects p ON p.category_id = c.id AND p.status = 'published'
     GROUP BY c.id
     ORDER BY c.display_order ASC
   `);

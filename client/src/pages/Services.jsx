@@ -6,8 +6,8 @@ import ConnectCTA from "../components/ConnectCTA";
 
 /* ── Brand tokens ─────────────────────────────── */
 const NAVY = "#22221E";
-const GOLD = "#C2A87A";
-const GOLD_D = "#A08760";
+const GOLD = "#FBB316";
+const GOLD_D = "#DE9E08";
 const BG = "#F5F0EB";
 const PORTFOLIO_RED = "#2C4A3B";
 const PORTFOLIO_RED_LIGHT = "#7FA08C";
@@ -39,7 +39,7 @@ function FadeIn({ children, delay = 0, y = 24 }) {
    OUR ECOSYSTEM OF SERVICES — the five disciplines
    (verbatim structure from the CIC content document)
 ══════════════════════════════════════════════════ */
-const ACCENT_COLORS = ["#C2A87A", "#2C4A3B", "#7FA08C", "#A08760", "#22221E"];
+const ACCENT_COLORS = ["#FBB316", "#2C4A3B", "#7FA08C", "#DE9E08", "#22221E"];
 const FALLBACK_SERVICES = [
   {
     num: "A",
@@ -79,7 +79,7 @@ const FALLBACK_SERVICES = [
       "Turnkey Construction",
       "Project Management",
     ],
-    accent: "#C2A87A",
+    accent: "#FBB316",
   },
   {
     num: "C",
@@ -119,7 +119,7 @@ const FALLBACK_SERVICES = [
       "Material Selection",
       "Complete Turnkey Execution",
     ],
-    accent: "#A08760",
+    accent: "#DE9E08",
   },
   {
     num: "E",
@@ -189,7 +189,7 @@ function ServiceBlock({ service, index }) {
             alignItems: "center",
             gap: 32,
             cursor: "pointer",
-            background: hovered ? "rgba(194,168,122,0.03)" : "transparent",
+            background: hovered ? "rgba(251,179,22,0.03)" : "transparent",
             transition: "background 0.3s ease",
             margin: 0,
             padding: "36px 40px",
@@ -426,7 +426,7 @@ export default function Services() {
         <div style={{
           position: "absolute", top: 0, right: 0,
           width: "45%", height: "100%",
-          background: "linear-gradient(135deg, rgba(194,168,122,0.07) 0%, transparent 70%)",
+          background: "linear-gradient(135deg, rgba(251,179,22,0.07) 0%, transparent 70%)",
           pointerEvents: "none",
         }} />
 
@@ -503,7 +503,7 @@ export default function Services() {
                   background: "rgba(24,24,21,0.82)",
                   backdropFilter: "blur(14px) saturate(140%)",
                   WebkitBackdropFilter: "blur(14px) saturate(140%)",
-                  border: "1px solid rgba(194,168,122,0.3)",
+                  border: "1px solid rgba(251,179,22,0.3)",
                   borderRadius: 18,
                   padding: "22px 30px",
                   boxShadow: "0 12px 36px rgba(24,24,21,0.3)",
@@ -558,13 +558,13 @@ export default function Services() {
         <div aria-hidden style={{
           position: "absolute", inset: 0,
           backgroundImage:
-            "linear-gradient(rgba(194,168,122,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(194,168,122,0.05) 1px, transparent 1px)",
+            "linear-gradient(rgba(251,179,22,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(251,179,22,0.05) 1px, transparent 1px)",
           backgroundSize: "56px 56px",
           pointerEvents: "none",
         }} />
         {/* Compass arcs — top right */}
         <svg aria-hidden viewBox="0 0 500 500" style={{ position: "absolute", top: -140, right: -120, width: 520, height: 520, opacity: 0.08, pointerEvents: "none" }}>
-          <g stroke="#DCCBA6" strokeWidth="1" fill="none">
+          <g stroke="#FCC94E" strokeWidth="1" fill="none">
             <circle cx="250" cy="250" r="240" />
             <circle cx="250" cy="250" r="175" />
             <circle cx="250" cy="250" r="110" />
@@ -577,7 +577,7 @@ export default function Services() {
           fontFamily: "Cormorant Garamond, serif",
           fontSize: "clamp(120px, 16vw, 240px)",
           fontStyle: "italic", fontWeight: 500, lineHeight: 1,
-          color: "rgba(194,168,122,0.06)",
+          color: "rgba(251,179,22,0.06)",
           userSelect: "none", pointerEvents: "none",
           whiteSpace: "nowrap",
         }}>Concord</span>
@@ -596,7 +596,7 @@ export default function Services() {
                 Six commitments behind every space we design, build and hand over.
               </p>
             </div>
-            <div style={{ borderTop: "1px solid rgba(194,168,122,0.35)", margin: "36px 0 64px" }} />
+            <div style={{ borderTop: "1px solid rgba(251,179,22,0.35)", margin: "36px 0 64px" }} />
           </FadeIn>
 
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))", gap: 24 }}>
@@ -773,7 +773,7 @@ function WhyCard({ item }) {
         background: hovered
           ? "linear-gradient(160deg, rgba(44,74,59,0.55) 0%, rgba(24,24,21,0.9) 70%)"
           : "linear-gradient(160deg, rgba(245,240,235,0.045) 0%, rgba(245,240,235,0.015) 100%)",
-        border: `1px solid ${hovered ? "rgba(194,168,122,0.65)" : "rgba(245,240,235,0.12)"}`,
+        border: `1px solid ${hovered ? "rgba(251,179,22,0.65)" : "rgba(245,240,235,0.12)"}`,
         borderRadius: 22,
         backdropFilter: "blur(14px) saturate(130%)",
         WebkitBackdropFilter: "blur(14px) saturate(130%)",
@@ -790,25 +790,25 @@ function WhyCard({ item }) {
         position: "absolute", top: 6, right: 18,
         fontFamily: "Cormorant Garamond, serif",
         fontSize: 110, fontWeight: 400, lineHeight: 1,
-        color: hovered ? "rgba(194,168,122,0.22)" : "rgba(245,240,235,0.055)",
+        color: hovered ? "rgba(251,179,22,0.22)" : "rgba(245,240,235,0.055)",
         transition: "color 0.5s ease",
         userSelect: "none", pointerEvents: "none",
       }}>{item.num}</span>
 
       {/* Corner tick — drafting mark */}
       <svg aria-hidden width="26" height="26" viewBox="0 0 26 26" style={{ position: "absolute", left: 12, bottom: 12, opacity: hovered ? 0.9 : 0.3, transition: "opacity 0.4s ease" }}>
-        <path d="M1 25 V14 M1 25 H12" stroke="#C2A87A" strokeWidth="1.2" fill="none" />
+        <path d="M1 25 V14 M1 25 H12" stroke="#FBB316" strokeWidth="1.2" fill="none" />
       </svg>
 
       {/* Icon plate */}
       <div style={{
         width: 68, height: 68,
-        border: `1px solid ${hovered ? "#C2A87A" : "rgba(194,168,122,0.4)"}`,
+        border: `1px solid ${hovered ? "#FBB316" : "rgba(251,179,22,0.4)"}`,
         borderRadius: "50%",
         display: "flex", alignItems: "center", justifyContent: "center",
-        color: hovered ? "#DCCBA6" : "#C2A87A",
+        color: hovered ? "#FCC94E" : "#FBB316",
         marginBottom: 26,
-        background: hovered ? "rgba(194,168,122,0.1)" : "transparent",
+        background: hovered ? "rgba(251,179,22,0.1)" : "transparent",
         transform: hovered ? "scale(1.06) rotate(-4deg)" : "scale(1) rotate(0deg)",
         transition: "all 0.45s cubic-bezier(0.22,1,0.36,1)",
         flexShrink: 0,
@@ -826,7 +826,7 @@ function WhyCard({ item }) {
       {/* Expanding divider */}
       <div style={{
         width: hovered ? 52 : 24, height: 1,
-        background: "#C2A87A",
+        background: "#FBB316",
         marginBottom: 16,
         transition: "width 0.45s ease",
       }} />

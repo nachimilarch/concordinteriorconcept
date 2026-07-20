@@ -42,7 +42,7 @@ export default function AdminLayout() {
       flexDirection: "column", flexShrink: 0, minHeight: "100vh",
     }}>
       <div style={{ padding: "28px 24px 22px", borderBottom: "1px solid rgba(255,255,255,0.07)" }}>
-        <p style={{ fontFamily: "Cormorant Garamond, serif", color: "#C9A96E", fontSize: 17, letterSpacing: "0.22em" }}>
+        <p style={{ fontFamily: "Cormorant Garamond, serif", color: "#FBB316", fontSize: 17, letterSpacing: "0.22em" }}>
           CONCORDE
         </p>
         <p style={{ color: "rgba(255,255,255,0.3)", fontSize: 10, letterSpacing: "0.14em", marginTop: 3 }}>
@@ -61,9 +61,9 @@ export default function AdminLayout() {
               display: "flex", alignItems: "center", gap: 10,
               padding: "11px 24px", textDecoration: "none",
               fontSize: 13, letterSpacing: "0.04em",
-              color: isActive ? "#C9A96E" : "rgba(255,255,255,0.55)",
-              background: isActive ? "rgba(201,169,110,0.08)" : "transparent",
-              borderLeft: isActive ? "2px solid #C9A96E" : "2px solid transparent",
+              color: isActive ? "#FBB316" : "rgba(255,255,255,0.55)",
+              background: isActive ? "rgba(251,179,22,0.08)" : "transparent",
+              borderLeft: isActive ? "2px solid #FBB316" : "2px solid transparent",
               transition: "all 0.18s ease", position: "relative",
             })}
           >
@@ -71,7 +71,7 @@ export default function AdminLayout() {
             {link.label}
             {link.badge && unread > 0 && (
               <span style={{
-                marginLeft: "auto", background: "#C9A96E", color: "#1A1A2E",
+                marginLeft: "auto", background: "#FBB316", color: "#1A1A2E",
                 fontSize: 10, fontWeight: 700, borderRadius: "10px",
                 padding: "1px 7px", minWidth: 18, textAlign: "center",
               }}>
@@ -89,13 +89,13 @@ export default function AdminLayout() {
         <button
           onClick={handleLogout}
           style={{
-            width: "100%", background: "transparent", color: "#C9A96E",
-            border: "1px solid rgba(201,169,110,0.4)", padding: "8px 0",
+            width: "100%", background: "transparent", color: "#FBB316",
+            border: "1px solid rgba(251,179,22,0.4)", padding: "8px 0",
             cursor: "pointer", fontSize: 10, letterSpacing: "0.18em",
             textTransform: "uppercase", transition: "all 0.2s",
           }}
-          onMouseEnter={e => { e.target.style.background = "#C9A96E"; e.target.style.color = "#1A1A2E"; }}
-          onMouseLeave={e => { e.target.style.background = "transparent"; e.target.style.color = "#C9A96E"; }}
+          onMouseEnter={e => { e.target.style.background = "#FBB316"; e.target.style.color = "#1A1A2E"; }}
+          onMouseLeave={e => { e.target.style.background = "transparent"; e.target.style.color = "#FBB316"; }}
         >
           Logout
         </button>
@@ -136,11 +136,11 @@ export default function AdminLayout() {
         }} className="admin-mobile-header">
           <button
             onClick={() => setMobileOpen(true)}
-            style={{ background: "none", border: "none", color: "#C9A96E", fontSize: 22, cursor: "pointer" }}
+            style={{ background: "none", border: "none", color: "#FBB316", fontSize: 22, cursor: "pointer" }}
           >
             ☰
           </button>
-          <span style={{ fontFamily: "Cormorant Garamond, serif", color: "#C9A96E", fontSize: 16, letterSpacing: "0.2em" }}>
+          <span style={{ fontFamily: "Cormorant Garamond, serif", color: "#FBB316", fontSize: 16, letterSpacing: "0.2em" }}>
             CONCORDE
           </span>
         </header>

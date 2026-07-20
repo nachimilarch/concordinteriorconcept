@@ -7,7 +7,7 @@ import api from "../api/axios";
 import ConnectCTA from "../components/ConnectCTA";
 
 const NAVY = "#22221E";
-const GOLD = "#C2A87A";
+const GOLD = "#FBB316";
 const BG = "#F5F0EB";
 const PORTFOLIO_RED = "#2C4A3B";
 const PORTFOLIO_RED_LIGHT = "#7FA08C";
@@ -114,7 +114,7 @@ function ValueCard({ value, index }) {
           background: hovered ? "rgba(24,24,21,0.88)" : "rgba(255,255,255,0.6)",
           backdropFilter: "blur(14px) saturate(150%)",
           WebkitBackdropFilter: "blur(14px) saturate(150%)",
-          border: `1px solid ${hovered ? "rgba(194,168,122,0.5)" : "rgba(255,255,255,0.7)"}`,
+          border: `1px solid ${hovered ? "rgba(251,179,22,0.5)" : "rgba(255,255,255,0.7)"}`,
           borderRadius: 20,
           padding: "36px 28px",
           boxShadow: hovered ? "0 18px 44px rgba(0,0,0,0.28)" : "0 8px 28px rgba(24,24,21,0.08)",
@@ -229,7 +229,7 @@ export default function About() {
                 style={{ width: "100%", height: 520, objectFit: "cover", display: "block", border: "1px solid rgba(44,74,59,0.18)", borderRadius: 24, boxShadow: "0 20px 56px rgba(24,24,21,0.16)" }}
               />
               <div style={{ position: "absolute", bottom: -24, left: -24, width: 160, height: 160, border: `1px solid rgba(44,74,59,0.45)`, borderRadius: 24, zIndex: -1 }} />
-              <div style={{ position: "absolute", top: 32, right: -24, background: "rgba(24,24,21,0.82)", backdropFilter: "blur(14px)", WebkitBackdropFilter: "blur(14px)", border: "1px solid rgba(194,168,122,0.3)", borderRadius: 18, padding: "20px 28px", textAlign: "center" }}>
+              <div style={{ position: "absolute", top: 32, right: -24, background: "rgba(24,24,21,0.82)", backdropFilter: "blur(14px)", WebkitBackdropFilter: "blur(14px)", border: "1px solid rgba(251,179,22,0.3)", borderRadius: 18, padding: "20px 28px", textAlign: "center" }}>
                 <p style={{ fontFamily: "Cormorant Garamond, serif", fontSize: 40, fontWeight: 400, color: GOLD, margin: 0, lineHeight: 1 }}>{stats?.yearsExperience || (new Date().getFullYear() - 2020)}+</p>
                 <p style={{ fontFamily: "Inter, sans-serif", fontSize: 9, letterSpacing: "0.18em", textTransform: "uppercase", color: "rgba(255,255,255,0.65)", margin: "6px 0 0" }}>Years of<br />Excellence</p>
               </div>
@@ -273,7 +273,7 @@ export default function About() {
                   <p style={{
                     fontFamily: "Cormorant Garamond, serif",
                     fontSize: 56, fontWeight: 400, lineHeight: 1,
-                    color: "#C2A87A", margin: "0 0 20px",
+                    color: "#FBB316", margin: "0 0 20px",
                   }}>{String(i + 1).padStart(2, "0")}</p>
                   <p style={{
                     fontFamily: "Cormorant Garamond, serif",
@@ -294,13 +294,13 @@ export default function About() {
 
       {/* ── Sustainability (verbatim from content doc) ── */}
       <section style={{ background: "#1C332A", padding: "130px 40px", position: "relative", overflow: "hidden" }}>
-        <div style={{ position: "absolute", top: 32, left: 40, right: 40, borderTop: "1px solid rgba(194,168,122,0.3)" }} />
+        <div style={{ position: "absolute", top: 32, left: 40, right: 40, borderTop: "1px solid rgba(251,179,22,0.3)" }} />
         <div style={{ maxWidth: 1280, margin: "0 auto" }}>
           <FadeIn>
             <div style={{ textAlign: "center", marginBottom: 70 }}>
-              <p style={{ fontFamily: "Inter, sans-serif", fontSize: 11, letterSpacing: "0.34em", textTransform: "uppercase", color: "#C2A87A", fontWeight: 600, margin: "0 0 18px" }}>Sustainability</p>
+              <p style={{ fontFamily: "Inter, sans-serif", fontSize: 11, letterSpacing: "0.34em", textTransform: "uppercase", color: "#FBB316", fontWeight: 600, margin: "0 0 18px" }}>Sustainability</p>
               <h2 style={{ fontFamily: "Cormorant Garamond, serif", fontSize: "clamp(34px, 4.4vw, 60px)", fontWeight: 500, color: "#F5F0EB", margin: "0 0 24px", lineHeight: 1.1 }}>
-                Building Responsibly for<br /><em style={{ fontStyle: "italic", color: "#C2A87A" }}>Future Generations</em>
+                Building Responsibly for<br /><em style={{ fontStyle: "italic", color: "#FBB316" }}>Future Generations</em>
               </h2>
               <p style={{ fontFamily: "Inter, sans-serif", fontSize: 15.5, lineHeight: 1.85, color: "rgba(245,240,235,0.8)", margin: "0 auto", maxWidth: 640 }}>
                 Sustainability is integrated into our design philosophy. We adopt responsible strategies
@@ -326,7 +326,7 @@ export default function About() {
             ].map((item, i) => (
               <FadeIn key={item} delay={i * 0.05}>
                 <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
-                  <span style={{ width: 22, borderTop: "1px solid #C2A87A", flexShrink: 0 }} />
+                  <span style={{ width: 22, borderTop: "1px solid #FBB316", flexShrink: 0 }} />
                   <span style={{ fontFamily: "Cormorant Garamond, serif", fontSize: 21, fontWeight: 500, color: "#F5F0EB", lineHeight: 1.3 }}>{item}</span>
                 </div>
               </FadeIn>

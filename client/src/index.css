@@ -20,9 +20,9 @@
   --color-ivory-warm: #F2EDE5;
 
   /* Warm Beige */
-  --color-beige: #C2A87A;
-  --color-beige-light: #DCCBA6;
-  --color-beige-deep: #A08760;
+  --color-beige: #FBB316;
+  --color-beige-light: #FCC94E;
+  --color-beige-deep: #DE9E08;
   --color-beige-pale: #F0E9DC;
 
   /* Forest Green */
@@ -129,7 +129,7 @@
   .btn-gold,
   .btn-beige {
     @apply inline-block px-9 py-4 text-xs tracking-widest uppercase transition-all duration-300 cursor-pointer;
-    background-color: rgba(194, 168, 122, 0.95);
+    background-color: rgba(251, 179, 22, 0.95);
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
     color: #181815 !important;
@@ -137,12 +137,12 @@
     font-weight: 700;
     letter-spacing: 0.24em;
     border-radius: 999px;
-    box-shadow: 0 6px 20px rgba(194, 168, 122, 0.4);
+    box-shadow: 0 6px 20px rgba(251, 179, 22, 0.4);
   }
 
   .btn-gold:hover,
   .btn-beige:hover {
-    background-color: #DCCBA6;
+    background-color: #FCC94E;
   }
 
   .btn-outline {
@@ -180,7 +180,7 @@
   .gold-line,
   .beige-line {
     @apply block w-12 my-4;
-    border-top: 1px solid #C2A87A;
+    border-top: 1px solid #FBB316;
   }
 
   .forest-line {
@@ -223,7 +223,7 @@
 
   .text-gold,
   .text-beige {
-    color: #C2A87A !important;
+    color: #FBB316 !important;
   }
 
   .text-forest {
@@ -252,7 +252,7 @@
     background-color: #F2EDE5;
     background-image:
       radial-gradient(circle at 18% 28%, rgba(44, 74, 59, 0.03) 0%, transparent 42%),
-      radial-gradient(circle at 82% 72%, rgba(194, 168, 122, 0.05) 0%, transparent 42%);
+      radial-gradient(circle at 82% 72%, rgba(251, 179, 22, 0.05) 0%, transparent 42%);
   }
 
   /* ── Editorial frame — fine single hairline (formerly red dashed) ── */
@@ -282,7 +282,7 @@
 
   .chapter-num::after {
     content: ".";
-    color: #C2A87A;
+    color: #FBB316;
   }
 
   /* ── Wide-tracked editorial label ── */
@@ -311,7 +311,7 @@
 
   /* ── Fine dotted connector (editorial, beige) ── */
   .dotted-connector {
-    background-image: linear-gradient(to right, #C2A87A 40%, transparent 40%);
+    background-image: linear-gradient(to right, #FBB316 40%, transparent 40%);
     background-size: 6px 1px;
     background-repeat: repeat-x;
     background-position: center;

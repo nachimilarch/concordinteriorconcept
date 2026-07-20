@@ -4,9 +4,15 @@ import toast from "react-hot-toast";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 
-const GOLD = "#C9A96E";
+const GOLD = "#FBB316";
 const NAVY = "#1A1A2E";
 const API_BASE = import.meta.env.VITE_API_URL?.replace("/api", "") || "";
+
+const imgUrl = (p) => {
+  if (!p) return null;
+  if (p.startsWith("/") || p.startsWith("http")) return p;
+  return `${API_BASE}/uploads/${p}`;
+};
 
 // ─── helpers ──────────────────────────────────────────────────────────────────
 function slugify(str) {
@@ -69,7 +75,7 @@ function GalleryGrid({ images, onDelete, onReorder }) {
           }}
         >
           <img
-            src={img.preview || `${API_BASE}/uploads/${img.image_path}`}
+            src={img.preview || imgUrl(img.image_path)}
             alt=""
             style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
           />
@@ -161,9 +167,9 @@ export default function ManageProjects() {
       setGalleryImages(gallery);
       const before = (p.images || []).find(i => i.is_before);
       const after = (p.images || []).find(i => i.is_after);
-      if (before) setBeforePreview(`${API_BASE}/uploads/${before.image_path}`);
-      if (after) setAfterPreview(`${API_BASE}/uploads/${after.image_path}`);
-      if (p.cover_image) setCoverPreview(`${API_BASE}/uploads/${p.cover_image}`);
+      if (before) setBeforePreview(imgUrl(before.image_path));
+      if (after) setAfterPreview(imgUrl(after.image_path));
+      if (p.cover_image) setCoverPreview(imgUrl(p.cover_image));
       setEditId(id);
       setView("form");
     } catch { toast.error("Failed to load project"); }
@@ -359,7 +365,7 @@ export default function ManageProjects() {
                   <tr key={p.id} style={{ borderBottom: "1px solid #f9f7f5" }}>
                     <td style={{ padding: "12px 14px" }}>
                       {p.cover_image ? (
-                        <img src={`${API_BASE}/uploads/${p.cover_image}`} alt="" style={{ width: 56, height: 40, objectFit: "cover" }} />
+                        <img src={imgUrl(p.cover_image)} alt="" style={{ width: 56, height: 40, objectFit: "cover" }} />
                       ) : <div style={{ width: 56, height: 40, background: "#f0ede9" }} />}
                     </td>
                     <td style={{ padding: "12px 14px", color: NAVY, fontWeight: 500, maxWidth: 200 }}>
@@ -559,7 +565,7 @@ export default function ManageProjects() {
               </button>
               {editId && (
                 <a href={`/portfolio/${form.slug}`} target="_blank" rel="noreferrer"
-                  style={{ display: "block", textAlign: "center", fontSize: 11, color: GOLD, textDecoration: "none", padding: "8px 0", border: `1px solid rgba(201,169,110,0.4)`, letterSpacing: "0.1em", textTransform: "uppercase" }}>
+                  style={{ display: "block", textAlign: "center", fontSize: 11, color: GOLD, textDecoration: "none", padding: "8px 0", border: `1px solid rgba(251,179,22,0.4)`, letterSpacing: "0.1em", textTransform: "uppercase" }}>
                   Preview ↗
                 </a>
               )}

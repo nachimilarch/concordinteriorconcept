@@ -11,8 +11,8 @@ gsap.registerPlugin(ScrollTrigger);
 /* ── Brand tokens — Minimal Luxury (per content doc) ── */
 const INK = "#181815";
 const IVORY = "#F5F0EB";
-const BEIGE = "#C2A87A";
-const BEIGE_DEEP = "#A08760";
+const BEIGE = "#FBB316";
+const BEIGE_DEEP = "#DE9E08";
 const FOREST = "#2C4A3B";
 const FOREST_LIGHT = "#7FA08C";
 
@@ -493,7 +493,7 @@ function CinematicJourney({ stats }) {
                 fontSize: 10, letterSpacing: "0.3em", textTransform: "uppercase",
                 transition: "border-color 0.3s, background 0.3s",
               }}
-                onMouseEnter={(e) => { e.currentTarget.style.borderColor = BEIGE; e.currentTarget.style.background = "rgba(194,168,122,0.12)"; }}
+                onMouseEnter={(e) => { e.currentTarget.style.borderColor = BEIGE; e.currentTarget.style.background = "rgba(251,179,22,0.12)"; }}
                 onMouseLeave={(e) => { e.currentTarget.style.borderColor = "rgba(245,240,235,0.7)"; e.currentTarget.style.background = "transparent"; }}
               >Book a Consultation</Link>
             </div>

@@ -71,7 +71,7 @@ export default function Login() {
               fontSize: 14, outline: "none", fontFamily: "Inter, sans-serif", boxSizing: "border-box",
               transition: "border-color 0.15s",
             }}
-            onFocus={e => { e.target.style.borderColor = "#C9A96E"; }}
+            onFocus={e => { e.target.style.borderColor = "#FBB316"; }}
             onBlur={e => { e.target.style.borderColor = "#ddd"; }}
           />
         </div>
@@ -90,7 +90,7 @@ export default function Login() {
               fontSize: 14, outline: "none", fontFamily: "Inter, sans-serif", boxSizing: "border-box",
               transition: "border-color 0.15s",
             }}
-            onFocus={e => { e.target.style.borderColor = "#C9A96E"; }}
+            onFocus={e => { e.target.style.borderColor = "#FBB316"; }}
             onBlur={e => { e.target.style.borderColor = "#ddd"; }}
           />
         </div>
@@ -101,7 +101,7 @@ export default function Login() {
             id="remember"
             checked={remember}
             onChange={e => setRemember(e.target.checked)}
-            style={{ accentColor: "#C9A96E", width: 14, height: 14, cursor: "pointer" }}
+            style={{ accentColor: "#FBB316", width: 14, height: 14, cursor: "pointer" }}
           />
           <label htmlFor="remember" style={{ fontSize: 12, color: "#666", cursor: "pointer" }}>
             Remember me for 30 days
@@ -112,7 +112,7 @@ export default function Login() {
           type="submit"
           disabled={loading}
           style={{
-            width: "100%", background: loading ? "#b8935a" : "#C9A96E",
+            width: "100%", background: loading ? "#b8935a" : "#FBB316",
             color: "white", border: "none", padding: "14px 0",
             cursor: loading ? "not-allowed" : "pointer",
             fontSize: 11, letterSpacing: "0.24em", textTransform: "uppercase",

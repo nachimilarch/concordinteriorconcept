@@ -8,7 +8,7 @@ function StatCard({ label, value, loading, accent }) {
     <div style={{
       background: "white", padding: "28px 24px",
       boxShadow: "0 1px 4px rgba(0,0,0,0.06)",
-      borderTop: `3px solid ${accent || "#C9A96E"}`,
+      borderTop: `3px solid ${accent || "#FBB316"}`,
       flex: "1 1 180px",
     }}>
       <p style={{ fontSize: 11, letterSpacing: "0.12em", textTransform: "uppercase", color: "#888", marginBottom: 12 }}>
@@ -83,7 +83,7 @@ export default function Dashboard() {
 
       {/* KPI Cards */}
       <div style={{ display: "flex", gap: 16, flexWrap: "wrap", marginBottom: 40 }}>
-        <StatCard label="Published Projects" value={stats.published} loading={loading} accent="#C9A96E" />
+        <StatCard label="Published Projects" value={stats.published} loading={loading} accent="#FBB316" />
         <StatCard label="Draft Projects" value={stats.draft} loading={loading} accent="#94a3b8" />
         <StatCard label="Total Categories" value={stats.categories} loading={loading} accent="#1A1A2E" />
         <StatCard label="Unread Enquiries" value={stats.unread} loading={loading} accent="#ef4444" />
@@ -92,7 +92,7 @@ export default function Dashboard() {
       {/* Quick Actions */}
       <div style={{ display: "flex", gap: 12, marginBottom: 40 }}>
         <Link to="/admin/projects" style={{
-          background: "#C9A96E", color: "white", textDecoration: "none",
+          background: "#FBB316", color: "white", textDecoration: "none",
           padding: "10px 22px", fontSize: 11, letterSpacing: "0.16em", textTransform: "uppercase",
           display: "inline-flex", alignItems: "center", gap: 8,
         }}>
@@ -112,7 +112,7 @@ export default function Dashboard() {
         <div style={{ background: "white", boxShadow: "0 1px 4px rgba(0,0,0,0.06)" }}>
           <div style={{ padding: "18px 20px", borderBottom: "1px solid #f0ede9", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
             <h2 style={{ fontFamily: "Cormorant Garamond, serif", fontSize: 18, color: "#1A1A2E" }}>Recent Projects</h2>
-            <Link to="/admin/projects" style={{ fontSize: 11, color: "#C9A96E", textDecoration: "none", letterSpacing: "0.08em" }}>View all →</Link>
+            <Link to="/admin/projects" style={{ fontSize: 11, color: "#FBB316", textDecoration: "none", letterSpacing: "0.08em" }}>View all →</Link>
           </div>
           <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13 }}>
             <thead>
@@ -151,7 +151,7 @@ export default function Dashboard() {
         <div style={{ background: "white", boxShadow: "0 1px 4px rgba(0,0,0,0.06)" }}>
           <div style={{ padding: "18px 20px", borderBottom: "1px solid #f0ede9", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
             <h2 style={{ fontFamily: "Cormorant Garamond, serif", fontSize: 18, color: "#1A1A2E" }}>Recent Enquiries</h2>
-            <Link to="/admin/enquiries" style={{ fontSize: 11, color: "#C9A96E", textDecoration: "none", letterSpacing: "0.08em" }}>View all →</Link>
+            <Link to="/admin/enquiries" style={{ fontSize: 11, color: "#FBB316", textDecoration: "none", letterSpacing: "0.08em" }}>View all →</Link>
           </div>
           <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13 }}>
             <thead>
@@ -167,7 +167,7 @@ export default function Dashboard() {
               ) : recentEnquiries.length === 0 ? (
                 <tr><td colSpan={3} style={{ padding: "28px 16px", textAlign: "center", color: "#bbb", fontSize: 13 }}>No enquiries yet</td></tr>
               ) : recentEnquiries.map(e => (
-                <tr key={e.id} style={{ borderBottom: "1px solid #f9f7f5", background: !e.read_status ? "rgba(201,169,110,0.04)" : "transparent" }}>
+                <tr key={e.id} style={{ borderBottom: "1px solid #f9f7f5", background: !e.read_status ? "rgba(251,179,22,0.04)" : "transparent" }}>
                   <td style={{ padding: "13px 16px", color: "#2F3142", fontWeight: !e.read_status ? 600 : 400 }}>
                     {e.name || "—"}
                   </td>

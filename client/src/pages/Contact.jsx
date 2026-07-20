@@ -3,8 +3,8 @@ import { motion } from "framer-motion";
 import api from "../api/axios";
 
 const NAVY = "#22221E";
-const GOLD = "#C2A87A";
-const GOLD_D = "#A08760";
+const GOLD = "#FBB316";
+const GOLD_D = "#DE9E08";
 const BG = "#F5F0EB";
 
 const SERVICE_OPTIONS = ["Interior Design", "Construction", "Renovation", "Consultation", "Other"];
@@ -185,7 +185,7 @@ export default function Contact() {
                     onBlur={e => e.target.style.borderColor = errors.message ? "#EF4444" : "rgba(24,24,21,0.15)"} />
                 </Field>
 
-                <button type="submit" disabled={submitting} style={{ background: submitting ? "#A08760" : GOLD, color: "white", border: "none", padding: "15px 40px", borderRadius: 999, fontFamily: "Inter, sans-serif", fontSize: 10, letterSpacing: "0.24em", textTransform: "uppercase", cursor: submitting ? "not-allowed" : "pointer", transition: "background 0.3s" }}
+                <button type="submit" disabled={submitting} style={{ background: submitting ? "#DE9E08" : GOLD, color: "white", border: "none", padding: "15px 40px", borderRadius: 999, fontFamily: "Inter, sans-serif", fontSize: 10, letterSpacing: "0.24em", textTransform: "uppercase", cursor: submitting ? "not-allowed" : "pointer", transition: "background 0.3s" }}
                   onMouseEnter={e => { if (!submitting) e.currentTarget.style.background = GOLD_D; }}
                   onMouseLeave={e => { if (!submitting) e.currentTarget.style.background = GOLD; }}>
                   {submitting ? "Sending…" : "Send Enquiry"}
@@ -196,7 +196,7 @@ export default function Contact() {
 
           {/* Sidebar */}
           <div style={{ position: "sticky", top: 120 }}>
-            <div style={{ background: "rgba(24,24,21,0.86)", backdropFilter: "blur(16px) saturate(140%)", WebkitBackdropFilter: "blur(16px) saturate(140%)", border: "1px solid rgba(194,168,122,0.25)", borderRadius: 22, padding: "40px 36px", marginBottom: 24, boxShadow: "0 16px 44px rgba(24,24,21,0.22)" }}>
+            <div style={{ background: "rgba(24,24,21,0.86)", backdropFilter: "blur(16px) saturate(140%)", WebkitBackdropFilter: "blur(16px) saturate(140%)", border: "1px solid rgba(251,179,22,0.25)", borderRadius: 22, padding: "40px 36px", marginBottom: 24, boxShadow: "0 16px 44px rgba(24,24,21,0.22)" }}>
               <p style={{ fontFamily: "Inter, sans-serif", fontSize: 10, letterSpacing: "0.24em", textTransform: "uppercase", color: GOLD, margin: "0 0 28px" }}>Contact Details</p>
               {[
                 address && { label: "Address", value: address },

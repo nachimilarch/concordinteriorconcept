@@ -6,8 +6,8 @@ import ConnectCTA from "../components/ConnectCTA";
 
 /* ── Brand tokens ─────────────────────────────── */
 const NAVY = "#22221E";
-const GOLD = "#C2A87A";
-const GOLD_D = "#A08760";
+const GOLD = "#FBB316";
+const GOLD_D = "#DE9E08";
 const BG = "#F5F0EB";
 const PORTFOLIO_RED = "#2C4A3B";
 const PORTFOLIO_RED_LIGHT = "#7FA08C";
@@ -19,29 +19,6 @@ const imgUrl = (p) => {
   return `/uploads/${p}`;
 };
 
-/* ── Placeholder projects (replace with API data) */
-const MOCK_PROJECTS = [
-  { id: 1, title: "The Meridian Residence", category_name: "Residential", location: "Jubilee Hills", year_completed: 2024, cover_image: null, size: "large" },
-  { id: 2, title: "Azure Sky Penthouse", category_name: "Interiors", location: "Banjara Hills", year_completed: 2023, cover_image: null, size: "small" },
-  { id: 3, title: "Lumina Office Complex", category_name: "Commercial", location: "Madhapur", year_completed: 2024, cover_image: null, size: "small" },
-  { id: 4, title: "The Crest Villa", category_name: "Construction", location: "Gachibowli", year_completed: 2023, cover_image: null, size: "medium" },
-  { id: 5, title: "Orchid Terrace Reno", category_name: "Renovation", location: "Secunderabad", year_completed: 2022, cover_image: null, size: "medium" },
-  { id: 6, title: "Skyline Retail Hub", category_name: "Commercial", location: "Kukatpally", year_completed: 2024, cover_image: null, size: "large" },
-  { id: 7, title: "Palm Court Interiors", category_name: "Interiors", location: "Kondapur", year_completed: 2023, cover_image: null, size: "small" },
-  { id: 8, title: "Heritage Home Restored", category_name: "Renovation", location: "Himayatnagar", year_completed: 2022, cover_image: null, size: "small" },
-  { id: 9, title: "Vertex Tower Lobby", category_name: "Commercial", location: "Nanakramguda", year_completed: 2024, cover_image: null, size: "medium" },
-  { id: 10, title: "The Loft at Banjara", category_name: "Residential", location: "Banjara Hills", year_completed: 2023, cover_image: null, size: "large" },
-  { id: 11, title: "Garden Row Townhomes", category_name: "Construction", location: "Miyapur", year_completed: 2024, cover_image: null, size: "small" },
-  { id: 12, title: "Studio Nine Workspace", category_name: "Interiors", location: "Madhapur", year_completed: 2023, cover_image: null, size: "medium" },
-];
-
-/* Picsum seeds per project for deterministic placeholder images */
-const SEEDS = [
-  "interior1", "interior2", "interior3", "interior4",
-  "interior5", "interior6", "interior7", "interior8",
-  "interior9", "living1", "living2", "living3",
-];
-
 /* ── Category accent colors (subtle) ─────────── */
 const CAT_COLOR = {
   Residential: "#4A7C6F",
@@ -52,7 +29,7 @@ const CAT_COLOR = {
 };
 
 /* ── Card component ──────────────────────────── */
-function PortfolioCard({ project, index, seed }) {
+function PortfolioCard({ project, index }) {
   const [hovered, setHovered] = useState(false);
   const imgSrc = imgUrl(project.cover_image);
 
@@ -210,7 +187,9 @@ export default function Portfolio() {
       .finally(() => setLoading(false));
   }, []);
 
-  const filters = ["All", ...categories.map(c => c.name)];
+  /* Only show filter chips for categories that have at least one published project */
+  const usedCategoryNames = [...new Set(projects.map(p => p.category_name).filter(Boolean))];
+  const filters = ["All", ...categories.map(c => c.name).filter(n => usedCategoryNames.includes(n))];
 
   const filtered = activeFilter === "All"
     ? projects
@@ -238,7 +217,7 @@ export default function Portfolio() {
                   color: "#181815", margin: 0,
                   letterSpacing: "-0.01em",
                 }}>
-                  Portfolio<span style={{ color: "#C2A87A" }}>.</span>
+                  Portfolio<span style={{ color: "#FBB316" }}>.</span>
                 </h1>
                 <p style={{
                   fontFamily: "Inter, sans-serif",
@@ -280,7 +259,7 @@ export default function Portfolio() {
         background: "rgba(244,246,248,0.72)",
         backdropFilter: "blur(20px) saturate(180%)",
         WebkitBackdropFilter: "blur(20px) saturate(180%)",
-        borderBottom: "1px solid rgba(194,168,122,0.18)",
+        borderBottom: "1px solid rgba(251,179,22,0.18)",
         boxShadow: "0 4px 24px rgba(24,24,21,0.07)",
       }}>
         <div style={{
@@ -367,7 +346,6 @@ export default function Portfolio() {
                   <PortfolioCard
                     project={{ ...project, size: pos === 0 ? "large" : pos <= 2 ? "medium" : "small" }}
                     index={i}
-                    seed={SEEDS[i % SEEDS.length]}
                   />
                 </div>
               );

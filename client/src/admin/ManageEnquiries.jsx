@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback } from "react";
 import api from "../api/axios";
 import toast from "react-hot-toast";
 
-const GOLD = "#C9A96E";
+const GOLD = "#FBB316";
 const NAVY = "#1A1A2E";
 
 function ConfirmDialog({ message, onConfirm, onCancel }) {
@@ -186,7 +186,7 @@ export default function ManageEnquiries() {
               {enquiries.map(enq => (
                 <tr
                   key={enq.id}
-                  style={{ borderBottom: "1px solid #f9f7f5", background: !enq.read_status ? "rgba(201,169,110,0.05)" : "transparent", cursor: "pointer" }}
+                  style={{ borderBottom: "1px solid #f9f7f5", background: !enq.read_status ? "rgba(251,179,22,0.05)" : "transparent", cursor: "pointer" }}
                   onClick={() => { setSelected(enq); if (!enq.read_status) markRead(enq.id); }}
                 >
                   <td style={{ padding: "14px 10px 14px 14px", width: 8 }}>
