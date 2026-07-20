@@ -9,6 +9,13 @@ import ConnectCTA from "../components/ConnectCTA";
 
 gsap.registerPlugin(ScrollTrigger);
 
+/* ── Image URL helper (CMS uploads live under /uploads) ── */
+const imgUrl = (p) => {
+  if (!p) return null;
+  if (p.startsWith("/") || p.startsWith("http")) return p;
+  return `/uploads/${p}`;
+};
+
 /* ── Brand tokens — Minimal Luxury (per content doc) ── */
 const INK = "#181815";
 const IVORY = "#F5F0EB";
@@ -323,7 +330,7 @@ function InteriorsShowcase() {
 /* ══════════════════════════════════════════════════
    SECTION — What We Create (editorial alternating rows)
 ══════════════════════════════════════════════════ */
-function WhatWeCreate() {
+function WhatWeCreate({ disciplines = DISCIPLINES }) {
   return (
     <section style={{ background: "white", padding: "130px 0 60px" }}>
       <div style={{ maxWidth: 1280, margin: "0 auto", padding: "0 40px" }}>
@@ -341,7 +348,7 @@ function WhatWeCreate() {
           </div>
         </FadeIn>
 
-        {DISCIPLINES.map((d, i) => (
+        {disciplines.map((d, i) => (
           <FadeIn key={d.letter} delay={0.05}>
             <div style={{
               display: "grid",
@@ -551,11 +558,34 @@ function WhyConcord() {
 /* ══════════════════════════════════════════════════
    MAIN HOME PAGE
 ══════════════════════════════════════════════════ */
+const LETTERS = ["A", "B", "C", "D", "E", "F", "G", "H"];
+
+/* Map a CMS services row onto the editorial discipline-row shape.
+   Doc-verbatim DISCIPLINES render when the API is unreachable. */
+function disciplineFromCms(row, i) {
+  let features = [];
+  try { features = JSON.parse(row.features || "[]"); } catch { /* ignore */ }
+  const fallback = DISCIPLINES[i] || DISCIPLINES[0];
+  return {
+    letter: LETTERS[i] || String(i + 1),
+    title: row.title || fallback.title,
+    tagline: row.tagline || fallback.tagline,
+    desc: row.description || fallback.desc,
+    services: features.length ? features.slice(0, 6) : fallback.services,
+    img: imgUrl(row.image) || fallback.img,
+    alt: `${row.title} — Concord Interior Concepts`,
+  };
+}
+
 export default function Home() {
   const [stats, setStats] = useState(null);
+  const [disciplines, setDisciplines] = useState(DISCIPLINES);
 
   useEffect(() => {
     api.get("/projects/stats").then((r) => setStats(r.data)).catch(() => {});
+    api.get("/services")
+      .then((r) => { if (r.data?.length) setDisciplines(r.data.map(disciplineFromCms)); })
+      .catch(() => {});
   }, []);
 
   return (
@@ -570,7 +600,7 @@ export default function Home() {
       <InteriorsShowcase />
 
       {/* ═════ What We Create — five disciplines ═════ */}
-      <WhatWeCreate />
+      <WhatWeCreate disciplines={disciplines} />
 
       {/* ═════ The Concord Approach ═════ */}
       <ConcordApproach />

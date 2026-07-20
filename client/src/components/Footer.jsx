@@ -19,8 +19,8 @@ export default function Footer() {
   const phone = settings.company_phone || settings.phone || "";
   const email = settings.company_email || settings.email || "";
   const whatsapp = settings.whatsapp_number || settings.whatsapp || "";
-  const companyTagline = "A Design, Build & Development Consultancy";
-  const brandTagline = "Designing Spaces. Building Experiences. Creating Sustainable Futures.";
+  const companyTagline = settings.company_tagline || "A Design, Build & Development Consultancy";
+  const brandTagline = settings.footer_message || "Designing Spaces. Building Experiences. Creating Sustainable Futures.";
 
   const socials = [
     settings.instagram && { label: "Instagram", href: settings.instagram },

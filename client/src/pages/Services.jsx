@@ -382,10 +382,36 @@ function FAQItem({ faq, index }) {
 /* ══════════════════════════════════════════════
    MAIN SERVICES PAGE
 ══════════════════════════════════════════════ */
+const LETTERS = ["A", "B", "C", "D", "E", "F", "G", "H"];
+
+/* Map a CMS services row onto the discipline-block shape.
+   Falls back to the doc-verbatim copy when a field is empty. */
+function fromCms(row, i) {
+  let features = [];
+  try { features = JSON.parse(row.features || "[]"); } catch { /* ignore */ }
+  const fallback = FALLBACK_SERVICES[i] || FALLBACK_SERVICES[0];
+  return {
+    id: row.id,
+    num: LETTERS[i] || String(i + 1),
+    title: row.title || fallback.title,
+    tagline: row.tagline || fallback.tagline,
+    desc: row.description || fallback.desc,
+    features: features.length ? features : fallback.features,
+    cover_image: imgUrl(row.image) || fallback.cover_image,
+    accent: ACCENT_COLORS[i % ACCENT_COLORS.length],
+  };
+}
+
 export default function Services() {
-  // The five disciplines come from the brand content architecture document —
-  // they are curated copy and intentionally not overridden by admin data.
-  const [services] = useState(FALLBACK_SERVICES);
+  // CMS-driven: the admin panel manages these via /api/services.
+  // The doc-verbatim FALLBACK_SERVICES render if the API is unreachable.
+  const [services, setServices] = useState(FALLBACK_SERVICES);
+
+  useEffect(() => {
+    api.get("/services")
+      .then((r) => { if (r.data?.length) setServices(r.data.map(fromCms)); })
+      .catch(() => {});
+  }, []);
 
   return (
     <div style={{ background: BG, minHeight: "100vh" }}>

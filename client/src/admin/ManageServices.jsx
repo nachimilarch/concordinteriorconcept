@@ -30,7 +30,7 @@ function ConfirmDialog({ message, onConfirm, onCancel }) {
   );
 }
 
-const EMPTY_FORM = { title: "", description: "", icon: "", display_order: 0 };
+const EMPTY_FORM = { title: "", tagline: "", description: "", features: "", icon: "", display_order: 0 };
 
 export default function ManageServices() {
   const [services, setServices] = useState([]);
@@ -57,7 +57,9 @@ export default function ManageServices() {
     setForm(EMPTY_FORM); setEditId(null); setImageFile(null); setImagePreview(null); setFormError(""); setModal("add");
   }
   function openEdit(svc) {
-    setForm({ title: svc.title, description: svc.description || "", icon: svc.icon || "", display_order: svc.display_order });
+    let features = "";
+    try { features = JSON.parse(svc.features || "[]").join("\n"); } catch { features = svc.features || ""; }
+    setForm({ title: svc.title, tagline: svc.tagline || "", description: svc.description || "", features, icon: svc.icon || "", display_order: svc.display_order });
     setEditId(svc.id);
     setImageFile(null);
     setImagePreview(svc.image ? `${API_BASE}/uploads/${svc.image}` : null);
@@ -77,7 +79,13 @@ export default function ManageServices() {
     setFormError(""); setSaving(true);
     try {
       const fd = new FormData();
-      Object.entries(form).forEach(([k, v]) => fd.append(k, v));
+      const payload = {
+        ...form,
+        features: JSON.stringify(
+          form.features.split("\n").map(f => f.trim()).filter(Boolean)
+        ),
+      };
+      Object.entries(payload).forEach(([k, v]) => fd.append(k, v));
       if (imageFile) fd.append("image", imageFile);
       if (modal === "add") {
         await api.post("/services", fd, { headers: { "Content-Type": "multipart/form-data" } });
@@ -161,7 +169,10 @@ export default function ManageServices() {
                     ) : <span style={{ color: "#ddd", fontSize: 11 }}>none</span>}
                   </td>
                   <td style={{ padding: "14px 16px", fontSize: 20 }}>{svc.icon || "—"}</td>
-                  <td style={{ padding: "14px 16px", color: NAVY, fontWeight: 500 }}>{svc.title}</td>
+                  <td style={{ padding: "14px 16px", color: NAVY, fontWeight: 500 }}>
+                    {svc.title}
+                    {svc.tagline && <div style={{ fontSize: 11, color: "#999", fontStyle: "italic", fontWeight: 400, marginTop: 2 }}>{svc.tagline}</div>}
+                  </td>
                   <td style={{ padding: "14px 16px" }}>
                     <div style={{ display: "flex", gap: 8 }}>
                       <button onClick={() => openEdit(svc)} style={{ padding: "5px 14px", background: "white", border: "1px solid #e0dbd3", fontSize: 12, cursor: "pointer", color: "#555" }}>Edit</button>
@@ -184,8 +195,16 @@ export default function ManageServices() {
             <input style={inp} value={form.title} onChange={e => setForm(p => ({ ...p, title: e.target.value }))} />
           </div>
           <div style={{ marginBottom: 20 }}>
+            <label style={lbl}>Tagline</label>
+            <input style={inp} value={form.tagline} onChange={e => setForm(p => ({ ...p, tagline: e.target.value }))} placeholder='e.g. "Land to Lifestyle."' />
+          </div>
+          <div style={{ marginBottom: 20 }}>
             <label style={lbl}>Description</label>
             <textarea style={{ ...inp, minHeight: 90, resize: "vertical" }} value={form.description} onChange={e => setForm(p => ({ ...p, description: e.target.value }))} />
+          </div>
+          <div style={{ marginBottom: 20 }}>
+            <label style={lbl}>Sub-services (one per line)</label>
+            <textarea style={{ ...inp, minHeight: 120, resize: "vertical" }} value={form.features} onChange={e => setForm(p => ({ ...p, features: e.target.value }))} placeholder={"Master Planning\nSite Analysis\nLayout Development"} />
           </div>
           <div style={{ marginBottom: 20 }}>
             <label style={lbl}>Icon (emoji or text)</label>

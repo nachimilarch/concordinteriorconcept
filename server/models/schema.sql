@@ -44,7 +44,9 @@ CREATE TABLE IF NOT EXISTS project_images (
 CREATE TABLE IF NOT EXISTS services (
   id INT AUTO_INCREMENT PRIMARY KEY,
   title VARCHAR(255) NOT NULL,
+  tagline VARCHAR(255),
   description TEXT,
+  features TEXT,
   icon VARCHAR(100),
   image VARCHAR(500),
   display_order INT DEFAULT 0

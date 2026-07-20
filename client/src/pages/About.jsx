@@ -157,7 +157,7 @@ export default function About() {
 
   const companyName = settings.company_name || "Concord Interior Concepts";
   const tagline = settings.company_tagline || "Sustainable Luxury Spaces.";
-  const brandStoryLong = "Concord Interior Concepts is a multidisciplinary design and development firm dedicated to shaping spaces that balance aesthetics, functionality, sustainability and long-term value. Our work spans architecture, construction, landscape development, luxury interiors, infrastructure planning and consultancy. We collaborate with homeowners, businesses, developers and institutions to transform ideas into environments that inspire everyday life. Every project is approached with one objective — to create spaces that are not only visually exceptional but strategically designed for the future.";
+  const brandStoryLong = settings.brand_story_long || "Concord Interior Concepts is a multidisciplinary design and development firm dedicated to shaping spaces that balance aesthetics, functionality, sustainability and long-term value. Our work spans architecture, construction, landscape development, luxury interiors, infrastructure planning and consultancy. We collaborate with homeowners, businesses, developers and institutions to transform ideas into environments that inspire everyday life. Every project is approached with one objective — to create spaces that are not only visually exceptional but strategically designed for the future.";
   const visionStatement = settings.vision_statement || "";
   const missionStatement = settings.mission_statement || "";
   const brandPhilosophy = settings.brand_philosophy || "";

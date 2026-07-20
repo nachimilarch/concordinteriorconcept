@@ -11,11 +11,11 @@ router.get("/", async (req, res) => {
 });
 
 router.post("/", protect, upload.single("image"), async (req, res) => {
-  const { title, description, icon, display_order } = req.body;
+  const { title, tagline, description, features, icon, display_order } = req.body;
   const image = req.file?.filename || null;
   const [result] = await pool.query(
-    "INSERT INTO services (title, description, icon, image, display_order) VALUES (?,?,?,?,?)",
-    [title, description, icon, image, display_order || 0]
+    "INSERT INTO services (title, tagline, description, features, icon, image, display_order) VALUES (?,?,?,?,?,?,?)",
+    [title, tagline || null, description, features || null, icon, image, display_order || 0]
   );
   res.status(201).json({ id: result.insertId });
 });
@@ -30,14 +30,14 @@ router.put("/reorder", protect, async (req, res) => {
 });
 
 router.put("/:id", protect, upload.single("image"), async (req, res) => {
-  const { title, description, icon, display_order } = req.body;
+  const { title, tagline, description, features, icon, display_order } = req.body;
   const image = req.file?.filename;
   const setImage = image ? ", image=?" : "";
-  const params = [title, description, icon, display_order];
+  const params = [title, tagline || null, description, features || null, icon, display_order];
   if (image) params.push(image);
   params.push(req.params.id);
   await pool.query(
-    `UPDATE services SET title=?,description=?,icon=?,display_order=?${setImage} WHERE id=?`,
+    `UPDATE services SET title=?,tagline=?,description=?,features=?,icon=?,display_order=?${setImage} WHERE id=?`,
     params
   );
   res.json({ message: "Updated" });
