@@ -1,22 +1,23 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
+import api from "../api/axios";
+import ConnectCTA from "../components/ConnectCTA";
 
 /* ── Brand tokens ─────────────────────────────── */
-const NAVY = "#2F3142";
-const GOLD = "#C8A75B";
-const GOLD_D = "#A88A3D";
-const BG = "#F4F6F8";
+const NAVY = "#22221E";
+const GOLD = "#C2A87A";
+const GOLD_D = "#A08760";
+const BG = "#F5F0EB";
+const PORTFOLIO_RED = "#2C4A3B";
+const PORTFOLIO_RED_LIGHT = "#7FA08C";
 
-/* ── Filter categories ───────────────────────── */
-const FILTERS = [
-  "All",
-  "Residential",
-  "Commercial",
-  "Construction",
-  "Interiors",
-  "Renovation",
-];
+/* ── Image URL helper ─────────────────────────── */
+const imgUrl = (p) => {
+  if (!p) return null;
+  if (p.startsWith("/") || p.startsWith("http")) return p;
+  return `/uploads/${p}`;
+};
 
 /* ── Placeholder projects (replace with API data) */
 const MOCK_PROJECTS = [
@@ -53,9 +54,7 @@ const CAT_COLOR = {
 /* ── Card component ──────────────────────────── */
 function PortfolioCard({ project, index, seed }) {
   const [hovered, setHovered] = useState(false);
-  const imgSrc = project.cover_image
-    ? `${import.meta.env.VITE_API_URL}/uploads/${project.cover_image}`
-    : `https://picsum.photos/seed/${seed}/800/600`;
+  const imgSrc = imgUrl(project.cover_image);
 
   /* Height mapping for visual rhythm */
   const heightMap = { large: 480, medium: 360, small: 280 };
@@ -70,7 +69,7 @@ function PortfolioCard({ project, index, seed }) {
       layout
     >
       <Link
-        to={`/portfolio/${project.id}`}
+        to={`/portfolio/${project.slug || project.id}`}
         style={{ textDecoration: "none", display: "block" }}
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
@@ -81,26 +80,33 @@ function PortfolioCard({ project, index, seed }) {
           height: cardH,
           overflow: "hidden",
           background: "#E8EAED",
+          borderRadius: 18,
+          boxShadow: "0 12px 36px rgba(24,24,21,0.10)",
         }}>
-          <img
-            src={imgSrc}
-            alt={project.title}
-            loading="lazy"
-            width={800}
-            height={600}
-            style={{
-              width: "100%", height: "100%",
-              objectFit: "cover",
-              transform: hovered ? "scale(1.06)" : "scale(1)",
-              transition: "transform 0.65s cubic-bezier(0.22,1,0.36,1)",
-              display: "block",
-            }}
-          />
+          {imgSrc
+            ? <img
+                src={imgSrc}
+                alt={project.title}
+                loading="lazy"
+                width={800}
+                height={600}
+                style={{
+                  width: "100%", height: "100%",
+                  objectFit: "cover",
+                  transform: hovered ? "scale(1.06)" : "scale(1)",
+                  transition: "transform 0.65s cubic-bezier(0.22,1,0.36,1)",
+                  display: "block",
+                }}
+              />
+            : <div style={{ width: "100%", height: "100%", background: "#181815", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" stroke={GOLD} strokeWidth="0.75" rx="1" /><circle cx="8.5" cy="8.5" r="1.5" fill={GOLD} opacity="0.6" /><path d="M21 15l-5-5L5 21" stroke={GOLD} strokeWidth="0.75" strokeLinecap="round" opacity="0.6" /></svg>
+              </div>
+          }
 
           {/* Dark overlay on hover */}
           <div style={{
             position: "absolute", inset: 0,
-            background: `linear-gradient(to top, rgba(47,49,66,0.82) 0%, rgba(47,49,66,0.12) 55%, transparent 100%)`,
+            background: `linear-gradient(to top, rgba(24,24,21,0.82) 0%, rgba(24,24,21,0.12) 55%, transparent 100%)`,
             opacity: hovered ? 1 : 0.45,
             transition: "opacity 0.45s ease",
           }} />
@@ -114,6 +120,7 @@ function PortfolioCard({ project, index, seed }) {
             fontSize: 9, letterSpacing: "0.2em",
             textTransform: "uppercase",
             padding: "5px 12px",
+            borderRadius: 999,
           }}>
             {project.category_name}
           </div>
@@ -122,14 +129,15 @@ function PortfolioCard({ project, index, seed }) {
           <div style={{
             position: "absolute", top: 20, right: 20,
             width: 40, height: 40,
-            border: `1px solid ${GOLD}`,
+            border: `1px solid rgba(245,240,235,0.7)`,
             display: "flex", alignItems: "center", justifyContent: "center",
             opacity: hovered ? 1 : 0,
             transform: hovered ? "translate(0,0)" : "translate(8px,-8px)",
             transition: "all 0.35s ease",
+            background: "rgba(255,255,255,0.08)",
           }}>
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-              <path d="M3 13L13 3M13 3H6M13 3V10" stroke={GOLD} strokeWidth="1.5" />
+              <path d="M3 13L13 3M13 3H6M13 3V10" stroke={PORTFOLIO_RED_LIGHT} strokeWidth="1.5" />
             </svg>
           </div>
 
@@ -164,7 +172,7 @@ function PortfolioCard({ project, index, seed }) {
         <div style={{ padding: "14px 4px 0" }}>
           <p style={{
             fontFamily: "Cormorant Garamond, serif",
-            fontSize: 16, fontWeight: 500,
+            fontSize: 18, fontWeight: 500,
             color: NAVY, margin: 0,
           }}>{project.title}</p>
           <p style={{
@@ -184,20 +192,25 @@ function PortfolioCard({ project, index, seed }) {
 /* ── Main Portfolio page ─────────────────────── */
 export default function Portfolio() {
   const [activeFilter, setActiveFilter] = useState("All");
-  const [projects, setProjects] = useState(MOCK_PROJECTS);
-  const [loading, setLoading] = useState(false);
+  const [projects, setProjects] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  /* Fetch categories for filter tabs */
+  useEffect(() => {
+    api.get("/categories").then(r => { if (r.data?.length) setCategories(r.data); }).catch(() => {});
+  }, []);
 
   /* Fetch real projects from API */
   useEffect(() => {
-    const api = import.meta.env.VITE_API_URL;
-    if (!api) return;
     setLoading(true);
-    fetch(`${api}/api/projects?published=true`)
-      .then(r => r.ok ? r.json() : null)
-      .then(data => { if (data?.length) setProjects(data); })
-      .catch(() => { })
+    api.get("/projects")
+      .then(r => { if (r.data?.length) setProjects(r.data); })
+      .catch(() => {})
       .finally(() => setLoading(false));
   }, []);
+
+  const filters = ["All", ...categories.map(c => c.name)];
 
   const filtered = activeFilter === "All"
     ? projects
@@ -206,50 +219,54 @@ export default function Portfolio() {
   return (
     <div style={{ background: BG, minHeight: "100vh" }}>
 
-      {/* ── Hero header ──────────────────────── */}
-      <section style={{
-        paddingTop: 140, paddingBottom: 60,
-        borderBottom: "1px solid rgba(47,49,66,0.08)",
+      {/* ── Hero header ── (editorial framed cover) */}
+      <section className="paper-bg" style={{
+        paddingTop: 140, paddingBottom: 80,
+        borderBottom: `1px solid rgba(44,74,59,0.12)`,
       }}>
         <div style={{ maxWidth: 1280, margin: "0 auto", padding: "0 40px" }}>
-          <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", flexWrap: "wrap", gap: 24 }}>
+          <div className="dashed-frame" style={{ background: "rgba(255,255,255,0.55)" }}>
+            <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", flexWrap: "wrap", gap: 24 }}>
 
-            {/* Left: title */}
-            <div>
-              <p style={{
-                fontFamily: "Inter, sans-serif",
-                fontSize: 10, letterSpacing: "0.28em",
-                textTransform: "uppercase",
-                color: GOLD, margin: "0 0 16px",
-              }}>Selected Works</p>
-              <h1 style={{
-                fontFamily: "Cormorant Garamond, serif",
-                fontSize: "clamp(44px, 6vw, 88px)",
-                fontWeight: 400, lineHeight: 1.0,
-                color: NAVY, margin: 0,
-              }}>
-                Our<br />Portfolio<span style={{ color: GOLD }}>.</span>
-              </h1>
-            </div>
+              {/* Left: title */}
+              <div>
+                <p className="chapter-label" style={{ margin: "0 0 14px" }}>Concord Interior Concepts · Selected Works</p>
+                <h1 style={{
+                  fontFamily: "Cormorant Garamond, serif",
+                  fontSize: "clamp(56px, 8vw, 124px)",
+                  fontWeight: 500, lineHeight: 0.92,
+                  color: "#181815", margin: 0,
+                  letterSpacing: "-0.01em",
+                }}>
+                  Portfolio<span style={{ color: "#C2A87A" }}>.</span>
+                </h1>
+                <p style={{
+                  fontFamily: "Inter, sans-serif",
+                  fontSize: 12, letterSpacing: "0.32em",
+                  textTransform: "uppercase",
+                  color: NAVY, margin: "12px 0 0", opacity: 0.7,
+                }}>Architecture &nbsp;·&nbsp; Interiors &nbsp;·&nbsp; Landscape</p>
+              </div>
 
-            {/* Right: descriptor */}
-            <div style={{ maxWidth: 360 }}>
-              <div style={{ width: 40, height: 1, background: GOLD, marginBottom: 16 }} />
-              <p style={{
-                fontFamily: "Inter, sans-serif",
-                fontSize: 13, lineHeight: 1.75,
-                color: "#6B7280", margin: 0,
-              }}>
-                From intimate residences to landmark commercial spaces — each project is a story of craftsmanship, vision, and precision execution across Hyderabad.
-              </p>
-              <p style={{
-                fontFamily: "Inter, sans-serif",
-                fontSize: 10, letterSpacing: "0.15em",
-                color: NAVY, margin: "16px 0 0",
-                textTransform: "uppercase",
-              }}>
-                {filtered.length} {activeFilter === "All" ? "Projects" : activeFilter + " Projects"}
-              </p>
+              {/* Right: descriptor */}
+              <div style={{ maxWidth: 360 }}>
+                <div style={{ width: 40, height: 1, background: "#2C4A3B", marginBottom: 16 }} />
+                <p style={{
+                  fontFamily: "Inter, sans-serif",
+                  fontSize: 15, lineHeight: 1.8,
+                  color: "#4B5563", margin: 0,
+                }}>
+                  From private villas and farmhouses to commercial developments and resort environments — each project is a story of design intent carried through to precise delivery.
+                </p>
+                <p style={{
+                  fontFamily: "Inter, sans-serif",
+                  fontSize: 10, letterSpacing: "0.15em",
+                  color: NAVY, margin: "16px 0 0",
+                  textTransform: "uppercase",
+                }}>
+                  {filtered.length} {activeFilter === "All" ? "Projects" : activeFilter + " Projects"}
+                </p>
+              </div>
             </div>
           </div>
         </div>
@@ -263,8 +280,8 @@ export default function Portfolio() {
         background: "rgba(244,246,248,0.72)",
         backdropFilter: "blur(20px) saturate(180%)",
         WebkitBackdropFilter: "blur(20px) saturate(180%)",
-        borderBottom: "1px solid rgba(200,167,91,0.18)",
-        boxShadow: "0 4px 24px rgba(47,49,66,0.07)",
+        borderBottom: "1px solid rgba(194,168,122,0.18)",
+        boxShadow: "0 4px 24px rgba(24,24,21,0.07)",
       }}>
         <div style={{
           maxWidth: 1280, margin: "0 auto",
@@ -274,24 +291,30 @@ export default function Portfolio() {
           scrollbarWidth: "none",       /* Firefox */
           msOverflowStyle: "none",      /* IE */
         }}>
-          {FILTERS.map(f => (
+          {filters.map(f => (
             <button
               key={f}
               onClick={() => setActiveFilter(f)}
               style={{
-                background: "none", border: "none", cursor: "pointer",
+                cursor: "pointer",
                 fontFamily: "Inter, sans-serif",
                 fontSize: 10, letterSpacing: "0.2em",
                 textTransform: "uppercase",
-                color: activeFilter === f ? GOLD : NAVY,
-                padding: "20px 24px",
-                borderBottom: activeFilter === f ? `2px solid ${GOLD}` : "2px solid transparent",
+                fontWeight: 600,
+                color: activeFilter === f ? "#F5F0EB" : NAVY,
+                background: activeFilter === f ? "rgba(44,74,59,0.92)" : "rgba(255,255,255,0.4)",
+                backdropFilter: "blur(10px)",
+                WebkitBackdropFilter: "blur(10px)",
+                border: activeFilter === f ? "1px solid rgba(44,74,59,0.9)" : "1px solid rgba(24,24,21,0.12)",
+                borderRadius: 999,
+                padding: "11px 22px",
+                margin: "14px 5px",
                 transition: "all 0.25s ease",
                 whiteSpace: "nowrap",
-                opacity: activeFilter === f ? 1 : 0.6,
+                boxShadow: activeFilter === f ? "0 6px 18px rgba(44,74,59,0.3)" : "none",
               }}
-              onMouseEnter={e => { if (activeFilter !== f) e.currentTarget.style.opacity = "1"; }}
-              onMouseLeave={e => { if (activeFilter !== f) e.currentTarget.style.opacity = "0.6"; }}
+              onMouseEnter={e => { if (activeFilter !== f) e.currentTarget.style.background = "rgba(255,255,255,0.75)"; }}
+              onMouseLeave={e => { if (activeFilter !== f) e.currentTarget.style.background = "rgba(255,255,255,0.4)"; }}
             >{f}</button>
           ))}
         </div>
@@ -364,34 +387,8 @@ export default function Portfolio() {
         )}
       </section>
 
-      {/* ── CTA strip ────────────────────────── */}
-      <section style={{
-        background: NAVY,
-        padding: "72px 40px",
-        textAlign: "center",
-      }}>
-        <p style={{
-          fontFamily: "Inter, sans-serif",
-          fontSize: 10, letterSpacing: "0.28em",
-          textTransform: "uppercase",
-          color: GOLD, margin: "0 0 16px",
-        }}>Have a project in mind?</p>
-        <h2 style={{
-          fontFamily: "Cormorant Garamond, serif",
-          fontSize: "clamp(28px, 3.5vw, 48px)",
-          fontWeight: 400, color: "white",
-          margin: "0 0 32px", lineHeight: 1.2,
-        }}>
-          Let's build something<br />extraordinary together.
-        </h2>
-        <Link
-          to="/contact"
-          className="btn-gold"
-          style={{ textDecoration: "none" }}
-        >
-          Start Your Project
-        </Link>
-      </section>
+      {/* ── Let's Connect — uniform site-wide CTA ── */}
+      <ConnectCTA />
 
     </div>
   );

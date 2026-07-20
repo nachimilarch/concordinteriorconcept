@@ -1,71 +1,73 @@
 @import "tailwindcss";
 
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@300;400;500;600&family=Pinyon+Script&display=swap');
+
+/* ══════════════════════════════════════════════════
+   CONCORD INTERIOR CONCEPTS — Minimal Luxury Theme
+   Black + Ivory + Warm Beige + Forest Green
+   (per CIC web-content architecture document)
+══════════════════════════════════════════════════ */
 
 @theme {
-  --color-navy: #2F3142;
-  --color-navy-dark: #1E2030;
-  --color-navy-deeper: #141622;
-  --color-navy-light: #3D4060;
+  /* Ink / Black */
+  --color-ink: #181815;
+  --color-ink-soft: #22221E;
+  --color-ink-deep: #101010;
 
-  --color-gold: #C8A75B;
-  --color-gold-dark: #A88A3D;
-  --color-gold-light: #DFC07A;
-  --color-gold-pale: #F9F3E6;
+  /* Ivory */
+  --color-ivory: #F5F0EB;
+  --color-ivory-deep: #EDE6DC;
+  --color-ivory-warm: #F2EDE5;
 
-  --color-bg: #F4F6F8;
+  /* Warm Beige */
+  --color-beige: #C2A87A;
+  --color-beige-light: #DCCBA6;
+  --color-beige-deep: #A08760;
+  --color-beige-pale: #F0E9DC;
+
+  /* Forest Green */
+  --color-forest: #2C4A3B;
+  --color-forest-deep: #1C332A;
+  --color-forest-light: #7FA08C;
+  --color-forest-pale: #E4EBE6;
+
+  --color-bg: #F5F0EB;
   --color-surface: #FFFFFF;
-  --color-steel: #6B7280;
-  --color-steel-light: #D1D5DB;
-  --color-steel-pale: #E8EAED;
+  --color-steel: #6F6B62;
 
-  --color-text-primary: #2F3142;
-  --color-text-secondary: #2F3142;
-  /* ← was #6B7280 */
-  --color-text-muted: #2F3142;
-  /* ← was #9CA3AF */
+  --color-text-primary: #181815;
+  --color-text-secondary: #3C3A34;
+  --color-text-muted: #6F6B62;
 
   --font-serif: "Cormorant Garamond", Georgia, serif;
   --font-sans: "Inter", "Helvetica Neue", sans-serif;
+  --font-script: "Pinyon Script", "Brush Script MT", cursive;
 }
 
 @layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
   body {
-    background-color: #F4F6F8;
-    color: #2F3142;
+    background-color: #F5F0EB;
+    color: #181815;
     font-family: var(--font-sans);
+    font-size: 16px;
+    line-height: 1.65;
     -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
   }
 
-  /* ── Force all text elements to navy ── */
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6,
-  p,
-  span,
-  li,
-  a,
-  label,
-  td,
-  th,
-  blockquote,
-  figcaption,
-  input,
-  textarea,
-  select,
-  button {
-    color: #2F3142;
+  ::selection {
+    background-color: rgba(44, 74, 59, 0.18);
+    color: #181815;
   }
 
-  /* ── Exceptions: gold accents and white-on-dark text stay as-is ── */
-  a:where([class*="gold"]),
-  [class*="btn-gold"],
-  [class*="btn-navy"],
-  [class*="btn-outline"] {
-    color: inherit;
+  img {
+    image-rendering: auto;
+    image-rendering: -webkit-optimize-contrast;
   }
 
   h1,
@@ -73,6 +75,7 @@
   h3,
   h4 {
     font-family: var(--font-serif);
+    color: #181815;
   }
 
   * {
@@ -82,53 +85,117 @@
 }
 
 @layer components {
-  .btn-gold {
-    @apply inline-block px-8 py-3 text-xs tracking-widest uppercase transition-all duration-300 cursor-pointer;
-    background-color: #C8A75B;
-    color: white !important;
-    font-family: var(--font-sans);
+
+  /* ══ Glassmorphism system ══
+     Frosted translucent panels, rounded corners, soft borders.
+     .glass       — light frosted card (over ivory/imagery)
+     .glass-dark  — dark frosted card (over ink/forest/imagery)   */
+  .glass {
+    background: rgba(255, 255, 255, 0.55);
+    backdrop-filter: blur(20px) saturate(165%);
+    -webkit-backdrop-filter: blur(20px) saturate(165%);
+    border: 1px solid rgba(255, 255, 255, 0.65);
+    border-radius: 20px;
+    box-shadow: 0 8px 32px rgba(24, 24, 21, 0.10), inset 0 1px 0 rgba(255, 255, 255, 0.6);
   }
 
-  .btn-gold:hover {
-    background-color: #A88A3D;
+  .glass-dark {
+    background: rgba(24, 24, 21, 0.45);
+    backdrop-filter: blur(20px) saturate(155%);
+    -webkit-backdrop-filter: blur(20px) saturate(155%);
+    border: 1px solid rgba(245, 240, 235, 0.16);
+    border-radius: 20px;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  }
+
+  /* ── Buttons — theme backgrounds, pill radius, strong text ── */
+  .btn-forest {
+    @apply inline-block px-9 py-4 text-xs tracking-widest uppercase transition-all duration-300 cursor-pointer;
+    background-color: rgba(44, 74, 59, 0.92);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    color: #F5F0EB !important;
+    font-family: var(--font-sans);
+    font-weight: 600;
+    letter-spacing: 0.24em;
+    border-radius: 999px;
+    box-shadow: 0 6px 20px rgba(28, 51, 42, 0.35);
+  }
+
+  .btn-forest:hover {
+    background-color: #1C332A;
+  }
+
+  .btn-gold,
+  .btn-beige {
+    @apply inline-block px-9 py-4 text-xs tracking-widest uppercase transition-all duration-300 cursor-pointer;
+    background-color: rgba(194, 168, 122, 0.95);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    color: #181815 !important;
+    font-family: var(--font-sans);
+    font-weight: 700;
+    letter-spacing: 0.24em;
+    border-radius: 999px;
+    box-shadow: 0 6px 20px rgba(194, 168, 122, 0.4);
+  }
+
+  .btn-gold:hover,
+  .btn-beige:hover {
+    background-color: #DCCBA6;
   }
 
   .btn-outline {
-    @apply inline-block px-8 py-3 text-xs tracking-widest uppercase transition-all duration-300 cursor-pointer;
-    border: 1px solid #C8A75B;
-    color: #C8A75B !important;
+    @apply inline-block px-9 py-4 text-xs tracking-widest uppercase transition-all duration-300 cursor-pointer;
+    border: 1px solid rgba(24, 24, 21, 0.7);
+    color: #181815 !important;
     font-family: var(--font-sans);
+    font-weight: 600;
+    letter-spacing: 0.24em;
+    background: rgba(255, 255, 255, 0.35);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-radius: 999px;
   }
 
   .btn-outline:hover {
-    background-color: #C8A75B;
-    color: white !important;
+    background-color: #181815;
+    color: #F5F0EB !important;
   }
 
   .btn-navy {
-    @apply inline-block px-8 py-3 text-xs tracking-widest uppercase transition-all duration-300 cursor-pointer;
-    background-color: #2F3142;
-    color: white !important;
+    @apply inline-block px-9 py-4 text-xs tracking-widest uppercase transition-all duration-300 cursor-pointer;
+    background-color: rgba(24, 24, 21, 0.92);
+    color: #F5F0EB !important;
     font-family: var(--font-sans);
+    font-weight: 600;
+    border-radius: 999px;
   }
 
   .btn-navy:hover {
-    background-color: #1E2030;
+    background-color: #2C4A3B;
   }
 
-  .gold-line {
-    @apply block w-12 h-px my-4;
-    background-color: #C8A75B;
+  /* ── Editorial hairline rules ── */
+  .gold-line,
+  .beige-line {
+    @apply block w-12 my-4;
+    border-top: 1px solid #C2A87A;
+  }
+
+  .forest-line {
+    @apply block w-12 my-4;
+    border-top: 1px solid #2C4A3B;
   }
 
   .section-title {
     @apply text-4xl md:text-5xl leading-tight;
     font-family: var(--font-serif);
-    color: #2F3142;
+    color: #181815;
   }
 
   .section-pad {
-    @apply py-20 md:py-28;
+    @apply py-24 md:py-32;
   }
 
   .container-max {
@@ -142,62 +209,180 @@
 
   .project-card:hover {
     transform: translateY(-6px);
-    box-shadow: 0 24px 60px rgba(47, 49, 66, 0.14);
+    box-shadow: 0 24px 60px rgba(24, 24, 21, 0.12);
   }
 
-  /* ── Text on dark backgrounds (navbar, footer, admin) ── */
+  /* ── Text helpers ── */
   .text-on-dark {
-    color: rgba(244, 246, 248, 0.85) !important;
+    color: rgba(245, 240, 235, 0.88) !important;
   }
 
   .text-on-dark-muted {
-    color: rgba(244, 246, 248, 0.5) !important;
+    color: rgba(245, 240, 235, 0.55) !important;
   }
 
-  .text-gold {
-    color: #C8A75B !important;
+  .text-gold,
+  .text-beige {
+    color: #C2A87A !important;
   }
 
-  .text-navy {
-    color: #2F3142 !important;
+  .text-forest {
+    color: #2C4A3B !important;
+  }
+
+  .text-navy,
+  .text-ink {
+    color: #181815 !important;
   }
 
   .text-steel {
-    color: #6B7280 !important;
+    color: #6F6B62 !important;
+  }
+
+  .text-portfolio-red {
+    color: #2C4A3B !important;
+  }
+
+  .font-script {
+    font-family: var(--font-script);
+  }
+
+  /* ── Ivory editorial background (formerly paper-bg) ── */
+  .paper-bg {
+    background-color: #F2EDE5;
+    background-image:
+      radial-gradient(circle at 18% 28%, rgba(44, 74, 59, 0.03) 0%, transparent 42%),
+      radial-gradient(circle at 82% 72%, rgba(194, 168, 122, 0.05) 0%, transparent 42%);
+  }
+
+  /* ── Editorial frame — fine single hairline (formerly red dashed) ── */
+  .dashed-frame {
+    position: relative;
+    padding: clamp(28px, 4vw, 60px);
+  }
+
+  .dashed-frame::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border: 1px solid rgba(44, 74, 59, 0.35);
+    border-radius: 24px;
+    pointer-events: none;
+  }
+
+  /* ── Display numerals — forest serif ── */
+  .chapter-num {
+    font-family: var(--font-serif);
+    font-size: clamp(56px, 8vw, 110px);
+    font-weight: 500;
+    line-height: 0.9;
+    color: #2C4A3B;
+    letter-spacing: -0.02em;
+  }
+
+  .chapter-num::after {
+    content: ".";
+    color: #C2A87A;
+  }
+
+  /* ── Wide-tracked editorial label ── */
+  .chapter-label {
+    font-family: var(--font-sans);
+    font-size: 11px;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: #2C4A3B;
+    font-weight: 500;
+  }
+
+  .swatch-row {
+    display: inline-flex;
+    gap: 8px;
+    align-items: center;
+  }
+
+  .swatch-row .swatch {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    border: 1px solid rgba(24, 24, 21, 0.15);
+    flex-shrink: 0;
+  }
+
+  /* ── Fine dotted connector (editorial, beige) ── */
+  .dotted-connector {
+    background-image: linear-gradient(to right, #C2A87A 40%, transparent 40%);
+    background-size: 6px 1px;
+    background-repeat: repeat-x;
+    background-position: center;
+    height: 1px;
+    width: 100%;
   }
 }
 
 /* ── Mobile Navbar ── */
 @media (max-width: 768px) {
 
-  /* Show hamburger */
   .mobile-menu-btn {
     display: flex !important;
   }
 
-  /* Hide desktop nav */
   header nav:not(.mobile-nav) {
     display: none !important;
   }
 
-  /* Navbar inner padding */
-  header>div:first-child {
-    padding: 0 20px !important;
-  }
-
-  /* Logo size on mobile */
-  header img {
-    width: 180px !important;
-  }
-
-  /* Mobile dropdown nav links — keep light text on dark bg */
   header .mobile-nav a,
   header .mobile-nav span {
-    color: #2F3142 !important;
+    color: inherit;
   }
 }
 
 /* Hide scrollbar on filter bar */
 section div::-webkit-scrollbar {
   display: none;
+}
+
+/* Project detail rich text content */
+.prose-project p {
+  margin-bottom: 1.25em;
+}
+
+.prose-project h2,
+.prose-project h3 {
+  font-family: "Cormorant Garamond", Georgia, serif;
+  color: #181815;
+  margin: 1.5em 0 0.5em;
+}
+
+.prose-project ul,
+.prose-project ol {
+  padding-left: 1.5em;
+  margin-bottom: 1em;
+}
+
+.prose-project li {
+  margin-bottom: 0.4em;
+}
+
+/* Better focus styles */
+:focus-visible {
+  outline: 2px solid #2C4A3B;
+  outline-offset: 2px;
+}
+
+/* ── Glassmorphism global touches ── */
+input,
+select,
+textarea {
+  border-radius: 12px;
+}
+
+button[type="submit"] {
+  border-radius: 999px;
+}
+
+/* Smoother transitions globally */
+a,
+button {
+  transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
 }

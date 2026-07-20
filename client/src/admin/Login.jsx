@@ -2,29 +2,28 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import api from "../api/axios";
-import toast from "react-hot-toast";
 
 export default function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [remember, setRemember] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
   const { login } = useAuth();
   const navigate = useNavigate();
 
   async function handleSubmit(e) {
     e.preventDefault();
+    if (!username.trim()) { setError("Username is required."); return; }
+    if (!password.trim()) { setError("Password is required."); return; }
+    setError("");
     setLoading(true);
     try {
-      const res = await api.post("/auth/login", { username, password });
+      const res = await api.post("/auth/login", { username, password, remember });
       login(res.data.token, res.data.username);
-      toast.success("Welcome back!");
       navigate("/admin");
     } catch (err) {
-      toast.error(
-        err.response && err.response.data && err.response.data.message
-          ? err.response.data.message
-          : "Login failed. Check your credentials."
-      );
+      setError(err.response?.data?.message || "Login failed. Check your credentials.");
     } finally {
       setLoading(false);
     }
@@ -36,82 +35,91 @@ export default function Login() {
       display: "flex", alignItems: "center", justifyContent: "center",
       fontFamily: "Inter, sans-serif",
     }}>
-      <form
-        onSubmit={handleSubmit}
-        style={{
-          background: "#F5F0EB", padding: "48px 40px",
-          width: 360, boxShadow: "0 24px 64px rgba(0,0,0,0.4)",
-        }}
-      >
-        {/* Logo */}
-        <p style={{
-          fontFamily: "Cormorant Garamond, serif",
-          fontSize: 22, color: "#1A1A2E",
-          letterSpacing: "0.25em", marginBottom: 4,
-        }}>CONCORDE</p>
-        <p style={{
-          fontSize: 11, color: "#999",
-          letterSpacing: "0.18em", textTransform: "uppercase",
-          marginBottom: 36,
-        }}>Admin Login</p>
+      <form onSubmit={handleSubmit} noValidate style={{
+        background: "#F5F0EB", padding: "52px 44px",
+        width: 380, boxShadow: "0 32px 80px rgba(0,0,0,0.45)",
+      }}>
+        <p style={{ fontFamily: "Cormorant Garamond, serif", fontSize: 24, color: "#1A1A2E", letterSpacing: "0.25em", marginBottom: 2 }}>
+          CONCORDE
+        </p>
+        <p style={{ fontSize: 10, color: "#999", letterSpacing: "0.2em", textTransform: "uppercase", marginBottom: 40 }}>
+          Interior Concepts · Admin
+        </p>
 
-        {/* Username */}
-        <div style={{ marginBottom: 18 }}>
-          <label style={{
-            display: "block", fontSize: 11,
-            letterSpacing: "0.12em", textTransform: "uppercase",
-            color: "#666", marginBottom: 6,
-          }}>Username</label>
+        {error && (
+          <div style={{
+            background: "#fef2f2", border: "1px solid #fecaca",
+            padding: "11px 14px", marginBottom: 24,
+            fontSize: 13, color: "#dc2626", lineHeight: 1.5,
+          }}>
+            {error}
+          </div>
+        )}
+
+        <div style={{ marginBottom: 20 }}>
+          <label style={{ display: "block", fontSize: 10, letterSpacing: "0.14em", textTransform: "uppercase", color: "#666", marginBottom: 7 }}>
+            Username
+          </label>
           <input
             type="text"
             value={username}
-            onChange={function(e) { setUsername(e.target.value); }}
-            required
+            onChange={e => setUsername(e.target.value)}
+            autoFocus
             style={{
-              display: "block", width: "100%", padding: "10px 12px",
+              display: "block", width: "100%", padding: "11px 13px",
               border: "1px solid #ddd", background: "white",
-              fontSize: 14, outline: "none",
-              fontFamily: "Inter, sans-serif",
-              boxSizing: "border-box",
+              fontSize: 14, outline: "none", fontFamily: "Inter, sans-serif", boxSizing: "border-box",
+              transition: "border-color 0.15s",
             }}
+            onFocus={e => { e.target.style.borderColor = "#C9A96E"; }}
+            onBlur={e => { e.target.style.borderColor = "#ddd"; }}
           />
         </div>
 
-        {/* Password */}
-        <div style={{ marginBottom: 28 }}>
-          <label style={{
-            display: "block", fontSize: 11,
-            letterSpacing: "0.12em", textTransform: "uppercase",
-            color: "#666", marginBottom: 6,
-          }}>Password</label>
+        <div style={{ marginBottom: 24 }}>
+          <label style={{ display: "block", fontSize: 10, letterSpacing: "0.14em", textTransform: "uppercase", color: "#666", marginBottom: 7 }}>
+            Password
+          </label>
           <input
             type="password"
             value={password}
-            onChange={function(e) { setPassword(e.target.value); }}
-            required
+            onChange={e => setPassword(e.target.value)}
             style={{
-              display: "block", width: "100%", padding: "10px 12px",
+              display: "block", width: "100%", padding: "11px 13px",
               border: "1px solid #ddd", background: "white",
-              fontSize: 14, outline: "none",
-              fontFamily: "Inter, sans-serif",
-              boxSizing: "border-box",
+              fontSize: 14, outline: "none", fontFamily: "Inter, sans-serif", boxSizing: "border-box",
+              transition: "border-color 0.15s",
             }}
+            onFocus={e => { e.target.style.borderColor = "#C9A96E"; }}
+            onBlur={e => { e.target.style.borderColor = "#ddd"; }}
           />
         </div>
 
-        {/* Submit */}
+        <div style={{ display: "flex", alignItems: "center", gap: 9, marginBottom: 32 }}>
+          <input
+            type="checkbox"
+            id="remember"
+            checked={remember}
+            onChange={e => setRemember(e.target.checked)}
+            style={{ accentColor: "#C9A96E", width: 14, height: 14, cursor: "pointer" }}
+          />
+          <label htmlFor="remember" style={{ fontSize: 12, color: "#666", cursor: "pointer" }}>
+            Remember me for 30 days
+          </label>
+        </div>
+
         <button
           type="submit"
           disabled={loading}
           style={{
-            width: "100%", background: "#C9A96E", color: "white",
-            border: "none", padding: "13px 0", cursor: "pointer",
-            fontSize: 11, letterSpacing: "0.22em", textTransform: "uppercase",
-            opacity: loading ? 0.7 : 1,
-            transition: "opacity 0.2s ease",
+            width: "100%", background: loading ? "#b8935a" : "#C9A96E",
+            color: "white", border: "none", padding: "14px 0",
+            cursor: loading ? "not-allowed" : "pointer",
+            fontSize: 11, letterSpacing: "0.24em", textTransform: "uppercase",
+            fontFamily: "Inter, sans-serif", transition: "background 0.2s ease",
           }}
         >
-          {loading ? "Signing in..." : "Sign In"}
+          {loading ? "Signing in…" : "Sign In"}
         </button>
       </form>
     </div>

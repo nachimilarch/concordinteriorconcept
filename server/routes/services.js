@@ -20,6 +20,15 @@ router.post("/", protect, upload.single("image"), async (req, res) => {
   res.status(201).json({ id: result.insertId });
 });
 
+// Must be before /:id
+router.put("/reorder", protect, async (req, res) => {
+  const { order } = req.body; // [{ id, display_order }]
+  for (const item of order) {
+    await pool.query("UPDATE services SET display_order=? WHERE id=?", [item.display_order, item.id]);
+  }
+  res.json({ message: "Reordered" });
+});
+
 router.put("/:id", protect, upload.single("image"), async (req, res) => {
   const { title, description, icon, display_order } = req.body;
   const image = req.file?.filename;

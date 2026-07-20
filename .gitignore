@@ -5,3 +5,7 @@ uploads/*
 !uploads/.gitkeep
 *.log
 .DS_Store
+
+# Source materials (not part of the site build)
+CIC PORTFOLIO.pdf
+Selected Images/

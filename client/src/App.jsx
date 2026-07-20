@@ -1,6 +1,9 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { Suspense, lazy } from "react";
+import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
+import { Suspense, lazy, useEffect } from "react";
 import { Toaster } from "react-hot-toast";
+import Lenis from "lenis";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { AuthProvider } from "./context/AuthContext";
 import AdminRoute from "./admin/AdminRoute";
 
@@ -8,6 +11,47 @@ import AdminRoute from "./admin/AdminRoute";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import WhatsAppButton from "./components/WhatsAppButton";
+
+gsap.registerPlugin(ScrollTrigger);
+
+/**
+ * Site-wide buttery smooth scrolling (Lenis) synced with GSAP ScrollTrigger.
+ * Skipped for touch devices (Lenis default), reduced-motion users, and the
+ * admin panel. Scroll position resets on route change.
+ */
+function SmoothScroll() {
+    const { pathname } = useLocation();
+
+    useEffect(() => {
+        if (pathname.startsWith("/admin")) return undefined;
+        const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        if (reduced) return undefined;
+
+        const lenis = new Lenis({
+            lerp: 0.09,
+            smoothWheel: true,
+            wheelMultiplier: 1.0,
+        });
+
+        lenis.on("scroll", ScrollTrigger.update);
+        const raf = (time) => lenis.raf(time * 1000);
+        gsap.ticker.add(raf);
+        gsap.ticker.lagSmoothing(0);
+
+        return () => {
+            gsap.ticker.remove(raf);
+            lenis.destroy();
+        };
+    }, [pathname.startsWith("/admin")]);
+
+    // Jump to top on route change so pages never open mid-scroll
+    useEffect(() => {
+        window.scrollTo(0, 0);
+        ScrollTrigger.refresh();
+    }, [pathname]);
+
+    return null;
+}
 
 // ── Public pages: lazy loaded ──
 const Home = lazy(() => import("./pages/Home"));
@@ -61,6 +105,7 @@ export default function App() {
     return (
         <AuthProvider>
             <BrowserRouter>
+                <SmoothScroll />
                 <Toaster position="top-right" toastOptions={{
                     style: {
                         background: "#1A1A2E",

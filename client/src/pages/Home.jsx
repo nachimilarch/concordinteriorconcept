@@ -1,235 +1,550 @@
 import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
-import { motion, useInView, AnimatePresence } from "framer-motion";
-import CountUp from "react-countup";
-import { useInView as useInViewObs } from "react-intersection-observer";
+import { motion, useInView } from "framer-motion";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import api from "../api/axios";
+import ScrollJourney from "../components/ScrollJourney";
+import ConnectCTA from "../components/ConnectCTA";
 
-/* ── Brand tokens ─────────────────────────────── */
-const NAVY = "#2F3142";
-const GOLD = "#C8A75B";
-const GOLD_D = "#A88A3D";
-const BG = "#F4F6F8";
+gsap.registerPlugin(ScrollTrigger);
 
-/* ── Hero bg slides (Picsum placeholders) ──────── */
-const HERO_IMAGES = [
-  "https://picsum.photos/seed/interior-hero1/1920/1080",
-  "https://picsum.photos/seed/interior-hero2/1920/1080",
-  "https://picsum.photos/seed/interior-hero3/1920/1080",
-];
+/* ── Brand tokens — Minimal Luxury (per content doc) ── */
+const INK = "#181815";
+const IVORY = "#F5F0EB";
+const IVORY_WARM = "#F2EDE5";
+const BEIGE = "#C2A87A";
+const BEIGE_DEEP = "#A08760";
+const FOREST = "#2C4A3B";
+const FOREST_DEEP = "#1C332A";
+const FOREST_LIGHT = "#7FA08C";
 
-/* ── Stats ─────────────────────────────────────── */
-const STATS = [
-  { end: 150, suffix: "+", label: "Projects Completed" },
-  { end: 12, suffix: "+", label: "Years of Experience" },
-  { end: 120, suffix: "+", label: "Happy Clients" },
-  { end: 8, suffix: "", label: "Awards Won" },
-];
-
-/* ── Services ──────────────────────────────────── */
-const SERVICES = [
+/* ── What We Create — the five disciplines, in the document's A–E order,
+     with taglines and descriptions taken from the content doc. ── */
+const DISCIPLINES = [
   {
-    num: "01",
-    title: "Interior Design",
-    desc: "Bespoke interiors that balance aesthetics and function — from concept boards to final styling.",
-    seed: "svc-interior",
-    accent: "#C8A75B",
+    letter: "A",
+    title: "Design & Development",
+    tagline: "Land to Lifestyle.",
+    desc: "Planning spaces that are intelligent, functional and future-ready. The success of a project begins long before construction — we support landowners, investors and developers with informed planning and development decisions.",
+    services: ["Master Planning", "Site Analysis", "Layout Development", "Infrastructure Planning", "Feasibility Studies", "Development Advisory"],
+    img: "/images/brand/doc-image-5.jpg",
+    alt: "A commercial office development set in landscaped grounds",
   },
   {
-    num: "02",
-    title: "Construction",
-    desc: "End-to-end construction management with precision craftsmanship and on-time delivery.",
-    seed: "svc-construction",
-    accent: "#7A9E9F",
+    letter: "B",
+    title: "Architecture & Construction",
+    tagline: "Building enduring spaces with precision.",
+    desc: "From empty land to enduring landmarks — end-to-end development for residential, commercial, hospitality and institutional projects, integrating planning, engineering, architecture and execution into a seamless delivery process.",
+    services: ["Luxury Villas", "Apartments", "Farm Houses", "Commercial Buildings", "Resorts", "Turnkey Construction"],
+    img: "/images/brand/doc-image-4.jpg",
+    alt: "Modern villas under construction with cranes overhead",
   },
   {
-    num: "03",
-    title: "Renovation",
-    desc: "Transforming existing spaces with thoughtful renovation — structural and cosmetic upgrades.",
-    seed: "svc-renovation",
-    accent: "#B07D62",
+    letter: "C",
+    title: "Landscape Architecture",
+    tagline: "Where nature and design become one.",
+    desc: "Creating destinations, not just gardens. Landscape architecture is the art of shaping experiences through nature — farmhouse retreats, resort environments and recreational destinations that connect people with their surroundings.",
+    services: ["Farmhouse Landscapes", "Resort Landscapes", "Outdoor Living Spaces", "Courtyard Design", "Water Features", "Sustainable Landscaping"],
+    img: "/images/brand/doc-image-2.jpg",
+    alt: "A resort infinity pool flowing toward the sea between mature trees",
   },
   {
-    num: "04",
-    title: "Consultation",
-    desc: "Expert guidance on space planning, material selection, and design direction.",
-    seed: "svc-consult",
-    accent: "#8A7FAF",
-  },
-];
-
-/* ── Mock featured projects ─────────────────────── */
-const FEATURED = [
-  { id: 1, title: "The Meridian Residence", category: "Residential", location: "Jubilee Hills", year: 2024, seed: "interior1" },
-  { id: 2, title: "Lumina Office Complex", category: "Commercial", location: "Madhapur", year: 2024, seed: "interior3" },
-  { id: 10, title: "The Loft at Banjara", category: "Residential", location: "Banjara Hills", year: 2023, seed: "living1" },
-  { id: 6, title: "Skyline Retail Hub", category: "Commercial", location: "Kukatpally", year: 2024, seed: "interior6" },
-];
-
-/* ── Testimonials ───────────────────────────────── */
-const TESTIMONIALS = [
-  {
-    quote: "Concord transformed our home beyond what we imagined. Every detail was handled with exceptional care and precision.",
-    name: "Rajesh & Priya Sharma",
-    project: "Meridian Residence, Jubilee Hills",
+    letter: "D",
+    title: "Interior Design & Turnkey Execution",
+    tagline: "Spaces designed around people.",
+    desc: "Interior design at Concord goes beyond decoration. We create environments that influence emotions, productivity, wellbeing and experiences — every interior tailored to the people who use it.",
+    services: ["Luxury Home Interiors", "Corporate Offices", "Space Planning", "Custom Furniture", "Modular Kitchens", "Lighting Design"],
+    img: "/images/brand/doc-image-3.jpg",
+    alt: "A refined contemporary living room with layered lighting",
   },
   {
-    quote: "Our office space now reflects our brand identity perfectly. The team delivered on time with zero compromise on quality.",
-    name: "Anil Reddy",
-    project: "Lumina Office Complex, Madhapur",
-  },
-  {
-    quote: "From concept to completion, the professionalism was unmatched. We'd work with Concord again without hesitation.",
-    name: "Sunita Rao",
-    project: "Palm Court Interiors, Kondapur",
+    letter: "E",
+    title: "Smart Living & Smart Workspaces",
+    tagline: "Technology integrated seamlessly into everyday experiences.",
+    desc: "Smart home and office automation, intelligent lighting, voice-controlled environments, security and energy monitoring — environments that quietly anticipate the people who use them.",
+    services: ["Smart Home Automation", "Smart Office Automation", "Intelligent Lighting", "Voice-Controlled Environments", "Security Integration", "Energy Monitoring"],
+    img: "/images/brand/doc-image-8.jpg",
+    alt: "A smart-home control app in a luxurious living room",
   },
 ];
 
-/* ── Fade-in wrapper ─────────────────────────────── */
+/* ── Interior portraits — immersive horizontal gallery ── */
+const INTERIOR_PORTRAITS = [
+  { src: "/images/brand/doc-image-3.jpg", caption: "Living Spaces", note: "Composed around light and conversation" },
+  { src: "/images/interiors/IMG20230712190652.jpg", caption: "Entertainment Walls", note: "Custom joinery, layered illumination" },
+  { src: "/images/brand/doc-image-7.jpg", caption: "Workspaces", note: "Calm, focused, quietly premium" },
+  { src: "/images/interiors/IMG20230515035704.jpg", caption: "Commercial Interiors", note: "Brand identity built into the room" },
+  { src: "/images/brand/doc-image-8.jpg", caption: "Smart Homes", note: "Technology that stays invisible" },
+  { src: "/images/interiors/IMG20230301114229.jpg", caption: "Turnkey Delivery", note: "Design through final styling" },
+];
+
+/* ── The Concord Approach (from content doc) ── */
+const APPROACH = [
+  { step: "01", title: "Discover", desc: "Understanding aspirations, lifestyles, business goals and opportunities." },
+  { step: "02", title: "Design", desc: "Developing intelligent concepts rooted in functionality and aesthetics." },
+  { step: "03", title: "Develop", desc: "Technical planning, engineering coordination and execution strategy." },
+  { step: "04", title: "Deliver", desc: "Construction, interiors and landscape implementation with precision." },
+  { step: "05", title: "Evolve", desc: "Long-term support for future growth and adaptability." },
+];
+
+/* ── Why Concord — verbatim from the content doc ── */
+const WHY_CONCORD = [
+  { title: "Multidisciplinary Expertise", desc: "Architecture, construction, interiors, landscape and consultancy." },
+  { title: "Turnkey Execution", desc: "Single-point responsibility from concept to completion." },
+  { title: "Design-Driven Approach", desc: "Functionality and aesthetics working together." },
+  { title: "Sustainable Thinking", desc: "Future-ready solutions." },
+  { title: "Smart Integration", desc: "Technology-enhanced environments." },
+  { title: "Trusted Delivery", desc: "Quality, transparency and reliability." },
+];
+
+/* ── Fade-in wrapper ───────────────────────────── */
 function FadeIn({ children, delay = 0, y = 24 }) {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-80px" });
   return (
-    <motion.div
-      ref={ref}
-      initial={{ opacity: 0, y }}
-      animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.7, delay, ease: [0.22, 1, 0.36, 1] }}
-    >
+    <motion.div ref={ref} initial={{ opacity: 0, y }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.7, delay, ease: [0.22, 1, 0.36, 1] }}>
       {children}
     </motion.div>
   );
 }
 
-/* ── Hero slider ─────────────────────────────────── */
-function HeroSlider() {
-  const [idx, setIdx] = useState(0);
-
-  useEffect(() => {
-    const t = setInterval(() => setIdx(i => (i + 1) % HERO_IMAGES.length), 5500);
-    return () => clearInterval(t);
-  }, []);
-
+/* ── Editorial label ── */
+function Eyebrow({ children, color = FOREST, style }) {
   return (
-    <>
-      {HERO_IMAGES.map((src, i) => (
-        <div key={src} style={{
-          position: "absolute", inset: 0,
-          backgroundImage: `url(${src})`,
-          backgroundSize: "cover", backgroundPosition: "center",
-          opacity: i === idx ? 1 : 0,
-          transition: "opacity 1.4s ease",
-          transform: i === idx ? "scale(1.04)" : "scale(1)",
-        }} />
-      ))}
-    </>
+    <p style={{
+      fontFamily: "Inter, sans-serif",
+      fontSize: 11, letterSpacing: "0.34em",
+      textTransform: "uppercase",
+      color, fontWeight: 600,
+      margin: "0 0 18px",
+      ...style,
+    }}>{children}</p>
   );
 }
 
-/* ── Project card (featured) ────────────────────── */
-function FeaturedCard({ project, index }) {
-  const [hovered, setHovered] = useState(false);
-  const imgSrc = `https://picsum.photos/seed/${project.seed}/800/600`;
-  const isLarge = index === 0;
-
+/* ══════════════════════════════════════════════════
+   SECTION — Building Beyond Structures
+══════════════════════════════════════════════════ */
+function BuildingBeyond() {
   return (
-    <Link
-      to={`/portfolio/${project.id}`}
-      style={{ textDecoration: "none", display: "block" }}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-    >
-      <div style={{
-        position: "relative",
-        height: isLarge ? 520 : 340,
-        overflow: "hidden",
-        background: "#E8EAED",
-      }}>
-        <img
-          src={imgSrc} alt={project.title}
-          loading="lazy" width={800} height={600}
-          style={{
-            width: "100%", height: "100%", objectFit: "cover",
-            transform: hovered ? "scale(1.06)" : "scale(1)",
-            transition: "transform 0.65s cubic-bezier(0.22,1,0.36,1)",
-          }}
-        />
-        <div style={{
-          position: "absolute", inset: 0,
-          background: "linear-gradient(to top, rgba(47,49,66,0.78) 0%, transparent 60%)",
-          opacity: hovered ? 1 : 0.6,
-          transition: "opacity 0.4s ease",
-        }} />
-        {/* Arrow */}
-        <div style={{
-          position: "absolute", top: 20, right: 20,
-          width: 38, height: 38,
-          border: `1px solid ${GOLD}`,
-          display: "flex", alignItems: "center", justifyContent: "center",
-          opacity: hovered ? 1 : 0,
-          transform: hovered ? "translate(0,0)" : "translate(6px,-6px)",
-          transition: "all 0.3s ease",
-        }}>
-          <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-            <path d="M2 12L12 2M12 2H5M12 2V9" stroke={GOLD} strokeWidth="1.5" />
-          </svg>
-        </div>
-        {/* Bottom info */}
-        <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, padding: "20px 22px" }}>
-          <p style={{
-            fontFamily: "Inter, sans-serif", fontSize: 9,
-            letterSpacing: "0.22em", textTransform: "uppercase",
-            color: GOLD, margin: "0 0 6px",
-          }}>{project.category}</p>
-          <p style={{
+    <section style={{ background: IVORY, padding: "140px 40px 120px" }}>
+      <div style={{ maxWidth: 980, margin: "0 auto", textAlign: "center" }}>
+        <FadeIn>
+          <Eyebrow style={{ textAlign: "center" }}>Concord Interior Concepts</Eyebrow>
+          <h2 style={{
             fontFamily: "Cormorant Garamond, serif",
-            fontSize: isLarge ? 22 : 17, fontWeight: 500,
-            color: "white", margin: 0, lineHeight: 1.2,
-          }}>{project.title}</p>
-          <p style={{
-            fontFamily: "Inter, sans-serif", fontSize: 10,
-            letterSpacing: "0.12em", textTransform: "uppercase",
-            color: "rgba(255,255,255,0.55)", margin: "6px 0 0",
-            opacity: hovered ? 1 : 0, transition: "opacity 0.35s ease",
-          }}>{project.location} · {project.year}</p>
-        </div>
-      </div>
-    </Link>
-  );
-}
-
-/* ── Counter with InView ────────────────────────── */
-function StatsCounter() {
-  const { ref, inView } = useInViewObs({ triggerOnce: true, threshold: 0.3 });
-  return (
-    <div ref={ref} style={{
-      display: "grid",
-      gridTemplateColumns: "repeat(auto-fit, minmax(160px, 1fr))",
-      gap: 0,
-    }}>
-      {STATS.map(({ end, suffix, label }, i) => (
-        <div key={label} style={{
-          padding: "40px 32px",
-          borderRight: i < STATS.length - 1 ? "1px solid rgba(47,49,66,0.1)" : "none",
-          textAlign: "center",
-        }}>
-          <p style={{
-            fontFamily: "Cormorant Garamond, serif",
-            fontSize: "clamp(40px, 4vw, 64px)",
-            fontWeight: 400, color: NAVY, margin: 0, lineHeight: 1,
+            fontSize: "clamp(38px, 5vw, 68px)",
+            fontWeight: 500, lineHeight: 1.08,
+            color: INK, margin: "0 0 36px",
           }}>
-            {inView
-              ? <CountUp end={end} duration={2.2} suffix={suffix} />
-              : `0${suffix}`}
+            Building Beyond <em style={{ fontStyle: "italic", color: FOREST }}>Structures</em>
+          </h2>
+          <div style={{ width: 72, borderTop: `1px solid ${BEIGE}`, margin: "0 auto 40px" }} />
+          <p style={{
+            fontFamily: "Cormorant Garamond, serif",
+            fontSize: "clamp(20px, 2.2vw, 28px)",
+            fontStyle: "italic", lineHeight: 1.6,
+            color: "#3C3A34", margin: "0 0 28px",
+          }}>
+            We believe exceptional spaces begin long before construction — and continue long after completion.
           </p>
           <p style={{
             fontFamily: "Inter, sans-serif",
-            fontSize: 10, letterSpacing: "0.18em",
-            textTransform: "uppercase",
-            color: "#6B7280", margin: "10px 0 0",
-          }}>{label}</p>
+            fontSize: 16, lineHeight: 1.9,
+            color: "#55524A", margin: "0 auto",
+            maxWidth: 760,
+          }}>
+            Our expertise spans architectural planning, infrastructure development, construction,
+            landscape architecture, luxury interiors, smart automation, and project consultancy.
+            From residential homes and commercial developments to farmhouses, resorts, corporate
+            offices, and large-scale layouts — we provide complete solutions from concept to reality.
+          </p>
+        </FadeIn>
+      </div>
+    </section>
+  );
+}
+
+/* ══════════════════════════════════════════════════
+   SECTION — Interior Portraits (immersive horizontal scroll)
+   Desktop: pinned section, gallery pans horizontally as you scroll.
+   Mobile:  native snap-scroll strip.
+══════════════════════════════════════════════════ */
+function InteriorsShowcase() {
+  const sectionRef = useRef(null);
+  const trackRef = useRef(null);
+  const [isDesktop, setIsDesktop] = useState(true);
+
+  useEffect(() => {
+    const mq = window.matchMedia("(min-width: 769px)");
+    setIsDesktop(mq.matches);
+    const onChange = () => setIsDesktop(mq.matches);
+    mq.addEventListener("change", onChange);
+    return () => mq.removeEventListener("change", onChange);
+  }, []);
+
+  useEffect(() => {
+    if (!isDesktop || !sectionRef.current || !trackRef.current) return;
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduced) return;
+
+    const ctx = gsap.context(() => {
+      const track = trackRef.current;
+      const distance = () => Math.max(0, track.scrollWidth - window.innerWidth);
+      gsap.to(track, {
+        x: () => -distance(),
+        ease: "none",
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: "top top",
+          end: () => `+=${distance()}`,
+          pin: true,
+          scrub: 1.2,
+          anticipatePin: 1,
+          invalidateOnRefresh: true,
+        },
+      });
+    }, sectionRef);
+    return () => ctx.revert();
+  }, [isDesktop]);
+
+  return (
+    <section ref={sectionRef} style={{ background: INK, overflow: "hidden" }}>
+      <div style={{
+        height: isDesktop ? "100vh" : "auto",
+        display: "flex", flexDirection: "column", justifyContent: "center",
+        padding: isDesktop ? 0 : "90px 0",
+      }}>
+        {/* Header */}
+        <div style={{ maxWidth: 1280, margin: "0 auto", padding: "0 40px", width: "100%", marginBottom: 48 }}>
+          <FadeIn>
+            <Eyebrow color={BEIGE}>The Heart of Concord</Eyebrow>
+            <h2 style={{
+              fontFamily: "Cormorant Garamond, serif",
+              fontSize: "clamp(34px, 4.4vw, 62px)",
+              fontWeight: 500, lineHeight: 1.06,
+              color: IVORY, margin: 0,
+            }}>
+              Interiors that hold <em style={{ fontStyle: "italic", color: BEIGE }}>everyday life</em>
+            </h2>
+            <p style={{
+              fontFamily: "Inter, sans-serif", fontSize: 14.5, lineHeight: 1.8,
+              color: "rgba(245,240,235,0.7)", margin: "18px 0 0", maxWidth: 560,
+            }}>
+              {isDesktop ? "Keep scrolling — the gallery moves with you." : "Swipe through a few of our favourite rooms."}
+            </p>
+          </FadeIn>
         </div>
-      ))}
-    </div>
+
+        {/* Track */}
+        <div style={{
+          overflowX: isDesktop ? "visible" : "auto",
+          scrollSnapType: isDesktop ? "none" : "x mandatory",
+          WebkitOverflowScrolling: "touch",
+          scrollbarWidth: "none",
+        }}>
+          <div
+            ref={trackRef}
+            style={{
+              display: "flex", gap: 28,
+              padding: "0 40px",
+              width: "max-content",
+              willChange: "transform",
+            }}
+          >
+            {INTERIOR_PORTRAITS.map((p, i) => (
+              <figure key={p.caption} style={{
+                margin: 0, flexShrink: 0,
+                scrollSnapAlign: "start",
+                width: "clamp(300px, 34vw, 520px)",
+              }}>
+                <div style={{ overflow: "hidden", aspectRatio: "4/3", background: "#101010", borderRadius: 18, boxShadow: "0 14px 40px rgba(0,0,0,0.35)" }}>
+                  <img
+                    src={p.src}
+                    alt={`${p.caption} — ${p.note}`}
+                    loading="lazy"
+                    style={{
+                      width: "100%", height: "100%",
+                      objectFit: "cover", display: "block",
+                      filter: "saturate(1.12) contrast(1.05) brightness(1.05)",
+                      transition: "transform 0.8s cubic-bezier(0.22,1,0.36,1)",
+                    }}
+                    onMouseEnter={(e) => (e.currentTarget.style.transform = "scale(1.05)")}
+                    onMouseLeave={(e) => (e.currentTarget.style.transform = "scale(1)")}
+                  />
+                </div>
+                <figcaption style={{ padding: "18px 2px 0" }}>
+                  <p style={{
+                    fontFamily: "Cormorant Garamond, serif",
+                    fontSize: 24, fontWeight: 500,
+                    color: IVORY, margin: 0, lineHeight: 1.2,
+                  }}>{p.caption}</p>
+                  <p style={{
+                    fontFamily: "Inter, sans-serif",
+                    fontSize: 12.5, letterSpacing: "0.06em",
+                    color: BEIGE, margin: "6px 0 0", fontStyle: "italic",
+                  }}>{p.note}</p>
+                </figcaption>
+              </figure>
+            ))}
+
+            {/* Closing card → portfolio */}
+            <Link to="/portfolio" style={{
+              flexShrink: 0, width: "clamp(260px, 24vw, 380px)",
+              display: "flex", flexDirection: "column",
+              alignItems: "center", justifyContent: "center",
+              border: `1px solid rgba(194,168,122,0.4)`,
+              borderRadius: 18,
+              background: "rgba(245,240,235,0.05)",
+              backdropFilter: "blur(14px)",
+              WebkitBackdropFilter: "blur(14px)",
+              textDecoration: "none", aspectRatio: "4/3",
+              alignSelf: "flex-start",
+            }}>
+              <p style={{
+                fontFamily: "Cormorant Garamond, serif",
+                fontSize: 30, fontWeight: 500, fontStyle: "italic",
+                color: BEIGE, margin: "0 0 14px", textAlign: "center",
+              }}>See every room</p>
+              <span style={{
+                fontFamily: "Inter, sans-serif", fontSize: 10,
+                letterSpacing: "0.3em", textTransform: "uppercase",
+                color: IVORY, fontWeight: 600,
+              }}>Visit the Portfolio →</span>
+            </Link>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ══════════════════════════════════════════════════
+   SECTION — What We Create (editorial alternating rows)
+══════════════════════════════════════════════════ */
+function WhatWeCreate() {
+  return (
+    <section style={{ background: "white", padding: "130px 0 60px" }}>
+      <div style={{ maxWidth: 1280, margin: "0 auto", padding: "0 40px" }}>
+        <FadeIn>
+          <div style={{ textAlign: "center", marginBottom: 90 }}>
+            <Eyebrow style={{ textAlign: "center" }}>Our Ecosystem of Services</Eyebrow>
+            <h2 style={{
+              fontFamily: "Cormorant Garamond, serif",
+              fontSize: "clamp(40px, 5.5vw, 76px)",
+              fontWeight: 500, lineHeight: 1.02,
+              color: INK, margin: 0,
+            }}>
+              What We <em style={{ fontStyle: "italic", color: FOREST }}>Create</em>
+            </h2>
+          </div>
+        </FadeIn>
+
+        {DISCIPLINES.map((d, i) => (
+          <FadeIn key={d.letter} delay={0.05}>
+            <div style={{
+              display: "grid",
+              gridTemplateColumns: i % 2 === 0 ? "1.1fr 1fr" : "1fr 1.1fr",
+              gap: "clamp(40px, 6vw, 96px)",
+              alignItems: "center",
+              padding: "72px 0",
+              borderTop: i === 0 ? `1px solid rgba(24,24,21,0.12)` : "none",
+              borderBottom: `1px solid rgba(24,24,21,0.12)`,
+            }}>
+              {/* Image */}
+              <div style={{ order: i % 2 === 0 ? 0 : 1, overflow: "hidden", borderRadius: 22, boxShadow: "0 16px 48px rgba(24,24,21,0.14)" }}>
+                <img
+                  src={d.img}
+                  alt={d.alt}
+                  loading="lazy"
+                  style={{
+                    width: "100%", aspectRatio: "16/11",
+                    objectFit: "cover", display: "block",
+                    transition: "transform 1.2s cubic-bezier(0.22,1,0.36,1)",
+                  }}
+                  onMouseEnter={(e) => (e.currentTarget.style.transform = "scale(1.04)")}
+                  onMouseLeave={(e) => (e.currentTarget.style.transform = "scale(1)")}
+                />
+              </div>
+
+              {/* Text */}
+              <div style={{ order: i % 2 === 0 ? 1 : 0 }}>
+                <div style={{ display: "flex", alignItems: "baseline", gap: 18, marginBottom: 20 }}>
+                  <span style={{
+                    fontFamily: "Cormorant Garamond, serif",
+                    fontSize: 64, fontWeight: 400, lineHeight: 1,
+                    color: BEIGE,
+                  }}>{d.letter}</span>
+                  <span style={{ flex: 1, borderTop: `1px solid rgba(194,168,122,0.5)` }} />
+                </div>
+                <h3 style={{
+                  fontFamily: "Cormorant Garamond, serif",
+                  fontSize: "clamp(28px, 3vw, 42px)",
+                  fontWeight: 500, lineHeight: 1.12,
+                  color: INK, margin: "0 0 10px",
+                }}>{d.title}</h3>
+                <p style={{
+                  fontFamily: "Cormorant Garamond, serif",
+                  fontSize: 21, fontStyle: "italic",
+                  color: FOREST, margin: "0 0 20px",
+                }}>{d.tagline}</p>
+                <p style={{
+                  fontFamily: "Inter, sans-serif",
+                  fontSize: 15, lineHeight: 1.85,
+                  color: "#55524A", margin: "0 0 26px",
+                  maxWidth: 520,
+                }}>{d.desc}</p>
+
+                {/* Service list — two columns, quiet */}
+                <div style={{
+                  display: "grid", gridTemplateColumns: "1fr 1fr",
+                  gap: "10px 24px", marginBottom: 30, maxWidth: 520,
+                }}>
+                  {d.services.map((s) => (
+                    <span key={s} style={{
+                      fontFamily: "Inter, sans-serif",
+                      fontSize: 12.5, letterSpacing: "0.04em",
+                      color: "#6F6B62",
+                      display: "flex", alignItems: "center", gap: 10,
+                    }}>
+                      <span style={{ width: 14, borderTop: `1px solid ${BEIGE}`, flexShrink: 0 }} />
+                      {s}
+                    </span>
+                  ))}
+                </div>
+
+                <Link to="/services" style={{
+                  fontFamily: "Inter, sans-serif",
+                  fontSize: 10, letterSpacing: "0.3em",
+                  textTransform: "uppercase",
+                  color: FOREST, fontWeight: 600,
+                  textDecoration: "none",
+                  borderBottom: `1px solid ${BEIGE}`,
+                  paddingBottom: 5,
+                }}>
+                  Explore This Discipline →
+                </Link>
+              </div>
+            </div>
+          </FadeIn>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+/* ══════════════════════════════════════════════════
+   SECTION — The Concord Approach
+══════════════════════════════════════════════════ */
+function ConcordApproach() {
+  return (
+    <section style={{ background: INK, padding: "130px 40px" }}>
+      <div style={{ maxWidth: 1280, margin: "0 auto" }}>
+        <FadeIn>
+          <div style={{ textAlign: "center", marginBottom: 90 }}>
+            <Eyebrow color={BEIGE} style={{ textAlign: "center" }}>How We Work</Eyebrow>
+            <h2 style={{
+              fontFamily: "Cormorant Garamond, serif",
+              fontSize: "clamp(38px, 5vw, 68px)",
+              fontWeight: 500, lineHeight: 1.05,
+              color: IVORY, margin: 0,
+            }}>
+              The Concord <em style={{ fontStyle: "italic", color: BEIGE }}>Approach</em>
+            </h2>
+          </div>
+        </FadeIn>
+
+        <div style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fit, minmax(210px, 1fr))",
+          gap: 18,
+        }}>
+          {APPROACH.map((p, i) => (
+            <FadeIn key={p.step} delay={i * 0.08}>
+              <div style={{
+                padding: "34px 30px",
+                background: "rgba(245,240,235,0.05)",
+                backdropFilter: "blur(14px) saturate(130%)",
+                WebkitBackdropFilter: "blur(14px) saturate(130%)",
+                border: "1px solid rgba(245,240,235,0.12)",
+                borderRadius: 22,
+                height: "100%",
+                boxShadow: "0 10px 30px rgba(0,0,0,0.22)",
+              }}>
+                <p style={{
+                  fontFamily: "Cormorant Garamond, serif",
+                  fontSize: 58, fontWeight: 400, lineHeight: 1,
+                  color: FOREST_LIGHT, margin: "0 0 22px",
+                }}>{p.step}</p>
+                <p style={{
+                  fontFamily: "Inter, sans-serif",
+                  fontSize: 12, letterSpacing: "0.3em",
+                  textTransform: "uppercase",
+                  color: BEIGE, fontWeight: 600,
+                  margin: "0 0 16px",
+                }}>{p.title}</p>
+                <p style={{
+                  fontFamily: "Inter, sans-serif",
+                  fontSize: 14, lineHeight: 1.8,
+                  color: "rgba(245,240,235,0.72)", margin: 0,
+                }}>{p.desc}</p>
+              </div>
+            </FadeIn>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ══════════════════════════════════════════════════
+   SECTION — Why Concord
+══════════════════════════════════════════════════ */
+function WhyConcord() {
+  return (
+    <section style={{ background: IVORY_WARM, padding: "130px 40px" }}>
+      <div style={{ maxWidth: 1280, margin: "0 auto" }}>
+        <FadeIn>
+          <div style={{ textAlign: "center", marginBottom: 84 }}>
+            <Eyebrow style={{ textAlign: "center" }}>Why Concord</Eyebrow>
+            <h2 style={{
+              fontFamily: "Cormorant Garamond, serif",
+              fontSize: "clamp(36px, 4.6vw, 64px)",
+              fontWeight: 500, lineHeight: 1.12,
+              color: INK, margin: 0,
+            }}>
+              One Vision. One Team.<br />
+              <em style={{ fontStyle: "italic", color: FOREST }}>Complete Accountability.</em>
+            </h2>
+          </div>
+        </FadeIn>
+
+        <div style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
+          gap: "56px 64px",
+        }}>
+          {WHY_CONCORD.map((w, i) => (
+            <FadeIn key={w.title} delay={i * 0.06}>
+              <div>
+                <div style={{ width: 32, borderTop: `2px solid ${FOREST}`, marginBottom: 20 }} />
+                <p style={{
+                  fontFamily: "Cormorant Garamond, serif",
+                  fontSize: 25, fontWeight: 600,
+                  color: INK, margin: "0 0 12px", lineHeight: 1.2,
+                }}>{w.title}</p>
+                <p style={{
+                  fontFamily: "Inter, sans-serif",
+                  fontSize: 14.5, lineHeight: 1.8,
+                  color: "#55524A", margin: 0,
+                }}>{w.desc}</p>
+              </div>
+            </FadeIn>
+          ))}
+        </div>
+      </div>
+    </section>
   );
 }
 
@@ -237,712 +552,44 @@ function StatsCounter() {
    MAIN HOME PAGE
 ══════════════════════════════════════════════════ */
 export default function Home() {
-  const [testimonialIdx, setTestimonialIdx] = useState(0);
+  const [stats, setStats] = useState(null);
 
   useEffect(() => {
-    const t = setInterval(() => setTestimonialIdx(i => (i + 1) % TESTIMONIALS.length), 6000);
-    return () => clearInterval(t);
+    api.get("/projects/stats").then((r) => setStats(r.data)).catch(() => {});
   }, []);
 
   return (
-    <div style={{ background: BG, overflowX: "hidden" }}>
+    <div style={{ background: IVORY, overflowX: "hidden" }}>
+      {/* ═════ CINEMATIC SCROLL JOURNEY — We Design / We Build / We Transform ═════ */}
+      <ScrollJourney stats={stats} />
 
-      {/* ════════════════════════════════════════
-          01  HERO
-      ════════════════════════════════════════ */}
-      <section style={{
-        position: "relative",
-        height: "100vh", minHeight: 600,
-        overflow: "hidden",
-        display: "flex", alignItems: "center",
-      }}>
-        <HeroSlider />
+      {/* ═════ Building Beyond Structures ═════ */}
+      <BuildingBeyond />
 
-        {/* Overlay */}
-        <div style={{
-          position: "absolute", inset: 0,
-          background: "linear-gradient(135deg, rgba(47,49,66,0.72) 0%, rgba(47,49,66,0.35) 60%, transparent 100%)",
-        }} />
+      {/* ═════ Interior Portraits — immersive horizontal gallery ═════ */}
+      <InteriorsShowcase />
 
-        {/* Content */}
-        <div style={{
-          position: "relative", zIndex: 2,
-          maxWidth: 1280, margin: "0 auto",
-          padding: "0 40px", width: "100%",
-        }}>
-          <motion.p
-            initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.3 }}
-            style={{
-              fontFamily: "Inter, sans-serif",
-              fontSize: 10, letterSpacing: "0.32em",
-              textTransform: "uppercase",
-              color: GOLD, margin: "0 0 20px",
-            }}
-          >Premium Interior &amp; Construction — Hyderabad</motion.p>
+      {/* ═════ What We Create — five disciplines ═════ */}
+      <WhatWeCreate />
 
-          <motion.h1
-            initial={{ opacity: 0, y: 32 }} animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.9, delay: 0.5, ease: [0.22, 1, 0.36, 1] }}
-            style={{
-              fontFamily: "Cormorant Garamond, serif",
-              fontSize: "clamp(48px, 7.5vw, 112px)",
-              fontWeight: 400, lineHeight: 0.95,
-              color: "white", margin: "0 0 32px",
-              maxWidth: "70%",
-            }}
-          >
-            Crafting Spaces<br />
-            That <em style={{ color: GOLD, fontStyle: "italic" }}>Inspire</em>
-          </motion.h1>
+      {/* ═════ The Concord Approach ═════ */}
+      <ConcordApproach />
 
-          <motion.p
-            initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.75 }}
-            style={{
-              fontFamily: "Inter, sans-serif",
-              fontSize: 14, lineHeight: 1.75,
-              color: "rgba(255,255,255,0.72)",
-              maxWidth: 440, margin: "0 0 40px",
-            }}
-          >
-            Award-winning interior design and construction firm based in Secunderabad. We deliver spaces that are precise, purposeful, and built to last.
-          </motion.p>
+      {/* ═════ Why Concord ═════ */}
+      <WhyConcord />
 
-          <motion.div
-            initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.95 }}
-            style={{ display: "flex", gap: 16, flexWrap: "wrap" }}
-          >
-            <Link to="/portfolio" style={{
-              textDecoration: "none",
-              background: GOLD, color: "white",
-              padding: "14px 36px",
-              fontFamily: "Inter, sans-serif",
-              fontSize: 10, letterSpacing: "0.26em",
-              textTransform: "uppercase",
-              transition: "background 0.3s",
-            }}
-              onMouseEnter={e => e.currentTarget.style.background = GOLD_D}
-              onMouseLeave={e => e.currentTarget.style.background = GOLD}
-            >View Our Work</Link>
-
-            <Link to="/contact" style={{
-              textDecoration: "none",
-              border: "1px solid rgba(255,255,255,0.5)",
-              color: "white",
-              padding: "14px 36px",
-              fontFamily: "Inter, sans-serif",
-              fontSize: 10, letterSpacing: "0.26em",
-              textTransform: "uppercase",
-              transition: "border-color 0.3s",
-            }}
-              onMouseEnter={e => e.currentTarget.style.borderColor = GOLD}
-              onMouseLeave={e => e.currentTarget.style.borderColor = "rgba(255,255,255,0.5)"}
-            >Get a Quote</Link>
-          </motion.div>
-        </div>
-
-        {/* Scroll cue */}
-        <div style={{
-          position: "absolute", bottom: 36, left: "50%",
-          transform: "translateX(-50%)",
-          display: "flex", flexDirection: "column",
-          alignItems: "center", gap: 8,
-          zIndex: 2,
-        }}>
-          <p style={{
-            fontFamily: "Inter, sans-serif", fontSize: 9,
-            letterSpacing: "0.25em", textTransform: "uppercase",
-            color: "rgba(255,255,255,0.45)", margin: 0,
-          }}>Scroll</p>
-          <motion.div
-            animate={{ y: [0, 8, 0] }}
-            transition={{ repeat: Infinity, duration: 1.8, ease: "easeInOut" }}
-            style={{ width: 1, height: 40, background: "rgba(255,255,255,0.3)" }}
-          />
-        </div>
-
-        {/* Slide dots */}
-        <div style={{
-          position: "absolute", bottom: 36, right: 40,
-          display: "flex", gap: 8, zIndex: 2,
-        }}>
-          {HERO_IMAGES.map((_, i) => (
-            <button
-              key={i}
-              onClick={() => { }}
-              style={{
-                width: i === 0 ? 24 : 8, height: 2,
-                background: i === 0 ? GOLD : "rgba(255,255,255,0.35)",
-                border: "none", cursor: "pointer", padding: 0,
-                transition: "all 0.3s ease",
-              }}
-            />
-          ))}
-        </div>
-      </section>
-
-      {/* ════════════════════════════════════════
-          02  STATS STRIP
-      ════════════════════════════════════════ */}
-      <section style={{
-        background: "white",
-        borderBottom: "1px solid rgba(47,49,66,0.07)",
-      }}>
-        <div style={{ maxWidth: 1280, margin: "0 auto" }}>
-          <StatsCounter />
-        </div>
-      </section>
-
-      {/* ════════════════════════════════════════
-          03  INTRO / BRAND STATEMENT
-      ════════════════════════════════════════ */}
-      <section style={{ padding: "100px 40px", maxWidth: 1280, margin: "0 auto" }}>
-        <div style={{
-          display: "grid",
-          gridTemplateColumns: "1fr 1fr",
-          gap: 80, alignItems: "center",
-        }}>
-          <FadeIn>
-            <p style={{
-              fontFamily: "Inter, sans-serif",
-              fontSize: 10, letterSpacing: "0.28em",
-              textTransform: "uppercase",
-              color: GOLD, margin: "0 0 20px",
-            }}>Who We Are</p>
-            <h2 style={{
-              fontFamily: "Cormorant Garamond, serif",
-              fontSize: "clamp(32px, 4vw, 56px)",
-              fontWeight: 400, lineHeight: 1.1,
-              color: NAVY, margin: "0 0 28px",
-            }}>
-              Where Design Meets<br />
-              <em style={{ color: GOLD, fontStyle: "italic" }}>Craftsmanship</em>
-            </h2>
-            <div style={{ width: 40, height: 1, background: GOLD, marginBottom: 24 }} />
-            <p style={{
-              fontFamily: "Inter, sans-serif",
-              fontSize: 14, lineHeight: 1.85,
-              color: "#4B5563", margin: "0 0 20px",
-            }}>
-              Concord Interior Concepts is a Hyderabad-based design and construction firm with over 12 years of delivering spaces that merge beauty with function. From luxury residences to landmark commercial builds, we bring vision to life.
-            </p>
-            <p style={{
-              fontFamily: "Inter, sans-serif",
-              fontSize: 14, lineHeight: 1.85,
-              color: "#4B5563", margin: "0 0 36px",
-            }}>
-              Every project begins with listening — understanding our clients' needs, lifestyle, and aspirations — before a single line is drawn.
-            </p>
-            <Link to="/about" style={{
-              textDecoration: "none",
-              fontFamily: "Inter, sans-serif",
-              fontSize: 10, letterSpacing: "0.24em",
-              textTransform: "uppercase",
-              color: NAVY,
-              borderBottom: `1px solid ${GOLD}`,
-              paddingBottom: 4,
-            }}>Learn Our Story →</Link>
-          </FadeIn>
-
-          <FadeIn delay={0.15}>
-            <div style={{ position: "relative" }}>
-              <img
-                src="https://picsum.photos/seed/interior-about/700/800"
-                alt="Concord Interior Concepts workspace"
-                loading="lazy" width={700} height={800}
-                style={{ width: "100%", height: 520, objectFit: "cover", display: "block" }}
-              />
-              {/* Gold accent box */}
-              <div style={{
-                position: "absolute", bottom: -24, left: -24,
-                width: 160, height: 160,
-                border: `1px solid ${GOLD}`,
-                zIndex: -1,
-              }} />
-              {/* Stat badge */}
-              <div style={{
-                position: "absolute", top: 32, right: -24,
-                background: NAVY, padding: "20px 28px",
-                textAlign: "center",
-              }}>
-                <p style={{
-                  fontFamily: "Cormorant Garamond, serif",
-                  fontSize: 40, fontWeight: 400,
-                  color: GOLD, margin: 0, lineHeight: 1,
-                }}>12+</p>
-                <p style={{
-                  fontFamily: "Inter, sans-serif",
-                  fontSize: 9, letterSpacing: "0.18em",
-                  textTransform: "uppercase",
-                  color: "rgba(255,255,255,0.65)", margin: "6px 0 0",
-                }}>Years of<br />Excellence</p>
-              </div>
-            </div>
-          </FadeIn>
-        </div>
-      </section>
-
-      {/* ════════════════════════════════════════
-    04  SERVICES
-════════════════════════════════════════ */}
-      <section style={{ background: "#0E0F1A", padding: "110px 40px", overflow: "hidden" }}>
-        <div style={{ maxWidth: 1280, margin: "0 auto" }}>
-
-          <FadeIn>
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", flexWrap: "wrap", gap: 24, marginBottom: 72 }}>
-              <div>
-                <p style={{ fontFamily: "Inter, sans-serif", fontSize: 10, letterSpacing: "0.32em", textTransform: "uppercase", color: GOLD, margin: "0 0 16px" }}>What We Do</p>
-                <h2 style={{ fontFamily: "Cormorant Garamond, serif", fontSize: "clamp(36px, 4.5vw, 60px)", fontWeight: 400, color: "white", margin: 0, lineHeight: 1.05 }}>Our Services</h2>
-              </div>
-              <Link to="/services" style={{ textDecoration: "none", fontFamily: "Inter, sans-serif", fontSize: 10, letterSpacing: "0.22em", textTransform: "uppercase", color: GOLD, borderBottom: `1px solid ${GOLD}`, paddingBottom: 4 }}>All Services →</Link>
-            </div>
-          </FadeIn>
-
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 2 }}>
-            {SERVICES.map((s, i) => (
-              <FadeIn key={s.num} delay={i * 0.1}>
-                <DynamicServiceCard service={s} index={i} />
-              </FadeIn>
-            ))}
-          </div>
-
-        </div>
-      </section>
-
-      {/* ════════════════════════════════════════
-          05  FEATURED PROJECTS
-      ════════════════════════════════════════ */}
-      <section style={{ padding: "100px 40px", maxWidth: 1280, margin: "0 auto" }}>
-        <FadeIn>
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", flexWrap: "wrap", gap: 20, marginBottom: 48 }}>
-            <div>
-              <p style={{
-                fontFamily: "Inter, sans-serif",
-                fontSize: 10, letterSpacing: "0.28em",
-                textTransform: "uppercase",
-                color: GOLD, margin: "0 0 16px",
-              }}>Selected Works</p>
-              <h2 style={{
-                fontFamily: "Cormorant Garamond, serif",
-                fontSize: "clamp(32px, 4vw, 52px)",
-                fontWeight: 400, color: NAVY,
-                margin: 0,
-              }}>Featured Projects</h2>
-            </div>
-            <Link to="/portfolio" style={{
-              textDecoration: "none",
-              fontFamily: "Inter, sans-serif",
-              fontSize: 10, letterSpacing: "0.22em",
-              textTransform: "uppercase",
-              color: NAVY,
-              borderBottom: `1px solid ${GOLD}`,
-              paddingBottom: 4,
-            }}>View All →</Link>
-          </div>
-        </FadeIn>
-
-        {/* Bento grid: 1 large left + 3 right */}
-        <div style={{
-          display: "grid",
-          gridTemplateColumns: "1fr 1fr",
-          gridTemplateRows: "auto auto",
-          gap: 20,
-        }}>
-          <div style={{ gridRow: "span 2" }}>
-            <FadeIn><FeaturedCard project={FEATURED[0]} index={0} /></FadeIn>
-          </div>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20 }}>
-            {FEATURED.slice(1).map((p, i) => (
-              <FadeIn key={p.id} delay={(i + 1) * 0.08}>
-                <FeaturedCard project={p} index={1} />
-              </FadeIn>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ════════════════════════════════════════
-    06  PROCESS
-════════════════════════════════════════ */}
-      <section style={{ background: BG, padding: "110px 40px", overflow: "hidden" }}>
-        <div style={{ maxWidth: 1280, margin: "0 auto" }}>
-
-          <FadeIn>
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", flexWrap: "wrap", gap: 24, marginBottom: 80 }}>
-              <div>
-                <p style={{ fontFamily: "Inter, sans-serif", fontSize: 10, letterSpacing: "0.32em", textTransform: "uppercase", color: GOLD, margin: "0 0 16px" }}>How We Work</p>
-                <h2 style={{ fontFamily: "Cormorant Garamond, serif", fontSize: "clamp(36px, 4.5vw, 60px)", fontWeight: 400, color: NAVY, margin: 0, lineHeight: 1.05 }}>Our Process</h2>
-              </div>
-              <div>
-                <p style={{ fontFamily: "Inter, sans-serif", fontSize: 13, lineHeight: 1.8, color: "#6B7280", maxWidth: 380, margin: 0 }}>
-                  A structured, transparent approach — from first conversation to final handover.
-                </p>
-              </div>
-            </div>
-          </FadeIn>
-
-          {/* Cards grid */}
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 16 }}>
-            {[
-              { step: "01", title: "Discovery", desc: "We listen and deeply understand your vision, lifestyle, and goals.", icon: "🔍" },
-              { step: "02", title: "Concept", desc: "Mood boards, space plans, and material palettes — all tailored to your brief.", icon: "✏️" },
-              { step: "03", title: "Design", desc: "Detailed drawings, 3D visuals, and full specification documents.", icon: "📐" },
-              { step: "04", title: "Execution", desc: "On-site management, quality control, and milestone-based delivery.", icon: "🏗️" },
-              { step: "05", title: "Handover", desc: "Final walkthrough, punch list sign-off, and after-care support.", icon: "🔑" },
-            ].map((p, i) => (
-              <FadeIn key={p.step} delay={i * 0.1}>
-                <ProcessCard step={p} index={i} />
-              </FadeIn>
-            ))}
-          </div>
-
-        </div>
-      </section>
-
-      {/* ════════════════════════════════════════
-          07  TESTIMONIALS
-      ════════════════════════════════════════ */}
-      <section style={{ padding: "100px 40px", background: BG }}>
-        <div style={{ maxWidth: 860, margin: "0 auto", textAlign: "center" }}>
-          <FadeIn>
-            <p style={{
-              fontFamily: "Inter, sans-serif",
-              fontSize: 10, letterSpacing: "0.28em",
-              textTransform: "uppercase",
-              color: GOLD, margin: "0 0 16px",
-            }}>Client Voices</p>
-            <h2 style={{
-              fontFamily: "Cormorant Garamond, serif",
-              fontSize: "clamp(28px, 3.5vw, 44px)",
-              fontWeight: 400, color: NAVY,
-              margin: "0 0 56px",
-            }}>What Our Clients Say</h2>
-          </FadeIn>
-
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={testimonialIdx}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
-            >
-              <p style={{
-                fontFamily: "Cormorant Garamond, serif",
-                fontSize: "clamp(20px, 2.5vw, 28px)",
-                fontStyle: "italic", fontWeight: 400,
-                color: NAVY, lineHeight: 1.65,
-                margin: "0 0 32px",
-              }}>
-                "{TESTIMONIALS[testimonialIdx].quote}"
-              </p>
-              <div style={{ width: 32, height: 1, background: GOLD, margin: "0 auto 20px" }} />
-              <p style={{
-                fontFamily: "Inter, sans-serif",
-                fontSize: 12, fontWeight: 500,
-                letterSpacing: "0.06em",
-                color: NAVY, margin: "0 0 4px",
-              }}>{TESTIMONIALS[testimonialIdx].name}</p>
-              <p style={{
-                fontFamily: "Inter, sans-serif",
-                fontSize: 10, letterSpacing: "0.12em",
-                textTransform: "uppercase",
-                color: "#6B7280", margin: 0,
-              }}>{TESTIMONIALS[testimonialIdx].project}</p>
-            </motion.div>
-          </AnimatePresence>
-
-          {/* Dots */}
-          <div style={{ display: "flex", justifyContent: "center", gap: 10, marginTop: 40 }}>
-            {TESTIMONIALS.map((_, i) => (
-              <button
-                key={i}
-                onClick={() => setTestimonialIdx(i)}
-                style={{
-                  width: i === testimonialIdx ? 24 : 8, height: 2,
-                  background: i === testimonialIdx ? GOLD : "rgba(47,49,66,0.2)",
-                  border: "none", cursor: "pointer", padding: 0,
-                  transition: "all 0.3s ease",
-                }}
-              />
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ════════════════════════════════════════
-          08  CTA BANNER
-      ════════════════════════════════════════ */}
-      <section style={{ position: "relative", overflow: "hidden" }}>
-        <div style={{
-          position: "absolute", inset: 0,
-          backgroundImage: "url(https://picsum.photos/seed/interior-cta/1920/600)",
-          backgroundSize: "cover", backgroundPosition: "center",
-          filter: "brightness(0.3)",
-        }} />
-        <div style={{
-          position: "relative", zIndex: 1,
-          maxWidth: 1280, margin: "0 auto",
-          padding: "100px 40px",
-          display: "flex", justifyContent: "space-between",
-          alignItems: "center", flexWrap: "wrap", gap: 40,
-        }}>
-          <FadeIn>
-            <p style={{
-              fontFamily: "Inter, sans-serif",
-              fontSize: 10, letterSpacing: "0.28em",
-              textTransform: "uppercase",
-              color: GOLD, margin: "0 0 16px",
-            }}>Ready to Begin?</p>
-            <h2 style={{
-              fontFamily: "Cormorant Garamond, serif",
-              fontSize: "clamp(32px, 4.5vw, 64px)",
-              fontWeight: 400, color: "white",
-              margin: 0, lineHeight: 1.05,
-            }}>
-              Let's Create Your<br />
-              <em style={{ color: GOLD, fontStyle: "italic" }}>Dream Space</em>
-            </h2>
-          </FadeIn>
-          <FadeIn delay={0.15}>
-            <div style={{ display: "flex", gap: 16, flexWrap: "wrap" }}>
-              <Link to="/contact" style={{
-                textDecoration: "none",
-                background: GOLD, color: "white",
-                padding: "16px 40px",
-                fontFamily: "Inter, sans-serif",
-                fontSize: 10, letterSpacing: "0.26em",
-                textTransform: "uppercase",
-              }}>Start a Project</Link>
-              <Link to="/portfolio" style={{
-                textDecoration: "none",
-                border: "1px solid rgba(255,255,255,0.45)",
-                color: "white",
-                padding: "16px 40px",
-                fontFamily: "Inter, sans-serif",
-                fontSize: 10, letterSpacing: "0.26em",
-                textTransform: "uppercase",
-              }}>View Portfolio</Link>
-            </div>
-          </FadeIn>
-        </div>
-      </section>
-
+      {/* ═════ Let's Connect — uniform site-wide CTA ═════ */}
+      <ConnectCTA />
     </div>
   );
 }
 
-/* ── Service card (inside dark bg) ─────────────── */
-function DynamicServiceCard({ service, index }) {
-  const [hovered, setHovered] = useState(false);
-
-  return (
-    <div
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-      style={{
-        position: "relative",
-        height: 440,
-        overflow: "hidden",
-        cursor: "pointer",
-        background: "#141520",
-      }}
-    >
-      {/* Full background image — always visible, dims on idle */}
-      <img
-        src={`https://picsum.photos/seed/${service.seed}/600/800`}
-        alt={service.title}
-        loading="lazy"
-        width={600} height={800}
-        style={{
-          position: "absolute", inset: 0,
-          width: "100%", height: "100%",
-          objectFit: "cover",
-          transform: hovered ? "scale(1.08)" : "scale(1.02)",
-          transition: "transform 0.8s cubic-bezier(0.22,1,0.36,1)",
-          filter: hovered ? "brightness(0.45)" : "brightness(0.2)",
-          transition: "transform 0.8s cubic-bezier(0.22,1,0.36,1), filter 0.6s ease",
-        }}
-      />
-
-      {/* Gradient wash — stronger at bottom */}
-      <div style={{
-        position: "absolute", inset: 0,
-        background: `linear-gradient(to top, rgba(14,15,26,0.97) 0%, rgba(14,15,26,0.4) 50%, transparent 100%)`,
-      }} />
-
-      {/* Left accent line */}
-      <div style={{
-        position: "absolute", left: 0, top: 0, bottom: 0,
-        width: 3,
-        background: hovered ? service.accent : "transparent",
-        transition: "background 0.4s ease",
-      }} />
-
-      {/* Number — top right, large ghost */}
-      <div style={{
-        position: "absolute", top: 20, right: 24,
-        fontFamily: "Cormorant Garamond, serif",
-        fontSize: 100, fontWeight: 300, lineHeight: 1,
-        color: hovered ? `${service.accent}30` : "rgba(255,255,255,0.06)",
-        transition: "color 0.45s ease",
-        userSelect: "none",
-        pointerEvents: "none",
-      }}>{service.num}</div>
-
-      {/* Main content */}
-      <div style={{
-        position: "absolute", inset: 0,
-        padding: "36px 30px",
-        display: "flex", flexDirection: "column",
-        justifyContent: "flex-end",
-      }}>
-
-        {/* Title */}
-        <p style={{
-          fontFamily: "Cormorant Garamond, serif",
-          fontSize: 30, fontWeight: 500,
-          color: "white", margin: "0 0 14px", lineHeight: 1.15,
-          textShadow: "0 2px 12px rgba(0,0,0,0.5)",
-        }}>{service.title}</p>
-
-        {/* Divider line */}
-        <div style={{
-          width: hovered ? 48 : 24, height: 1,
-          background: service.accent,
-          marginBottom: 16,
-          transition: "width 0.4s ease",
-        }} />
-
-        {/* Description */}
-        <p style={{
-          fontFamily: "Inter, sans-serif",
-          fontSize: 12.5, lineHeight: 1.8,
-          color: hovered ? "rgba(255,255,255,0.85)" : "rgba(255,255,255,0.45)",
-          margin: "0 0 24px",
-          transition: "color 0.4s ease",
-          maxWidth: "90%",
-        }}>{service.desc}</p>
-
-        {/* CTA row */}
-        <div style={{
-          display: "flex", alignItems: "center", gap: 12,
-          opacity: hovered ? 1 : 0,
-          transform: hovered ? "translateY(0)" : "translateY(12px)",
-          transition: "all 0.4s ease 0.06s",
-        }}>
-          <span style={{
-            fontFamily: "Inter, sans-serif",
-            fontSize: 9, letterSpacing: "0.24em",
-            textTransform: "uppercase",
-            color: service.accent,
-          }}>Explore</span>
-          <div style={{ flex: 1, height: 1, background: `${service.accent}60` }} />
-          <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
-            <circle cx="11" cy="11" r="10" stroke={service.accent} strokeWidth="1" />
-            <path d="M7 11h8M12 8l3 3-3 3" stroke={service.accent} strokeWidth="1.2" strokeLinecap="square" />
-          </svg>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function ProcessCard({ step, index }) {
-  const [hovered, setHovered] = useState(false);
-
-  const CARD_COLORS = [
-    { bg: "#2F3142", text: "white", accent: GOLD },
-    { bg: "white", text: NAVY, accent: GOLD },
-    { bg: GOLD, text: "white", accent: NAVY },
-    { bg: "white", text: NAVY, accent: GOLD },
-    { bg: "#2F3142", text: "white", accent: GOLD },
-  ];
-
-  const { bg, text, accent } = CARD_COLORS[index];
-
-  return (
-    <div
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-      style={{
-        background: bg,
-        padding: "40px 28px",
-        position: "relative",
-        overflow: "hidden",
-        height: 320,
-        display: "flex", flexDirection: "column",
-        justifyContent: "space-between",
-        boxShadow: hovered
-          ? "0 20px 48px rgba(47,49,66,0.18)"
-          : "0 4px 16px rgba(47,49,66,0.06)",
-        transform: hovered ? "translateY(-8px)" : "translateY(0)",
-        transition: "transform 0.4s cubic-bezier(0.22,1,0.36,1), box-shadow 0.4s ease",
-        cursor: "default",
-      }}
-    >
-      {/* Ghost big number — background */}
-      <span style={{
-        position: "absolute", bottom: -16, right: 12,
-        fontFamily: "Cormorant Garamond, serif",
-        fontSize: 120, fontWeight: 300, lineHeight: 1,
-        color: index === 2
-          ? "rgba(47,49,66,0.12)"
-          : bg === "white"
-            ? "rgba(47,49,66,0.06)"
-            : "rgba(255,255,255,0.06)",
-        userSelect: "none", pointerEvents: "none",
-      }}>{step.step}</span>
-
-      {/* Top: step number + connector dot */}
-      <div>
-        <div style={{
-          display: "flex", alignItems: "center", gap: 12, marginBottom: 24,
-        }}>
-          <div style={{
-            width: 10, height: 10, borderRadius: "50%",
-            background: hovered ? accent : "transparent",
-            border: `1.5px solid ${accent}`,
-            flexShrink: 0,
-            transition: "background 0.35s ease",
-          }} />
-          {index < 4 && (
-            <div style={{ flex: 1, height: 1, background: `${accent}30` }} />
-          )}
-        </div>
-
-        {/* Icon */}
-        <div style={{
-          fontSize: 28, marginBottom: 14,
-          transform: hovered ? "scale(1.2) rotate(-5deg)" : "scale(1) rotate(0deg)",
-          transition: "transform 0.4s cubic-bezier(0.22,1,0.36,1)",
-          display: "inline-block",
-        }}>{step.icon}</div>
-
-        {/* Title */}
-        <p style={{
-          fontFamily: "Cormorant Garamond, serif",
-          fontSize: 24, fontWeight: 500,
-          color: text, margin: "0 0 10px", lineHeight: 1.2,
-        }}>{step.title}</p>
-
-        {/* Divider */}
-        <div style={{
-          width: hovered ? 36 : 20, height: 1.5,
-          background: accent, marginBottom: 12,
-          transition: "width 0.4s ease",
-        }} />
-
-        {/* Description */}
-        <p style={{
-          fontFamily: "Inter, sans-serif",
-          fontSize: 12, lineHeight: 1.75,
-          color: text === "white" ? "rgba(255,255,255,0.65)" : "#6B7280",
-          margin: 0,
-        }}>{step.desc}</p>
-      </div>
-    </div>
-  );
+/* Preload first scene image for a fast cinematic start */
+if (typeof document !== "undefined" && !document.getElementById("__cc_scene_preload")) {
+  const link = document.createElement("link");
+  link.id = "__cc_scene_preload";
+  link.rel = "preload";
+  link.as = "image";
+  link.href = "/images/brand/doc-image-3.jpg";
+  document.head.appendChild(link);
 }

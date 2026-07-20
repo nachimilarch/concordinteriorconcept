@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 export default function ProjectCard({ project }) {
     const imgSrc = project.cover_image
-        ? `${import.meta.env.VITE_API_URL}/uploads/${project.cover_image}`
+        ? `/uploads/${project.cover_image}`
         : "/placeholder.jpg";
 
     return (
