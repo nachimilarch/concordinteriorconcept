@@ -35,7 +35,7 @@
 | Smooth scroll | Lenis (lerp 0.09, synced with GSAP ticker) |
 | Backend | Express.js (port 3000 / 5000) |
 | Database | MySQL — database: `concorde_db` |
-| Auth | JWT (`concorde_super_secret_2026`) |
+| Auth | JWT (secret stored in `server/.env`) |
 | Image upload | Multer → `server/uploads/` |
 
 ---
@@ -436,15 +436,15 @@ git push origin main
 ### Server setup requirements
 
 - Node.js 18+
-- MySQL database `concorde_db` with user `root` / `Chintu@Milarch@2500`
+- MySQL database `concorde_db` (credentials in `server/.env`)
 - `server/.env` with:
   ```
   PORT=3000
   DB_HOST=localhost
-  DB_USER=root
-  DB_PASSWORD=Chintu@Milarch@2500
+  DB_USER=<db-user>
+  DB_PASS=<db-password>
   DB_NAME=concorde_db
-  JWT_SECRET=concorde_super_secret_2026
+  JWT_SECRET=<your-secret>
   CLIENT_URL=https://your-production-domain.com
   ```
 - `cd server && npm install && node seeds/seedContent.js`
