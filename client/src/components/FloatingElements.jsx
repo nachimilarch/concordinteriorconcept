@@ -137,26 +137,26 @@ const Icon = {
 
 /* ── Element definitions: position (%), size, color, opacity, animation ── */
 const ELEMENTS = [
-  { icon: "compass",    x:  6, y: 12, size: 68, color: AMBER,  opacity: 0.10, anim: "spin",        dur: 42, delay:  0 },
-  { icon: "arch",       x: 87, y: 20, size: 54, color: FOREST, opacity: 0.09, anim: "float",       dur: 18, delay:  3 },
-  { icon: "floorplan",  x: 14, y: 52, size: 58, color: AMBER,  opacity: 0.08, anim: "drift",       dur: 24, delay:  7 },
-  { icon: "column",     x: 74, y: 68, size: 46, color: FOREST, opacity: 0.09, anim: "float",       dur: 20, delay:  1 },
-  { icon: "setsquare",  x: 44, y:  8, size: 50, color: AMBER,  opacity: 0.07, anim: "spinRev",     dur: 36, delay:  9 },
-  { icon: "circleplan", x: 91, y: 48, size: 74, color: AMBER,  opacity: 0.09, anim: "spin",        dur: 32, delay:  4 },
-  { icon: "ruler",      x: 28, y: 80, size: 62, color: FOREST, opacity: 0.07, anim: "drift",       dur: 26, delay: 13 },
-  { icon: "facade",     x: 58, y: 33, size: 56, color: FOREST, opacity: 0.08, anim: "float",       dur: 16, delay:  2 },
-  { icon: "leaf",       x:  4, y: 83, size: 44, color: FOREST, opacity: 0.11, anim: "float",       dur: 14, delay:  8 },
-  { icon: "doorswing",  x: 50, y: 58, size: 48, color: AMBER,  opacity: 0.07, anim: "drift",       dur: 29, delay:  5 },
-  { icon: "staircase",  x: 77, y: 10, size: 52, color: AMBER,  opacity: 0.08, anim: "drift",       dur: 22, delay: 10 },
-  { icon: "spiral",     x: 21, y: 32, size: 60, color: FOREST, opacity: 0.07, anim: "spinRev",     dur: 48, delay: 12 },
-  { icon: "grid",       x: 67, y: 83, size: 64, color: AMBER,  opacity: 0.06, anim: "drift",       dur: 32, delay:  3 },
-  { icon: "chair",      x: 37, y: 22, size: 46, color: FOREST, opacity: 0.09, anim: "float",       dur: 19, delay: 15 },
-  { icon: "lightbulb",  x: 83, y: 58, size: 50, color: AMBER,  opacity: 0.08, anim: "float",       dur: 22, delay:  6 },
-  { icon: "compass",    x: 52, y: 87, size: 42, color: FOREST, opacity: 0.07, anim: "spinRev",     dur: 55, delay: 11 },
-  { icon: "arch",       x: 11, y:  8, size: 46, color: AMBER,  opacity: 0.08, anim: "float",       dur: 23, delay: 17 },
-  { icon: "floorplan",  x: 32, y: 66, size: 50, color: AMBER,  opacity: 0.07, anim: "drift",       dur: 28, delay:  8 },
-  { icon: "setsquare",  x: 95, y: 78, size: 40, color: FOREST, opacity: 0.08, anim: "spin",        dur: 34, delay: 14 },
-  { icon: "circleplan", x: 20, y: 58, size: 58, color: AMBER,  opacity: 0.07, anim: "spin",        dur: 40, delay:  6 },
+  { icon: "compass",    x:  6, y: 12, size: 72, color: AMBER,  opacity: 0.14, anim: "spin",    dur: 42, delay:  0 },
+  { icon: "arch",       x: 87, y: 20, size: 58, color: FOREST, opacity: 0.13, anim: "float",   dur: 18, delay:  3 },
+  { icon: "floorplan",  x: 14, y: 52, size: 62, color: AMBER,  opacity: 0.11, anim: "drift",   dur: 24, delay:  7 },
+  { icon: "column",     x: 74, y: 68, size: 50, color: FOREST, opacity: 0.13, anim: "float",   dur: 20, delay:  1 },
+  { icon: "setsquare",  x: 44, y:  8, size: 54, color: AMBER,  opacity: 0.10, anim: "spinRev", dur: 36, delay:  9 },
+  { icon: "circleplan", x: 91, y: 48, size: 80, color: AMBER,  opacity: 0.12, anim: "spin",    dur: 32, delay:  4 },
+  { icon: "ruler",      x: 28, y: 80, size: 66, color: FOREST, opacity: 0.10, anim: "drift",   dur: 26, delay: 13 },
+  { icon: "facade",     x: 58, y: 33, size: 60, color: FOREST, opacity: 0.11, anim: "float",   dur: 16, delay:  2 },
+  { icon: "leaf",       x:  4, y: 83, size: 48, color: FOREST, opacity: 0.14, anim: "float",   dur: 14, delay:  8 },
+  { icon: "doorswing",  x: 50, y: 58, size: 52, color: AMBER,  opacity: 0.10, anim: "drift",   dur: 29, delay:  5 },
+  { icon: "staircase",  x: 77, y: 10, size: 56, color: AMBER,  opacity: 0.11, anim: "drift",   dur: 22, delay: 10 },
+  { icon: "spiral",     x: 21, y: 32, size: 64, color: FOREST, opacity: 0.10, anim: "spinRev", dur: 48, delay: 12 },
+  { icon: "grid",       x: 67, y: 83, size: 68, color: AMBER,  opacity: 0.09, anim: "drift",   dur: 32, delay:  3 },
+  { icon: "chair",      x: 37, y: 22, size: 50, color: FOREST, opacity: 0.12, anim: "float",   dur: 19, delay: 15 },
+  { icon: "lightbulb",  x: 83, y: 58, size: 54, color: AMBER,  opacity: 0.11, anim: "float",   dur: 22, delay:  6 },
+  { icon: "compass",    x: 52, y: 87, size: 46, color: FOREST, opacity: 0.10, anim: "spinRev", dur: 55, delay: 11 },
+  { icon: "arch",       x: 11, y:  8, size: 50, color: AMBER,  opacity: 0.11, anim: "float",   dur: 23, delay: 17 },
+  { icon: "floorplan",  x: 32, y: 66, size: 54, color: AMBER,  opacity: 0.10, anim: "drift",   dur: 28, delay:  8 },
+  { icon: "setsquare",  x: 95, y: 78, size: 44, color: FOREST, opacity: 0.11, anim: "spin",    dur: 34, delay: 14 },
+  { icon: "circleplan", x: 20, y: 58, size: 62, color: AMBER,  opacity: 0.10, anim: "spin",    dur: 40, delay:  6 },
 ];
 
 const ANIM_MAP = {
@@ -197,7 +197,7 @@ export default function FloatingElements() {
       <div aria-hidden style={{
         position: "fixed", inset: 0,
         pointerEvents: "none",
-        zIndex: 0,
+        zIndex: 1,
         overflow: "hidden",
       }}>
         {ELEMENTS.map((el, i) => (
