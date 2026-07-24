@@ -32,34 +32,28 @@ function FadeIn({ children, delay = 0 }) {
 export default function ConnectCTA() {
   return (
     <section style={{
-      background: FOREST_DEEP,
-      padding: "140px 40px",
       position: "relative",
+      padding: "140px 40px",
       overflow: "hidden",
     }}>
-      {/* Editorial hairlines top and bottom */}
-      <div style={{ position: "absolute", top: 36, left: 40, right: 40, borderTop: "1px solid rgba(251,179,22,0.3)" }} />
-      <div style={{ position: "absolute", bottom: 36, left: 40, right: 40, borderTop: "1px solid rgba(251,179,22,0.3)" }} />
+      {/* Background image */}
+      <div style={{
+        position: "absolute", inset: 0,
+        backgroundImage: "url('/images/brand/cta-bg.jpg')",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundAttachment: "fixed",
+      }} />
 
-      {/* Faint compass arc motif */}
-      <svg
-        aria-hidden
-        viewBox="0 0 600 600"
-        style={{
-          position: "absolute", right: -160, top: "50%",
-          transform: "translateY(-50%)",
-          width: 560, height: 560,
-          opacity: 0.07, pointerEvents: "none",
-        }}
-      >
-        <g stroke={BEIGE_LIGHT} strokeWidth="1" fill="none">
-          <circle cx="300" cy="300" r="280" />
-          <circle cx="300" cy="300" r="210" />
-          <circle cx="300" cy="300" r="140" />
-          <path d="M300 20 L300 580 M20 300 L580 300" />
-          <path d="M100 100 L500 500 M500 100 L100 500" />
-        </g>
-      </svg>
+      {/* Dark overlay for legibility */}
+      <div style={{
+        position: "absolute", inset: 0,
+        background: "linear-gradient(135deg, rgba(24,24,21,0.82) 0%, rgba(28,51,42,0.78) 100%)",
+      }} />
+
+      {/* Editorial hairlines top and bottom */}
+      <div style={{ position: "absolute", top: 36, left: 40, right: 40, borderTop: "1px solid rgba(251,179,22,0.3)", zIndex: 1 }} />
+      <div style={{ position: "absolute", bottom: 36, left: 40, right: 40, borderTop: "1px solid rgba(251,179,22,0.3)", zIndex: 1 }} />
 
       <div style={{
         maxWidth: 960, margin: "0 auto", textAlign: "center",
