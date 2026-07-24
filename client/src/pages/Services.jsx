@@ -149,7 +149,7 @@ const PROCESS = [
   { step: "02", title: "Design", desc: "Developing intelligent concepts rooted in functionality and aesthetics." },
   { step: "03", title: "Develop", desc: "Technical planning, engineering coordination and execution strategy." },
   { step: "04", title: "Deliver", desc: "Construction, interiors and landscape implementation with precision." },
-  { step: "05", title: "Evolve", desc: "Long-term support for future growth and adaptability." },
+  { step: "05", title: "Delight", desc: "Long-term support for future growth and adaptability." },
 ];
 
 /* ── FAQ data ────────────────────────────────── */
@@ -641,8 +641,9 @@ export default function Services() {
           <FadeIn>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", flexWrap: "wrap", gap: 24, marginBottom: 64 }}>
               <div>
-                <p className="chapter-label" style={{ margin: "0 0 14px" }}>How We Work</p>
-                <h2 style={{ fontFamily: "Cormorant Garamond, serif", fontSize: "clamp(30px, 4vw, 48px)", fontWeight: 400, color: NAVY, margin: 0 }}>The Concord Approach</h2>
+                <p className="chapter-label" style={{ margin: "0 0 14px" }}>Our Methodology</p>
+                <h2 style={{ fontFamily: "Cormorant Garamond, serif", fontSize: "clamp(30px, 4vw, 48px)", fontWeight: 400, color: NAVY, margin: "0 0 14px" }}>The Concord <em style={{ fontStyle: "italic", color: "#2C4A3B" }}>5D Approach</em></h2>
+                <p style={{ fontFamily: "Inter, sans-serif", fontSize: 10, letterSpacing: "0.24em", textTransform: "uppercase", color: "rgba(24,24,21,0.4)", margin: 0 }}>Discover &nbsp;·&nbsp; Design &nbsp;·&nbsp; Develop &nbsp;·&nbsp; Deliver &nbsp;·&nbsp; Delight</p>
               </div>
               <Link to="/contact" style={{
                 textDecoration: "none", fontFamily: "Inter, sans-serif",
