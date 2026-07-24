@@ -93,7 +93,7 @@ const APPROACH = [
   { step: "02", title: "Design", desc: "Developing intelligent concepts rooted in functionality and aesthetics." },
   { step: "03", title: "Develop", desc: "Technical planning, engineering coordination and execution strategy." },
   { step: "04", title: "Deliver", desc: "Construction, interiors and landscape implementation with precision." },
-  { step: "05", title: "Evolve", desc: "Long-term support for future growth and adaptability." },
+  { step: "05", title: "Delight", desc: "Long-term support for future growth and adaptability." },
 ];
 
 /* ── Why Concord — verbatim from the content doc ── */
