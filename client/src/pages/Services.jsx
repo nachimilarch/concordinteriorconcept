@@ -162,6 +162,14 @@ const FAQS = [
   { q: "Do you offer post-project support?", a: "Yes. All completed projects come with a 90-day after-care period where we address any snags, touch-ups, or concerns at no additional charge." },
 ];
 
+const WHY_CIC_FAQS = [
+  { q: "Why choose Concord Interior Concepts?", a: "We offer full-spectrum services — architecture, interiors, construction, landscape and consultancy — under a single roof. You work with one team from concept to completion, so design intent is never lost in translation." },
+  { q: "What makes CIC different from other design firms?", a: "Our 5D Approach — Discover, Design, Develop, Deliver, Delight — ensures every project is handled with the same rigour from the first brief to long-term aftercare. We don't just design spaces; we build lasting relationships." },
+  { q: "Do you manage the entire project or just the design?", a: "We are a true turnkey firm. Whether you need a concept plan alone or complete end-to-end execution — architecture, construction, interiors, landscape and smart integration — we manage it all under one agreement." },
+  { q: "Is CIC suited for small homes or only large developments?", a: "Both. We work with homeowners on single-room transformations and with developers on large-scale residential and commercial projects. Our process scales precisely to the scope of your ambition." },
+  { q: "How does CIC approach sustainability?", a: "Sustainability is built into our design philosophy — not added as an afterthought. Every project considers climate-responsive design, natural ventilation, energy efficiency, water conservation, and long-life material selection." },
+];
+
 /* ── Service card (large expandable) ────────── */
 function ServiceBlock({ service, index }) {
   const [open, setOpen] = useState(index === 0);
@@ -702,6 +710,25 @@ export default function Services() {
             </div>
           </FadeIn>
           {FAQS.map((faq, i) => (
+            <FadeIn key={i} delay={i * 0.05}>
+              <FAQItem faq={faq} index={i} />
+            </FadeIn>
+          ))}
+
+          {/* ── Why CIC? ── */}
+          <FadeIn>
+            <div style={{ display: "flex", alignItems: "center", gap: 20, margin: "72px 0 40px" }}>
+              <div style={{ flex: 1, height: 1, background: "rgba(24,24,21,0.1)" }} />
+              <div style={{ textAlign: "center" }}>
+                <p style={{ fontFamily: "Cormorant Garamond, serif", fontSize: "clamp(22px, 3vw, 32px)", fontWeight: 400, color: NAVY, margin: "0 0 4px" }}>
+                  Why <em style={{ fontStyle: "italic", color: PORTFOLIO_RED }}>CIC?</em>
+                </p>
+                <p style={{ fontFamily: "Inter, sans-serif", fontSize: 10, letterSpacing: "0.22em", textTransform: "uppercase", color: "rgba(24,24,21,0.45)", margin: 0 }}>Concord Interior Concepts</p>
+              </div>
+              <div style={{ flex: 1, height: 1, background: "rgba(24,24,21,0.1)" }} />
+            </div>
+          </FadeIn>
+          {WHY_CIC_FAQS.map((faq, i) => (
             <FadeIn key={i} delay={i * 0.05}>
               <FAQItem faq={faq} index={i} />
             </FadeIn>
