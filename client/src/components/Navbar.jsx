@@ -8,7 +8,6 @@ const NAV_LINKS = [
   { to: "/portfolio", label: "Portfolio" },
   { to: "/services", label: "Services" },
   { to: "/about", label: "About" },
-  { to: "/contact", label: "Contact" },
 ];
 
 const INK = "#181815";

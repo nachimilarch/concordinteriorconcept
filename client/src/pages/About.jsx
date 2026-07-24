@@ -5,7 +5,7 @@ import CountUp from "react-countup";
 import { useInView as useInViewObs } from "react-intersection-observer";
 import api from "../api/axios";
 import ConnectCTA from "../components/ConnectCTA";
-import { PaintBrush } from "../components/AnimatedAccents";
+import { PaintBrush, ArchFrame, FloatingOrbs, TurningSquares, GrowingVines } from "../components/AnimatedAccents";
 
 const NAVY = "#22221E";
 const GOLD = "#FBB316";
@@ -195,7 +195,9 @@ export default function About() {
       </section>
 
       {/* ── Section 2: Brand Story (PDF chapter style) ────────────── */}
-      <section className="paper-bg" style={{ padding: "100px 40px" }}>
+      <section className="paper-bg" style={{ padding: "100px 40px", position: "relative", overflow: "hidden" }}>
+        {/* Arch frame — animated corner bracket accents */}
+        <ArchFrame style={{ position: "absolute", right: -20, top: 30, opacity: 0.72 }} />
        <div style={{ maxWidth: 1280, margin: "0 auto" }}>
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 80, alignItems: "center" }}>
           <FadeIn>
@@ -243,14 +245,18 @@ export default function About() {
       </section>
 
       {/* ── Stats ────────────────────────────── */}
-      <section style={{ background: NAVY }}>
-        <div style={{ maxWidth: 1280, margin: "0 auto" }}>
+      <section style={{ background: NAVY, position: "relative", overflow: "hidden" }}>
+        {/* Floating orbs — glowing gradient bubbles drifting on dark bg */}
+        <FloatingOrbs style={{ position: "absolute", right: -20, bottom: -60, opacity: 0.55 }} />
+        <div style={{ maxWidth: 1280, margin: "0 auto", position: "relative", zIndex: 1 }}>
           <StatsCounter stats={stats} loading={statsLoading} />
         </div>
       </section>
 
       {/* ── Our Philosophy — four pillars (from content doc) ── */}
-      <section style={{ background: "white", padding: "130px 40px" }}>
+      <section style={{ background: "white", padding: "130px 40px", position: "relative", overflow: "hidden" }}>
+        {/* Turning squares — nested rotating squares in top-right corner */}
+        <TurningSquares style={{ position: "absolute", top: -20, right: -20, opacity: 0.55 }} />
         <div style={{ maxWidth: 1280, margin: "0 auto" }}>
           <FadeIn>
             <div style={{ textAlign: "center", marginBottom: 84 }}>
@@ -297,6 +303,8 @@ export default function About() {
 
       {/* ── Sustainability (verbatim from content doc) ── */}
       <section style={{ background: "#1C332A", padding: "130px 40px", position: "relative", overflow: "hidden" }}>
+        {/* Growing vines — animated botanical stems and leaves, left edge */}
+        <GrowingVines style={{ position: "absolute", left: 0, top: 0, opacity: 0.72 }} />
         <div style={{ position: "absolute", top: 32, left: 40, right: 40, borderTop: "1px solid rgba(251,179,22,0.3)" }} />
         <div style={{ maxWidth: 1280, margin: "0 auto" }}>
           <FadeIn>

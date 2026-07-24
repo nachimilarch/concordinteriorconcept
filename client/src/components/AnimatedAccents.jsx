@@ -1,5 +1,5 @@
 /**
- * AnimatedAccents.jsx — 15 unique colorful animated decorative elements.
+ * AnimatedAccents.jsx — 19 unique colorful animated decorative elements.
  * Each export is assigned to exactly ONE section across the entire site — never repeat.
  * All animations respect prefers-reduced-motion.
  */
@@ -666,6 +666,205 @@ export function PaintBrush({ style }) {
               }}/>
           );
         })}
+      </svg>
+    </div>
+  );
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   16. ARCH FRAME  ·  About → Brand Story section (top-right corner)
+   Animated corner bracket marks with dimension lines and dot accents.
+═══════════════════════════════════════════════════════════════════ */
+export function ArchFrame({ style }) {
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: false, margin: "-60px" });
+  return (
+    <div ref={ref} aria-hidden style={{ pointerEvents: "none", ...style }}>
+      <svg width="260" height="260" viewBox="0 0 260 260" fill="none">
+        <style>{`
+          @keyframes af-l { from{stroke-dashoffset:var(--afl)} to{stroke-dashoffset:0} }
+          @keyframes af-in{ 0%{opacity:0;transform:scale(0)} 100%{opacity:1;transform:scale(1)} }
+          @keyframes af-rot{ to{transform:rotate(360deg)} }
+          ${R_PREF}{ .af-line,.af-dot,.af-cir{animation:none!important;stroke-dashoffset:0;opacity:1} }
+          .af-line{ animation:af-l 2s ease-out forwards }
+          .af-dot { animation:af-in .4s ease-out forwards }
+          .af-cir { animation:af-rot 18s linear infinite; transform-origin:130px 130px }
+        `}</style>
+        {/* Outer decorative rotating ring */}
+        <circle className="af-cir" cx="130" cy="130" r="118" stroke={AMBER} strokeWidth="1" strokeDasharray="8 12" opacity=".28"/>
+        {/* Top-left corner bracket */}
+        {inView && <>
+          <path className="af-line" d="M20 80 L20 20 L80 20" stroke={AMBER} strokeWidth="3" strokeLinecap="round" strokeDasharray="160" strokeDashoffset="160" style={{animation:"af-l 1.4s ease-out 0s forwards","--afl":160}}/>
+          {/* Bottom-right corner bracket */}
+          <path className="af-line" d="M180 240 L240 240 L240 180" stroke={CORAL} strokeWidth="3" strokeLinecap="round" strokeDasharray="160" strokeDashoffset="160" style={{animation:"af-l 1.4s ease-out .3s forwards","--afl":160}}/>
+          {/* Top-right corner bracket */}
+          <path className="af-line" d="M240 80 L240 20 L180 20" stroke={BLUE} strokeWidth="2" strokeLinecap="round" strokeDasharray="160" strokeDashoffset="160" style={{animation:"af-l 1.4s ease-out .6s forwards","--afl":160}}/>
+          {/* Bottom-left corner bracket */}
+          <path className="af-line" d="M20 180 L20 240 L80 240" stroke={JADE} strokeWidth="2" strokeLinecap="round" strokeDasharray="160" strokeDashoffset="160" style={{animation:"af-l 1.4s ease-out .9s forwards","--afl":160}}/>
+          {/* Center crosshair */}
+          <line className="af-line" x1="130" y1="100" x2="130" y2="160" stroke={AMBER} strokeWidth="1.5" strokeDasharray="60" strokeDashoffset="60" style={{animation:"af-l 1s ease-out 1.2s forwards","--afl":60}}/>
+          <line className="af-line" x1="100" y1="130" x2="160" y2="130" stroke={AMBER} strokeWidth="1.5" strokeDasharray="60" strokeDashoffset="60" style={{animation:"af-l 1s ease-out 1.4s forwards","--afl":60}}/>
+          {/* Corner dots */}
+          {[[20,20],[240,20],[240,240],[20,240]].map(([x,y],i)=>(
+            <circle key={i} className="af-dot" cx={x} cy={y} r="5" fill={[AMBER,BLUE,CORAL,JADE][i]}
+              style={{animationDelay:`${1.4+i*.12}s`,transformOrigin:`${x}px ${y}px`}}/>
+          ))}
+          <circle className="af-dot" cx="130" cy="130" r="7" fill={AMBER}
+            style={{animationDelay:"1.6s",transformOrigin:"130px 130px"}}>
+            <animate attributeName="r" values="7;10;7" dur="2.5s" repeatCount="indefinite"/>
+          </circle>
+        </>}
+      </svg>
+    </div>
+  );
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   17. FLOATING ORBS  ·  About → Stats section (dark navy)
+   Glowing gradient bubbles that drift upward in a loop.
+═══════════════════════════════════════════════════════════════════ */
+export function FloatingOrbs({ style }) {
+  const orbs = [
+    { cx:60,  cy:200, r:42, c1:AMBER,  c2:"#FEE4B0", dl:0,   dur:7  },
+    { cx:160, cy:240, r:30, c1:CORAL,  c2:"#F7C4A8", dl:1.2, dur:6  },
+    { cx:250, cy:190, r:36, c1:JADE,   c2:"#B4E4CC", dl:2.0, dur:8  },
+    { cx:100, cy:290, r:22, c1:BLUE,   c2:"#C8E8FA", dl:0.8, dur:5.5},
+    { cx:200, cy:310, r:26, c1:LAV,    c2:"#E0D8F8", dl:1.8, dur:7.5},
+    { cx:290, cy:250, r:18, c1:TERRA,  c2:"#F4C8A0", dl:2.6, dur:6.5},
+  ];
+  return (
+    <div aria-hidden style={{ pointerEvents:"none", ...style }}>
+      <svg width="340" height="340" viewBox="0 0 340 340" fill="none">
+        <defs>
+          {orbs.map((o,i)=>(
+            <radialGradient key={i} id={`fo-g${i}`} cx="38%" cy="30%" r="65%">
+              <stop offset="0%" stopColor={o.c2} stopOpacity="0.95"/>
+              <stop offset="100%" stopColor={o.c1} stopOpacity="0.7"/>
+            </radialGradient>
+          ))}
+        </defs>
+        <style>{`
+          @keyframes fo-rise{ 0%,100%{transform:translateY(0) scale(1)} 50%{transform:translateY(-28px) scale(1.06)} }
+          ${R_PREF}{ .fo-orb{animation:none!important} }
+        `}</style>
+        {orbs.map((o,i)=>(
+          <circle key={i} className="fo-orb" cx={o.cx} cy={o.cy} r={o.r}
+            fill={`url(#fo-g${i})`}
+            style={{animation:`fo-rise ${o.dur}s ease-in-out ${o.dl}s infinite`,
+              transformOrigin:`${o.cx}px ${o.cy}px`}}>
+          </circle>
+        ))}
+        {/* Soft highlight dot on each orb */}
+        {orbs.map((o,i)=>(
+          <circle key={`h${i}`} cx={o.cx-o.r*.25} cy={o.cy-o.r*.25} r={o.r*.25}
+            fill="white" opacity=".35"/>
+        ))}
+      </svg>
+    </div>
+  );
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   18. TURNING SQUARES  ·  About → Philosophy section (top-right)
+   Nested rotating squares in brand colours, each at different speeds.
+═══════════════════════════════════════════════════════════════════ */
+export function TurningSquares({ style }) {
+  const layers = [
+    { s:220, c:AMBER,  dur:28, dir:1  },
+    { s:170, c:CORAL,  dur:20, dir:-1 },
+    { s:122, c:BLUE,   dur:14, dir:1  },
+    { s: 78, c:JADE,   dur:10, dir:-1 },
+    { s: 40, c:LAV,    dur: 7, dir:1  },
+  ];
+  return (
+    <div aria-hidden style={{ pointerEvents:"none", ...style }}>
+      <svg width="240" height="240" viewBox="0 0 240 240" fill="none">
+        <style>{`
+          @keyframes ts-cw  { to{transform:rotate(360deg)}  }
+          @keyframes ts-ccw { to{transform:rotate(-360deg)} }
+          ${R_PREF}{ .ts-sq{animation:none!important} }
+        `}</style>
+        {layers.map((l,i)=>{
+          const half=l.s/2, cx=120, cy=120;
+          return (
+            <rect key={i} className="ts-sq"
+              x={cx-half} y={cy-half} width={l.s} height={l.s}
+              rx={i===0?8:4}
+              stroke={l.c} strokeWidth={i===0?2:1.5} fill="none"
+              opacity={0.55+i*.08}
+              style={{
+                animation:`${l.dir>0?"ts-cw":"ts-ccw"} ${l.dur}s linear infinite`,
+                transformOrigin:`${cx}px ${cy}px`,
+              }}/>
+          );
+        })}
+        {/* Center amber dot */}
+        <circle cx="120" cy="120" r="8" fill={AMBER} opacity=".9">
+          <animate attributeName="r" values="8;12;8" dur="3s" repeatCount="indefinite"/>
+        </circle>
+        <circle cx="120" cy="120" r="4" fill="white" opacity=".8"/>
+      </svg>
+    </div>
+  );
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   19. GROWING VINES  ·  About → Sustainability section (dark green bg)
+   Animated stem that grows upward with leaves branching outward.
+═══════════════════════════════════════════════════════════════════ */
+export function GrowingVines({ style }) {
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: false, margin: "-60px" });
+  const branches = [
+    { d:"M80 260 Q60 220 40 190", c:JADE,   dl:.8, w:2.5 },
+    { d:"M80 230 Q110 200 130 175", c:SAGE,  dl:1.1, w:2  },
+    { d:"M80 195 Q50 165 30 140",  c:JADE,   dl:1.4, w:2  },
+    { d:"M80 170 Q115 145 140 120",c:AMBER,  dl:1.7, w:2  },
+    { d:"M80 140 Q45 115 28 90",   c:SAGE,   dl:2.0, w:1.5},
+    { d:"M80 115 Q115 90 138 68",  c:JADE,   dl:2.3, w:1.5},
+    { d:"M80 88  Q50 65 35 44",    c:AMBER,  dl:2.6, w:1.5},
+  ];
+  const leaves = [
+    { cx:42, cy:190, rx:18, ry:10, rot:-30, c:JADE   },
+    { cx:128, cy:177, rx:16, ry: 9, rot: 25, c:SAGE   },
+    { cx:32, cy:140, rx:15, ry: 8, rot:-40, c:JADE   },
+    { cx:138, cy:122, rx:14, ry: 8, rot: 35, c:AMBER  },
+    { cx:30, cy: 90, rx:13, ry: 7, rot:-25, c:SAGE   },
+    { cx:136, cy: 70, rx:12, ry: 7, rot: 20, c:JADE   },
+    { cx:37, cy: 44, rx:12, ry: 6, rot:-35, c:AMBER  },
+  ];
+  return (
+    <div ref={ref} aria-hidden style={{ pointerEvents:"none", ...style }}>
+      <svg width="180" height="280" viewBox="0 0 180 280" fill="none">
+        <style>{`
+          @keyframes gv-stem{ from{stroke-dashoffset:240} to{stroke-dashoffset:0} }
+          @keyframes gv-br  { from{stroke-dashoffset:130} to{stroke-dashoffset:0} }
+          @keyframes gv-leaf{ 0%{opacity:0;transform:scale(0)} 100%{opacity:1;transform:scale(1)} }
+          @keyframes gv-sway{ 0%,100%{transform:rotate(var(--gvr))} 50%{transform:rotate(calc(var(--gvr)+8deg))} }
+          ${R_PREF}{ .gv-s,.gv-b,.gv-lf{animation:none!important;stroke-dashoffset:0;opacity:1} }
+          .gv-s { stroke-dasharray:240; animation:gv-stem 2s ease-out forwards }
+          .gv-b { stroke-dasharray:130; animation:gv-br 1.2s ease-out forwards }
+        `}</style>
+        {/* Main stem */}
+        {inView && <>
+          <path className="gv-s" d="M80 270 Q78 200 80 20" stroke={JADE} strokeWidth="4" strokeLinecap="round"/>
+          {/* Branches */}
+          {branches.map((b,i)=>(
+            <path key={i} className="gv-b" d={b.d} stroke={b.c} strokeWidth={b.w} strokeLinecap="round"
+              strokeDashoffset="130" style={{animation:`gv-br 1.2s ease-out ${b.dl}s forwards`}}/>
+          ))}
+          {/* Leaves */}
+          {leaves.map((l,i)=>(
+            <ellipse key={i} className="gv-lf" cx={l.cx} cy={l.cy} rx={l.rx} ry={l.ry}
+              fill={l.c} opacity=".82"
+              transform={`rotate(${l.rot} ${l.cx} ${l.cy})`}
+              style={{opacity:0,animation:`gv-leaf .5s ease-out ${.8+i*.28+.6}s forwards, gv-sway ${3+i*.3}s ease-in-out ${1.2+i*.28}s infinite`,"--gvr":`${l.rot}deg`,transformOrigin:`${l.cx}px ${l.cy}px`}}/>
+          ))}
+          {/* Tip bud */}
+          <circle cx="80" cy="18" r="8" fill={AMBER} opacity=".9" style={{opacity:inView?1:0,transition:"opacity .4s 2.8s"}}>
+            <animate attributeName="r" values="8;11;8" dur="2s" repeatCount="indefinite"/>
+          </circle>
+        </>}
       </svg>
     </div>
   );
