@@ -87,7 +87,7 @@ const INTERIOR_PORTRAITS = [
   { src: "/images/interiors/IMG20230301114229.jpg", caption: "Turnkey Delivery", note: "Design through final styling" },
 ];
 
-/* ── The Concord Approach (from content doc) ── */
+/* ── The Concord 5D Approach ── */
 const APPROACH = [
   { step: "01", title: "Discover", desc: "Understanding aspirations, lifestyles, business goals and opportunities." },
   { step: "02", title: "Design", desc: "Developing intelligent concepts rooted in functionality and aesthetics." },
@@ -452,7 +452,7 @@ function WhatWeCreate({ disciplines = DISCIPLINES }) {
 }
 
 /* ══════════════════════════════════════════════════
-   SECTION — The Concord Approach
+   SECTION — The Concord 5D Approach
 ══════════════════════════════════════════════════ */
 function ConcordApproach() {
   return (
@@ -464,15 +464,24 @@ function ConcordApproach() {
       <div style={{ maxWidth: 1280, margin: "0 auto" }}>
         <FadeIn>
           <div style={{ textAlign: "center", marginBottom: 90 }}>
-            <Eyebrow color={BEIGE} style={{ textAlign: "center" }}>How We Work</Eyebrow>
+            <Eyebrow color={BEIGE} style={{ textAlign: "center" }}>Our Methodology</Eyebrow>
             <h2 style={{
               fontFamily: "Cormorant Garamond, serif",
               fontSize: "clamp(38px, 5vw, 68px)",
               fontWeight: 500, lineHeight: 1.05,
-              color: IVORY, margin: 0,
+              color: IVORY, margin: "0 0 20px",
             }}>
-              The Concord <em style={{ fontStyle: "italic", color: BEIGE }}>Approach</em>
+              The Concord <em style={{ fontStyle: "italic", color: BEIGE }}>5D Approach</em>
             </h2>
+            <p style={{
+              fontFamily: "Inter, sans-serif",
+              fontSize: 11, letterSpacing: "0.28em",
+              textTransform: "uppercase",
+              color: "rgba(245,240,235,0.45)",
+              margin: 0,
+            }}>
+              Discover &nbsp;·&nbsp; Design &nbsp;·&nbsp; Develop &nbsp;·&nbsp; Deliver &nbsp;·&nbsp; Delight
+            </p>
           </div>
         </FadeIn>
 
