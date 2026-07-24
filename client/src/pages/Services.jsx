@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { motion, useInView, AnimatePresence } from "framer-motion";
 import api from "../api/axios";
 import ConnectCTA from "../components/ConnectCTA";
+import { SpinningCompass, BlueprintArch, MaterialSwatches, ArtCircles } from "../components/AnimatedAccents";
 
 /* ── Brand tokens ─────────────────────────────── */
 const NAVY = "#22221E";
@@ -429,6 +430,10 @@ export default function Services() {
           background: "linear-gradient(135deg, rgba(251,179,22,0.07) 0%, transparent 70%)",
           pointerEvents: "none",
         }} />
+        {/* Blueprint arch — bottom-left decorative element */}
+        <BlueprintArch size={220} style={{ position: "absolute", left: 20, bottom: -20, opacity: 0.6 }} />
+        {/* Spinning compass — top-right corner */}
+        <SpinningCompass size={90} style={{ position: "absolute", top: 90, right: 48, opacity: 0.55 }} />
 
         <div style={{ maxWidth: 1280, margin: "0 auto", padding: "0 40px" }}>
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 80, alignItems: "center" }}>
@@ -562,15 +567,12 @@ export default function Services() {
           backgroundSize: "56px 56px",
           pointerEvents: "none",
         }} />
-        {/* Compass arcs — top right */}
-        <svg aria-hidden viewBox="0 0 500 500" style={{ position: "absolute", top: -140, right: -120, width: 520, height: 520, opacity: 0.08, pointerEvents: "none" }}>
-          <g stroke="#FCC94E" strokeWidth="1" fill="none">
-            <circle cx="250" cy="250" r="240" />
-            <circle cx="250" cy="250" r="175" />
-            <circle cx="250" cy="250" r="110" />
-            <path d="M250 10 L250 490 M10 250 L490 250" />
-          </g>
-        </svg>
+        {/* Colorful spinning compass — top right (replaces static SVG arcs) */}
+        <SpinningCompass size={280} style={{ position: "absolute", top: -60, right: -60, opacity: 0.22 }} />
+        {/* Art circles — bottom left */}
+        <ArtCircles size={160} style={{ position: "absolute", bottom: 40, left: 40, opacity: 0.35 }} />
+        {/* Material swatches — vertical strip on far right */}
+        <MaterialSwatches style={{ position: "absolute", right: 16, top: "50%", transform: "translateY(-50%)", opacity: 0.5 }} />
         {/* Ghost serif word — bottom left */}
         <span aria-hidden style={{
           position: "absolute", bottom: -30, left: 12,

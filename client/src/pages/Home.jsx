@@ -6,6 +6,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import api from "../api/axios";
 import ScrollJourney from "../components/ScrollJourney";
 import ConnectCTA from "../components/ConnectCTA";
+import { SpinningCompass, ConstructionCrane, MaterialSwatches, ArtCircles, LeafFronds } from "../components/AnimatedAccents";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -135,7 +136,10 @@ function Eyebrow({ children, color = FOREST, style }) {
 ══════════════════════════════════════════════════ */
 function BuildingBeyond() {
   return (
-    <section style={{ background: IVORY, padding: "140px 40px 120px" }}>
+    <section style={{ background: IVORY, padding: "140px 40px 120px", position: "relative", overflow: "hidden" }}>
+      {/* Animated accents — left crane, right compass */}
+      <ConstructionCrane style={{ position: "absolute", left: 0, bottom: 0, opacity: 0.72 }} />
+      <SpinningCompass size={130} style={{ position: "absolute", right: 48, top: 60, opacity: 0.65 }} />
       <div style={{ maxWidth: 980, margin: "0 auto", textAlign: "center" }}>
         <FadeIn>
           <Eyebrow style={{ textAlign: "center" }}>Concord Interior Concepts</Eyebrow>
@@ -446,7 +450,10 @@ function WhatWeCreate({ disciplines = DISCIPLINES }) {
 ══════════════════════════════════════════════════ */
 function ConcordApproach() {
   return (
-    <section style={{ background: INK, padding: "130px 40px" }}>
+    <section style={{ background: INK, padding: "130px 40px", position: "relative", overflow: "hidden" }}>
+      {/* Colorful art circles — top right, behind content */}
+      <ArtCircles size={200} style={{ position: "absolute", top: 32, right: 32, opacity: 0.55 }} />
+      <SpinningCompass size={100} style={{ position: "absolute", bottom: 48, left: 48, opacity: 0.4 }} />
       <div style={{ maxWidth: 1280, margin: "0 auto" }}>
         <FadeIn>
           <div style={{ textAlign: "center", marginBottom: 90 }}>
@@ -510,7 +517,11 @@ function ConcordApproach() {
 ══════════════════════════════════════════════════ */
 function WhyConcord() {
   return (
-    <section style={{ background: IVORY_WARM, padding: "130px 40px" }}>
+    <section style={{ background: IVORY_WARM, padding: "130px 40px", position: "relative", overflow: "hidden" }}>
+      {/* Interior colour swatches — right edge accent */}
+      <MaterialSwatches style={{ position: "absolute", right: 28, top: "50%", transform: "translateY(-50%)", opacity: 0.75 }} />
+      {/* Leaf fronds — bottom left */}
+      <LeafFronds style={{ position: "absolute", left: 0, bottom: 0, opacity: 0.55 }} />
       <div style={{ maxWidth: 1280, margin: "0 auto" }}>
         <FadeIn>
           <div style={{ textAlign: "center", marginBottom: 84 }}>
