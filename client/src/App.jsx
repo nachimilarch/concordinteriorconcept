@@ -11,6 +11,7 @@ import AdminRoute from "./admin/AdminRoute";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import WhatsAppButton from "./components/WhatsAppButton";
+import FloatingElements from "./components/FloatingElements";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -94,6 +95,7 @@ const Loader = () => (
 // PublicLayout uses direct imports — no lazy here
 const PublicLayout = ({ children }) => (
     <>
+        <FloatingElements />
         <Navbar />
         <main>{children}</main>
         <Footer />
