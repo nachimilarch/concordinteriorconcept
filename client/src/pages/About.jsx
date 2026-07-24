@@ -5,6 +5,7 @@ import CountUp from "react-countup";
 import { useInView as useInViewObs } from "react-intersection-observer";
 import api from "../api/axios";
 import ConnectCTA from "../components/ConnectCTA";
+import { PaintBrush } from "../components/AnimatedAccents";
 
 const NAVY = "#22221E";
 const GOLD = "#FBB316";
@@ -170,6 +171,8 @@ export default function About() {
 
       {/* ── Section 1: Hero Banner ────────────── */}
       <section style={{ position: "relative", height: "60vh", minHeight: 480, overflow: "hidden", display: "flex", alignItems: "flex-end" }}>
+        {/* Colorful paint-stroke accent — right edge overlay on the hero image */}
+        <PaintBrush style={{ position: "absolute", right: 0, top: "10%", zIndex: 1, opacity: 0.78 }} />
         <img
           src="/images/brand/doc-image-7.jpg"
           alt="A premium corporate interior with floor-to-ceiling city views — the Concord studio aesthetic"

@@ -6,7 +6,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import api from "../api/axios";
 import ScrollJourney from "../components/ScrollJourney";
 import ConnectCTA from "../components/ConnectCTA";
-import { SpinningCompass, ConstructionCrane, MaterialSwatches, ArtCircles, LeafFronds } from "../components/AnimatedAccents";
+import { SpinningCompass, ConstructionCrane, MaterialSwatches, ArtCircles, LeafFronds, BuildingRise, ColorWheel, GoldenSpiral, PenDraft } from "../components/AnimatedAccents";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -137,9 +137,9 @@ function Eyebrow({ children, color = FOREST, style }) {
 function BuildingBeyond() {
   return (
     <section style={{ background: IVORY, padding: "140px 40px 120px", position: "relative", overflow: "hidden" }}>
-      {/* Animated accents — left crane, right compass */}
-      <ConstructionCrane style={{ position: "absolute", left: 0, bottom: 0, opacity: 0.72 }} />
-      <SpinningCompass size={130} style={{ position: "absolute", right: 48, top: 60, opacity: 0.65 }} />
+      {/* Animated accents — crane on left, building rise on right */}
+      <ConstructionCrane style={{ position: "absolute", left: 0, bottom: 0, opacity: 0.88 }} />
+      <BuildingRise style={{ position: "absolute", right: 12, top: 40, opacity: 0.82 }} />
       <div style={{ maxWidth: 980, margin: "0 auto", textAlign: "center" }}>
         <FadeIn>
           <Eyebrow style={{ textAlign: "center" }}>Concord Interior Concepts</Eyebrow>
@@ -221,7 +221,9 @@ function InteriorsShowcase() {
   }, [isDesktop]);
 
   return (
-    <section ref={sectionRef} style={{ background: INK, overflow: "hidden" }}>
+    <section ref={sectionRef} style={{ background: INK, overflow: "hidden", position: "relative" }}>
+      {/* Color wheel accent in bottom-right corner */}
+      <ColorWheel size={260} style={{ position: "absolute", bottom: -60, right: -60, opacity: 0.78, zIndex: 0 }} />
       <div style={{
         height: isDesktop ? "100vh" : "auto",
         display: "flex", flexDirection: "column", justifyContent: "center",
@@ -336,7 +338,11 @@ function InteriorsShowcase() {
 ══════════════════════════════════════════════════ */
 function WhatWeCreate({ disciplines = DISCIPLINES }) {
   return (
-    <section style={{ background: "white", padding: "130px 0 60px" }}>
+    <section style={{ background: "white", padding: "130px 0 60px", position: "relative", overflow: "hidden" }}>
+      {/* PenDraft — top-left corner accent, themed to floor plans */}
+      <PenDraft style={{ position: "absolute", left: 0, top: 60, opacity: 0.72 }} />
+      {/* GoldenSpiral — top-right header accent */}
+      <GoldenSpiral size={280} style={{ position: "absolute", right: 0, top: 40, opacity: 0.80 }} />
       <div style={{ maxWidth: 1280, margin: "0 auto", padding: "0 40px" }}>
         <FadeIn>
           <div style={{ textAlign: "center", marginBottom: 90 }}>
@@ -451,9 +457,10 @@ function WhatWeCreate({ disciplines = DISCIPLINES }) {
 function ConcordApproach() {
   return (
     <section style={{ background: INK, padding: "130px 40px", position: "relative", overflow: "hidden" }}>
-      {/* Colorful art circles — top right, behind content */}
-      <ArtCircles size={200} style={{ position: "absolute", top: 32, right: 32, opacity: 0.55 }} />
-      <SpinningCompass size={100} style={{ position: "absolute", bottom: 48, left: 48, opacity: 0.4 }} />
+      {/* Art circles — top right */}
+      <ArtCircles size={280} style={{ position: "absolute", top: -30, right: -30, opacity: 0.78 }} />
+      {/* Spinning compass — bottom left */}
+      <SpinningCompass size={220} style={{ position: "absolute", bottom: -40, left: -40, opacity: 0.72 }} />
       <div style={{ maxWidth: 1280, margin: "0 auto" }}>
         <FadeIn>
           <div style={{ textAlign: "center", marginBottom: 90 }}>
@@ -518,10 +525,10 @@ function ConcordApproach() {
 function WhyConcord() {
   return (
     <section style={{ background: IVORY_WARM, padding: "130px 40px", position: "relative", overflow: "hidden" }}>
-      {/* Interior colour swatches — right edge accent */}
-      <MaterialSwatches style={{ position: "absolute", right: 28, top: "50%", transform: "translateY(-50%)", opacity: 0.75 }} />
+      {/* Material swatches — right edge accent */}
+      <MaterialSwatches style={{ position: "absolute", right: 16, top: "50%", transform: "translateY(-50%)", opacity: 0.88 }} />
       {/* Leaf fronds — bottom left */}
-      <LeafFronds style={{ position: "absolute", left: 0, bottom: 0, opacity: 0.55 }} />
+      <LeafFronds style={{ position: "absolute", left: 0, bottom: 0, opacity: 0.82 }} />
       <div style={{ maxWidth: 1280, margin: "0 auto" }}>
         <FadeIn>
           <div style={{ textAlign: "center", marginBottom: 84 }}>

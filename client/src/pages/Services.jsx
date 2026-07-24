@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { motion, useInView, AnimatePresence } from "framer-motion";
 import api from "../api/axios";
 import ConnectCTA from "../components/ConnectCTA";
-import { SpinningCompass, BlueprintArch, MaterialSwatches, ArtCircles } from "../components/AnimatedAccents";
+import { BlueprintArch, BrickPattern, SmartNodes, WaterRipple } from "../components/AnimatedAccents";
 
 /* ── Brand tokens ─────────────────────────────── */
 const NAVY = "#22221E";
@@ -430,10 +430,8 @@ export default function Services() {
           background: "linear-gradient(135deg, rgba(251,179,22,0.07) 0%, transparent 70%)",
           pointerEvents: "none",
         }} />
-        {/* Blueprint arch — bottom-left decorative element */}
-        <BlueprintArch size={220} style={{ position: "absolute", left: 20, bottom: -20, opacity: 0.6 }} />
-        {/* Spinning compass — top-right corner */}
-        <SpinningCompass size={90} style={{ position: "absolute", top: 90, right: 48, opacity: 0.55 }} />
+        {/* Blueprint arch — bottom-left decorative element, larger and more visible */}
+        <BlueprintArch size={300} style={{ position: "absolute", left: -10, bottom: -30, opacity: 0.82 }} />
 
         <div style={{ maxWidth: 1280, margin: "0 auto", padding: "0 40px" }}>
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 80, alignItems: "center" }}>
@@ -545,7 +543,9 @@ export default function Services() {
       </section>
 
       {/* ── Services accordion ───────────────── */}
-      <section style={{ background: "white", padding: "80px 0" }}>
+      <section style={{ background: "white", padding: "80px 0", position: "relative", overflow: "hidden" }}>
+        {/* Brick pattern — colorful animated wall in bottom-right corner */}
+        <BrickPattern style={{ position: "absolute", right: 0, bottom: 0, opacity: 0.72 }} />
         <div style={{ maxWidth: 1280, margin: "0 auto", padding: "0 40px" }}>
           <FadeIn>
             <p className="chapter-label" style={{ margin: "0 0 48px" }}>The Five Disciplines</p>
@@ -567,12 +567,8 @@ export default function Services() {
           backgroundSize: "56px 56px",
           pointerEvents: "none",
         }} />
-        {/* Colorful spinning compass — top right (replaces static SVG arcs) */}
-        <SpinningCompass size={280} style={{ position: "absolute", top: -60, right: -60, opacity: 0.22 }} />
-        {/* Art circles — bottom left */}
-        <ArtCircles size={160} style={{ position: "absolute", bottom: 40, left: 40, opacity: 0.35 }} />
-        {/* Material swatches — vertical strip on far right */}
-        <MaterialSwatches style={{ position: "absolute", right: 16, top: "50%", transform: "translateY(-50%)", opacity: 0.5 }} />
+        {/* Smart nodes — connectivity network top right */}
+        <SmartNodes size={280} style={{ position: "absolute", top: -40, right: -40, opacity: 0.75 }} />
         {/* Ghost serif word — bottom left */}
         <span aria-hidden style={{
           position: "absolute", bottom: -30, left: 12,
@@ -638,7 +634,9 @@ export default function Services() {
       </section>
 
       {/* ── Process strip ────────────────────── */}
-      <section style={{ background: BG, padding: "100px 40px" }}>
+      <section style={{ background: BG, padding: "100px 40px", position: "relative", overflow: "hidden" }}>
+        {/* Water ripple — bottom-right corner of process section */}
+        <WaterRipple size={280} style={{ position: "absolute", bottom: -60, right: -60, opacity: 0.72 }} />
         <div style={{ maxWidth: 1280, margin: "0 auto" }}>
           <FadeIn>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", flexWrap: "wrap", gap: 24, marginBottom: 64 }}>

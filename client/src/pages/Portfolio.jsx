@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import api from "../api/axios";
 import ConnectCTA from "../components/ConnectCTA";
+import { HexagonGrid } from "../components/AnimatedAccents";
 
 /* ── Brand tokens ─────────────────────────────── */
 const NAVY = "#22221E";
@@ -202,7 +203,10 @@ export default function Portfolio() {
       <section className="paper-bg" style={{
         paddingTop: 140, paddingBottom: 80,
         borderBottom: `1px solid rgba(44,74,59,0.12)`,
+        position: "relative", overflow: "hidden",
       }}>
+        {/* Hexagon grid — animated colorful honeycomb, bottom-right corner */}
+        <HexagonGrid style={{ position: "absolute", bottom: -20, right: -10, opacity: 0.72 }} />
         <div style={{ maxWidth: 1280, margin: "0 auto", padding: "0 40px" }}>
           <div className="dashed-frame" style={{ background: "rgba(255,255,255,0.55)" }}>
             <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", flexWrap: "wrap", gap: 24 }}>
