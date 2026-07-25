@@ -182,7 +182,7 @@ export default function Portfolio() {
   /* Fetch real projects from API */
   useEffect(() => {
     setLoading(true);
-    api.get("/projects")
+    api.get("/projects?limit=500")
       .then(r => { if (r.data?.length) setProjects(r.data); })
       .catch(() => {})
       .finally(() => setLoading(false));
