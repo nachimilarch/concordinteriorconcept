@@ -43,6 +43,7 @@ export default function Contact() {
   }, []);
 
   const phone = settings.company_phone || settings.phone || "";
+  const phone2 = settings.company_phone_2 || "";
   const email = settings.company_email || settings.email || "";
   const address = settings.company_address || settings.address || "";
   const whatsapp = settings.whatsapp_number || settings.whatsapp || "";
@@ -201,6 +202,7 @@ export default function Contact() {
               {[
                 address && { label: "Address", value: address },
                 phone && { label: "Phone", value: phone, href: `tel:${phone.replace(/\s/g, "")}` },
+                phone2 && { label: "Phone", value: phone2, href: `tel:${phone2.replace(/\s/g, "")}` },
                 email && { label: "Email", value: email, href: `mailto:${email}` },
               ].filter(Boolean).map(({ label, value, href }) => (
                 <div key={label} style={{ marginBottom: 22 }}>
