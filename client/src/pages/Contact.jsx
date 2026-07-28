@@ -1,10 +1,8 @@
 import { useState, useEffect } from "react";
-import { motion } from "framer-motion";
 import api from "../api/axios";
 
 const NAVY = "#22221E";
 const GOLD = "#FBB316";
-const GOLD_D = "#DE9E08";
 const BG = "#F5F0EB";
 
 const SERVICE_OPTIONS = ["Interior Design", "Construction", "Renovation", "Consultation", "Other"];
@@ -35,8 +33,6 @@ export default function Contact() {
   const [settings, setSettings] = useState({});
   const [form, setForm] = useState({ name: "", email: "", phone: "", service: "", message: "" });
   const [errors, setErrors] = useState({});
-  const [submitting, setSubmitting] = useState(false);
-  const [submitted, setSubmitted] = useState(false);
 
   useEffect(() => {
     api.get("/settings").then(r => setSettings(r.data)).catch(() => {});
@@ -61,21 +57,31 @@ export default function Contact() {
     return e;
   }
 
-  async function handleSubmit(ev) {
+  function handleSubmit(ev) {
     ev.preventDefault();
     const errs = validate();
     setErrors(errs);
     if (Object.keys(errs).length > 0) return;
-    setSubmitting(true);
-    try {
-      await api.post("/enquiries", form);
-      setSubmitted(true);
-      setForm({ name: "", email: "", phone: "", service: "", message: "" });
-    } catch {
-      setErrors({ submit: "Something went wrong. Please try again." });
-    } finally {
-      setSubmitting(false);
-    }
+
+    const waNumber = whatsapp || "919392484660";
+    const lines = [
+      "Hi Concord Interior Concepts! 👋",
+      "I'd like to get a quote for your services.",
+      "",
+      `*Name:* ${form.name}`,
+      form.email   ? `*Email:* ${form.email}`   : null,
+      form.phone   ? `*Phone:* ${form.phone}`   : null,
+      form.service ? `*Service:* ${form.service}` : null,
+      "",
+      "*Message:*",
+      form.message,
+    ].filter(l => l !== null).join("\n");
+
+    window.open(
+      `https://wa.me/${waNumber}?text=${encodeURIComponent(lines)}`,
+      "_blank",
+      "noopener,noreferrer"
+    );
   }
 
   return (
@@ -135,16 +141,7 @@ export default function Contact() {
 
           {/* Form */}
           <div>
-            {submitted ? (
-              <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} style={{ padding: "48px 40px", background: "rgba(255,255,255,0.65)", backdropFilter: "blur(12px)", WebkitBackdropFilter: "blur(12px)", borderLeft: `4px solid ${GOLD}`, borderRadius: 18, boxShadow: "0 8px 28px rgba(24,24,21,0.08)" }}>
-                <p style={{ fontFamily: "Cormorant Garamond, serif", fontSize: 28, color: NAVY, margin: "0 0 12px" }}>Thank you.</p>
-                <p style={{ fontFamily: "Inter, sans-serif", fontSize: 13, color: "#6B7280", lineHeight: 1.75, margin: "0 0 24px" }}>Your enquiry has been received. We'll get back to you within 24 hours.</p>
-                <button onClick={() => setSubmitted(false)} style={{ background: "none", border: `1px solid ${GOLD}`, color: GOLD, padding: "10px 24px", borderRadius: 999, fontFamily: "Inter, sans-serif", fontSize: 10, letterSpacing: "0.18em", textTransform: "uppercase", cursor: "pointer" }}>
-                  Send Another
-                </button>
-              </motion.div>
-            ) : (
-              <form onSubmit={handleSubmit} noValidate>
+            <form onSubmit={handleSubmit} noValidate>
                 {errors.submit && (
                   <div style={{ background: "#FEF2F2", border: "1px solid #FECACA", padding: "12px 16px", marginBottom: 24, fontFamily: "Inter, sans-serif", fontSize: 13, color: "#DC2626" }}>
                     {errors.submit}
@@ -186,13 +183,15 @@ export default function Contact() {
                     onBlur={e => e.target.style.borderColor = errors.message ? "#EF4444" : "rgba(24,24,21,0.15)"} />
                 </Field>
 
-                <button type="submit" disabled={submitting} style={{ background: submitting ? "#DE9E08" : GOLD, color: "white", border: "none", padding: "15px 40px", borderRadius: 999, fontFamily: "Inter, sans-serif", fontSize: 10, letterSpacing: "0.24em", textTransform: "uppercase", cursor: submitting ? "not-allowed" : "pointer", transition: "background 0.3s" }}
-                  onMouseEnter={e => { if (!submitting) e.currentTarget.style.background = GOLD_D; }}
-                  onMouseLeave={e => { if (!submitting) e.currentTarget.style.background = GOLD; }}>
-                  {submitting ? "Sending…" : "Send Enquiry"}
+                <button type="submit" style={{ display: "inline-flex", alignItems: "center", gap: 10, background: "#25D366", color: "white", border: "none", padding: "15px 40px", borderRadius: 999, fontFamily: "Inter, sans-serif", fontSize: 10, letterSpacing: "0.24em", textTransform: "uppercase", cursor: "pointer", transition: "background 0.3s" }}
+                  onMouseEnter={e => e.currentTarget.style.background = "#1ebe5d"}
+                  onMouseLeave={e => e.currentTarget.style.background = "#25D366"}>
+                  <svg viewBox="0 0 24 24" width="15" height="15" fill="white" aria-hidden>
+                    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
+                  </svg>
+                  Send via WhatsApp
                 </button>
               </form>
-            )}
           </div>
 
           {/* Sidebar */}
