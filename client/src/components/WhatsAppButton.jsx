@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
+import api from "../api/axios";
 
 /**
  * Global floating WhatsApp button.
@@ -10,10 +11,18 @@ import { useLocation } from "react-router-dom";
  */
 const GOLD = "#FBB316";
 
-export default function WhatsAppButton({ number = "919876543210" }) {
+export default function WhatsAppButton({ number = "919392484660" }) {
   const { pathname } = useLocation();
   const isHome = pathname === "/";
   const [visible, setVisible] = useState(!isHome);
+  const [waNumber, setWaNumber] = useState(number);
+
+  useEffect(() => {
+    api.get("/settings").then(r => {
+      const n = r.data.whatsapp_number;
+      if (n) setWaNumber(n);
+    }).catch(() => {});
+  }, []);
 
   useEffect(() => {
     if (!isHome) {
@@ -35,7 +44,7 @@ export default function WhatsAppButton({ number = "919876543210" }) {
 
   return (
     <a
-      href={"https://wa.me/" + number + "?text=Hi%2C%20I'm%20interested%20in%20your%20services."}
+      href={"https://wa.me/" + waNumber + "?text=Hi%2C%20I'm%20interested%20in%20your%20services."}
       target="_blank"
       rel="noopener noreferrer"
       aria-label="Chat on WhatsApp"
