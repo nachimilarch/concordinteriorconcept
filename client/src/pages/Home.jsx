@@ -36,8 +36,8 @@ const DISCIPLINES = [
     tagline: "Land to Lifestyle.",
     desc: "Planning spaces that are intelligent, functional and future-ready. The success of a project begins long before construction — we support landowners, investors and developers with informed planning and development decisions.",
     services: ["Master Planning", "Site Analysis", "Layout Development", "Infrastructure Planning", "Feasibility Studies", "Development Advisory"],
-    img: "/images/brand/doc-image-5.jpg",
-    alt: "A commercial office development set in landscaped grounds",
+    img: "/images/portfolio/drive-inn-restaurant-aerial-render.jpg",
+    alt: "Bird's-eye aerial render of a Drive Inn restaurant site plan showing development layout",
   },
   {
     letter: "B",
@@ -45,8 +45,8 @@ const DISCIPLINES = [
     tagline: "Building enduring spaces with precision.",
     desc: "From empty land to enduring landmarks — end-to-end development for residential, commercial, hospitality and institutional projects, integrating planning, engineering, architecture and execution into a seamless delivery process.",
     services: ["Luxury Villas", "Apartments", "Farm Houses", "Commercial Buildings", "Resorts", "Turnkey Construction"],
-    img: "/images/brand/doc-image-4.jpg",
-    alt: "Modern villas under construction with cranes overhead",
+    img: "/images/portfolio/completed-white-villa-graphite-frame.jpg",
+    alt: "Completed contemporary white villa with graphite frame and landscaped forecourt",
   },
   {
     letter: "C",
@@ -54,8 +54,8 @@ const DISCIPLINES = [
     tagline: "Where nature and design become one.",
     desc: "Creating destinations, not just gardens. Landscape architecture is the art of shaping experiences through nature — farmhouse retreats, resort environments and recreational destinations that connect people with their surroundings.",
     services: ["Farmhouse Landscapes", "Resort Landscapes", "Outdoor Living Spaces", "Courtyard Design", "Water Features", "Sustainable Landscaping"],
-    img: "/images/brand/doc-image-2.jpg",
-    alt: "A resort infinity pool flowing toward the sea between mature trees",
+    img: "/images/portfolio/white-villa-palm-facade.jpg",
+    alt: "Completed villa facade framed by mature palm trees and a landscaped garden",
   },
   {
     letter: "D",
@@ -63,8 +63,8 @@ const DISCIPLINES = [
     tagline: "Spaces designed around people.",
     desc: "Interior design at Concord goes beyond decoration. We create environments that influence emotions, productivity, wellbeing and experiences — every interior tailored to the people who use it.",
     services: ["Luxury Home Interiors", "Corporate Offices", "Space Planning", "Custom Furniture", "Modular Kitchens", "Lighting Design"],
-    img: "/images/brand/doc-image-3.jpg",
-    alt: "A refined contemporary living room with layered lighting",
+    img: "/images/portfolio/carved-teak-pillar-stainedglass-kitchen.jpg",
+    alt: "Carved teak pillar and stained glass partition in a luxury kitchen interior",
   },
   {
     letter: "E",
@@ -72,8 +72,8 @@ const DISCIPLINES = [
     tagline: "Technology integrated seamlessly into everyday experiences.",
     desc: "Smart home and office automation, intelligent lighting, voice-controlled environments, security and energy monitoring — environments that quietly anticipate the people who use them.",
     services: ["Smart Home Automation", "Smart Office Automation", "Intelligent Lighting", "Voice-Controlled Environments", "Security Integration", "Energy Monitoring"],
-    img: "/images/brand/doc-image-8.jpg",
-    alt: "A smart-home control app in a luxurious living room",
+    img: "/images/portfolio/completed-minimalist-living-led-cove.jpg",
+    alt: "Minimalist living room with clean LED cove lighting and smart integrated design",
   },
 ];
 
