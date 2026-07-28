@@ -16,6 +16,7 @@ export default function Footer() {
   }, []);
 
   const address = settings.company_address || settings.address || "";
+  const address2 = settings.company_address_2 || "";
   const phone = settings.company_phone || settings.phone || "";
   const phone2 = settings.company_phone_2 || "";
   const email = settings.company_email || settings.email || "";
@@ -161,8 +162,8 @@ export default function Footer() {
           <p style={headingStyle}>Contact</p>
           {[
             address && { icon: "📍", text: address },
+            address2 && { icon: "📍", text: address2 },
             phone && { icon: "📞", text: phone, href: `tel:${phone.replace(/\s/g, "")}` },
-            phone2 && { icon: "📞", text: phone2, href: `tel:${phone2.replace(/\s/g, "")}` },
             email && { icon: "✉️", text: email, href: `mailto:${email}` },
           ].filter(Boolean).map(({ icon, text, href }) => (
             <p key={text} style={{ color: "rgba(245,240,235,0.82)", fontSize: 13.5, marginBottom: 12, display: "flex", gap: 8, alignItems: "flex-start", lineHeight: 1.6 }}>

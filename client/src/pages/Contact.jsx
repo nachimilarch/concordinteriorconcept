@@ -39,9 +39,9 @@ export default function Contact() {
   }, []);
 
   const phone = settings.company_phone || settings.phone || "";
-  const phone2 = settings.company_phone_2 || "";
   const email = settings.company_email || settings.email || "";
   const address = settings.company_address || settings.address || "";
+  const address2 = settings.company_address_2 || "";
   const whatsapp = settings.whatsapp_number || settings.whatsapp || "";
 
   function set(field, value) {
@@ -199,9 +199,9 @@ export default function Contact() {
             <div style={{ background: "rgba(24,24,21,0.86)", backdropFilter: "blur(16px) saturate(140%)", WebkitBackdropFilter: "blur(16px) saturate(140%)", border: "1px solid rgba(251,179,22,0.25)", borderRadius: 22, padding: "40px 36px", marginBottom: 24, boxShadow: "0 16px 44px rgba(24,24,21,0.22)" }}>
               <p style={{ fontFamily: "Inter, sans-serif", fontSize: 10, letterSpacing: "0.24em", textTransform: "uppercase", color: GOLD, margin: "0 0 28px" }}>Contact Details</p>
               {[
-                address && { label: "Address", value: address },
+                address && { label: "Hyderabad", value: address },
+                address2 && { label: "Tirupati", value: address2 },
                 phone && { label: "Phone", value: phone, href: `tel:${phone.replace(/\s/g, "")}` },
-                phone2 && { label: "Phone", value: phone2, href: `tel:${phone2.replace(/\s/g, "")}` },
                 email && { label: "Email", value: email, href: `mailto:${email}` },
               ].filter(Boolean).map(({ label, value, href }) => (
                 <div key={label} style={{ marginBottom: 22 }}>

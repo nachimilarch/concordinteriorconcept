@@ -54,8 +54,8 @@ const DISCIPLINES = [
     tagline: "Where nature and design become one.",
     desc: "Creating destinations, not just gardens. Landscape architecture is the art of shaping experiences through nature — farmhouse retreats, resort environments and recreational destinations that connect people with their surroundings.",
     services: ["Farmhouse Landscapes", "Resort Landscapes", "Outdoor Living Spaces", "Courtyard Design", "Water Features", "Sustainable Landscaping"],
-    img: "/images/portfolio/white-villa-palm-facade.jpg",
-    alt: "Completed villa facade framed by mature palm trees and a landscaped garden",
+    img: "/images/portfolio/dharmika-health-3d-aerial-render.jpg",
+    alt: "Aerial 3D render of the circular Dharmika wellness campus surrounded by landscaped greenery",
   },
   {
     letter: "D",
