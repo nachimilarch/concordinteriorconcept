@@ -131,8 +131,8 @@ const FALLBACK_SERVICES = [
     title: "Smart Living & Smart Workspaces",
     tagline: "Technology integrated seamlessly into everyday experiences.",
     desc: "Technology integrated seamlessly into everyday experiences — smart home and office automation, intelligent lighting, voice-controlled environments, security integration and energy monitoring that quietly anticipate the people who use them.",
-    cover_image: "/images/portfolio/purple-mood-ceiling.jpg",
-    imgPosition: "50% 30%",
+    cover_image: "/images/portfolio/completed-minimalist-living-led-cove.jpg",
+    imgPosition: "50% 50%",
     features: [
       "Smart Home Automation",
       "Smart Office Automation",

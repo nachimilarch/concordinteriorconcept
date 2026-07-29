@@ -76,9 +76,9 @@ const DISCIPLINES = [
     tagline: "Technology integrated seamlessly into everyday experiences.",
     desc: "Smart home and office automation, intelligent lighting, voice-controlled environments, security and energy monitoring — environments that quietly anticipate the people who use them.",
     services: ["Smart Home Automation", "Smart Office Automation", "Intelligent Lighting", "Voice-Controlled Environments", "Security Integration", "Energy Monitoring"],
-    img: "/images/portfolio/home-theatre-orange-leather.jpg",
-    imgPosition: "60% 55%",
-    alt: "Bespoke home theatre room with projector, integrated AV system and premium orange leather seating",
+    img: "/images/portfolio/completed-minimalist-living-led-cove.jpg",
+    imgPosition: "50% 50%",
+    alt: "Minimalist living room with clean LED cove lighting and smart integrated design",
   },
 ];
 
