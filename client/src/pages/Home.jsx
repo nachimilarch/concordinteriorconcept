@@ -37,7 +37,8 @@ const DISCIPLINES = [
     desc: "Planning spaces that are intelligent, functional and future-ready. The success of a project begins long before construction — we support landowners, investors and developers with informed planning and development decisions.",
     services: ["Master Planning", "Site Analysis", "Layout Development", "Infrastructure Planning", "Feasibility Studies", "Development Advisory"],
     img: "/images/portfolio/drive-inn-restaurant-aerial-render.jpg",
-    alt: "Bird's-eye aerial render of a Drive Inn restaurant site plan showing development layout",
+    imgPosition: "50% 40%",
+    alt: "Bird's-eye aerial render of a development site layout showing master planning at scale",
   },
   {
     letter: "B",
@@ -45,8 +46,9 @@ const DISCIPLINES = [
     tagline: "Building enduring spaces with precision.",
     desc: "From empty land to enduring landmarks — end-to-end development for residential, commercial, hospitality and institutional projects, integrating planning, engineering, architecture and execution into a seamless delivery process.",
     services: ["Luxury Villas", "Apartments", "Farm Houses", "Commercial Buildings", "Resorts", "Turnkey Construction"],
-    img: "/images/portfolio/completed-white-villa-graphite-frame.jpg",
-    alt: "Completed contemporary white villa with graphite frame and landscaped forecourt",
+    img: "/images/portfolio/muni-contemporary-villa-dusk.jpg",
+    imgPosition: "50% 50%",
+    alt: "Contemporary luxury villa at dusk with warm facade lighting, teak and stone cladding",
   },
   {
     letter: "C",
@@ -55,6 +57,7 @@ const DISCIPLINES = [
     desc: "Creating destinations, not just gardens. Landscape architecture is the art of shaping experiences through nature — farmhouse retreats, resort environments and recreational destinations that connect people with their surroundings.",
     services: ["Farmhouse Landscapes", "Resort Landscapes", "Outdoor Living Spaces", "Courtyard Design", "Water Features", "Sustainable Landscaping"],
     img: "/images/portfolio/dharmika-health-3d-aerial-render.jpg",
+    imgPosition: "50% 50%",
     alt: "Aerial 3D render of the circular Dharmika wellness campus surrounded by landscaped greenery",
   },
   {
@@ -63,8 +66,9 @@ const DISCIPLINES = [
     tagline: "Spaces designed around people.",
     desc: "Interior design at Concord goes beyond decoration. We create environments that influence emotions, productivity, wellbeing and experiences — every interior tailored to the people who use it.",
     services: ["Luxury Home Interiors", "Corporate Offices", "Space Planning", "Custom Furniture", "Modular Kitchens", "Lighting Design"],
-    img: "/images/portfolio/carved-teak-pillar-stainedglass-kitchen.jpg",
-    alt: "Carved teak pillar and stained glass partition in a luxury kitchen interior",
+    img: "/images/portfolio/living-dark-ceiling-crystal-chandelier.jpg",
+    imgPosition: "50% 35%",
+    alt: "Completed luxury living room with crystal chandelier, teak false ceiling and premium TV wall",
   },
   {
     letter: "E",
@@ -72,8 +76,9 @@ const DISCIPLINES = [
     tagline: "Technology integrated seamlessly into everyday experiences.",
     desc: "Smart home and office automation, intelligent lighting, voice-controlled environments, security and energy monitoring — environments that quietly anticipate the people who use them.",
     services: ["Smart Home Automation", "Smart Office Automation", "Intelligent Lighting", "Voice-Controlled Environments", "Security Integration", "Energy Monitoring"],
-    img: "/images/portfolio/completed-minimalist-living-led-cove.jpg",
-    alt: "Minimalist living room with clean LED cove lighting and smart integrated design",
+    img: "/images/portfolio/home-theatre-orange-leather.jpg",
+    imgPosition: "60% 55%",
+    alt: "Bespoke home theatre room with projector, integrated AV system and premium orange leather seating",
   },
 ];
 
@@ -377,7 +382,7 @@ function WhatWeCreate({ disciplines = DISCIPLINES }) {
                   loading="lazy"
                   style={{
                     width: "100%", aspectRatio: "16/11",
-                    objectFit: "cover", display: "block",
+                    objectFit: "cover", objectPosition: d.imgPosition || "50% 50%", display: "block",
                     transition: "transform 1.2s cubic-bezier(0.22,1,0.36,1)",
                   }}
                   onMouseEnter={(e) => (e.currentTarget.style.transform = "scale(1.04)")}

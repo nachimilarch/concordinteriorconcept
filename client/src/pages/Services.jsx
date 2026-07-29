@@ -47,7 +47,8 @@ const FALLBACK_SERVICES = [
     title: "Design & Development",
     tagline: "Land to Lifestyle.",
     desc: "Planning spaces that are intelligent, functional and future-ready. The success of a project begins long before construction — our consultancy supports landowners, investors, developers and organizations with informed planning and development decisions.",
-    cover_image: "/images/brand/doc-image-5.jpg",
+    cover_image: "/images/portfolio/dharmika-health-allopathy-block.jpg",
+    imgPosition: "50% 50%",
     features: [
       "Master Planning",
       "Site Analysis",
@@ -67,7 +68,8 @@ const FALLBACK_SERVICES = [
     title: "Architecture & Construction",
     tagline: "Building enduring spaces with precision.",
     desc: "From empty land to enduring landmarks. Concord provides end-to-end development solutions for residential, commercial, hospitality and institutional projects — integrating planning, engineering, architecture and execution into a seamless delivery process.",
-    cover_image: "/images/brand/doc-image-4.jpg",
+    cover_image: "/images/portfolio/muni-contemporary-villa-dusk.jpg",
+    imgPosition: "50% 50%",
     features: [
       "Residential Construction",
       "Luxury Villas",
@@ -87,7 +89,8 @@ const FALLBACK_SERVICES = [
     title: "Landscape Architecture",
     tagline: "Where nature and design become one.",
     desc: "Creating destinations, not just gardens. Landscape architecture is the art of shaping experiences through nature — whether a farmhouse retreat, a resort environment, a recreational destination or a community development, we create outdoor spaces that connect people with their surroundings.",
-    cover_image: "/images/brand/doc-image-2.jpg",
+    cover_image: "/images/portfolio/dharmika-health-3d-aerial-render.jpg",
+    imgPosition: "50% 40%",
     features: [
       "Farmhouse Landscapes",
       "Resort Landscapes",
@@ -107,7 +110,8 @@ const FALLBACK_SERVICES = [
     title: "Interior Design & Turnkey Execution",
     tagline: "Spaces designed around people.",
     desc: "Interior design at Concord goes beyond decoration. We create environments that influence emotions, productivity, wellbeing and experiences — every interior tailored to the people who use it.",
-    cover_image: "/images/brand/doc-image-3.jpg",
+    cover_image: "/images/portfolio/luxury-lounge-mocha-coffer-ceiling.jpg",
+    imgPosition: "50% 35%",
     features: [
       "Residential & Luxury Home Interiors",
       "Commercial Interiors",
@@ -127,7 +131,8 @@ const FALLBACK_SERVICES = [
     title: "Smart Living & Smart Workspaces",
     tagline: "Technology integrated seamlessly into everyday experiences.",
     desc: "Technology integrated seamlessly into everyday experiences — smart home and office automation, intelligent lighting, voice-controlled environments, security integration and energy monitoring that quietly anticipate the people who use them.",
-    cover_image: "/images/brand/doc-image-8.jpg",
+    cover_image: "/images/portfolio/purple-mood-ceiling.jpg",
+    imgPosition: "50% 30%",
     features: [
       "Smart Home Automation",
       "Smart Office Automation",
@@ -274,7 +279,7 @@ function ServiceBlock({ service, index }) {
                         alt={service.title}
                         loading="lazy"
                         width={700} height={440}
-                        style={{ width: "100%", height: 260, objectFit: "cover", display: "block" }}
+                        style={{ width: "100%", height: 260, objectFit: "cover", objectPosition: service.imgPosition || "50% 50%", display: "block" }}
                       />
                     : <div style={{ width: "100%", height: 260, background: "#181815", display: "flex", alignItems: "center", justifyContent: "center" }}>
                         <svg width="48" height="48" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" stroke={service.accent} strokeWidth="0.75" rx="1" /><circle cx="8.5" cy="8.5" r="1.5" fill={service.accent} opacity="0.6" /><path d="M21 15l-5-5L5 21" stroke={service.accent} strokeWidth="0.75" strokeLinecap="round" opacity="0.6" /></svg>
@@ -407,6 +412,7 @@ function fromCms(row, i) {
     desc: row.description || fallback.desc,
     features: features.length ? features : fallback.features,
     cover_image: imgUrl(row.image) || fallback.cover_image,
+    imgPosition: fallback.imgPosition || "50% 50%",
     accent: ACCENT_COLORS[i % ACCENT_COLORS.length],
   };
 }
