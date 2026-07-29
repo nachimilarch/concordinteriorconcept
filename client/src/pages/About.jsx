@@ -1,9 +1,9 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useRef } from "react";
 import { Link } from "react-router-dom";
 import { motion, useInView } from "framer-motion";
 import CountUp from "react-countup";
 import { useInView as useInViewObs } from "react-intersection-observer";
-import api from "../api/axios";
+import { SETTINGS, STATS } from "../data/settings";
 import ConnectCTA from "../components/ConnectCTA";
 import { PaintBrush, ArchFrame, FloatingOrbs, TurningSquares, GrowingVines } from "../components/AnimatedAccents";
 
@@ -136,35 +136,19 @@ function ValueCard({ value, index }) {
 }
 
 export default function About() {
-  const [settings, setSettings] = useState({});
-  const [stats, setStats] = useState(null);
-  const [statsLoading, setStatsLoading] = useState(true);
-  const [coreValues, setCoreValues] = useState([]);
+  const stats = STATS;
+  const statsLoading = false;
+  const coreValues = SETTINGS.core_values;
 
-  useEffect(() => {
-    api.get("/settings").then(r => {
-      const s = r.data || {};
-      setSettings(s);
-      try {
-        if (s.core_values) setCoreValues(JSON.parse(s.core_values));
-      } catch { /* ignore */ }
-    }).catch(() => {});
-
-    api.get("/projects/stats")
-      .then(r => setStats(r.data))
-      .catch(() => {})
-      .finally(() => setStatsLoading(false));
-  }, []);
-
-  const companyName = settings.company_name || "Concord Interior Concepts";
-  const tagline = settings.company_tagline || "Sustainable Luxury Spaces.";
-  const brandStoryLong = settings.brand_story_long || "Concord Interior Concepts is a multidisciplinary design and development firm dedicated to shaping spaces that balance aesthetics, functionality, sustainability and long-term value. Our work spans architecture, construction, landscape development, luxury interiors, infrastructure planning and consultancy. We collaborate with homeowners, businesses, developers and institutions to transform ideas into environments that inspire everyday life. Every project is approached with one objective — to create spaces that are not only visually exceptional but strategically designed for the future.";
-  const visionStatement = settings.vision_statement || "";
-  const missionStatement = settings.mission_statement || "";
-  const brandPhilosophy = settings.brand_philosophy || "";
-  const servicePhilosophy = settings.service_philosophy || "";
-  const brandPromise = settings.brand_promise || "";
-  const brandUsp = settings.brand_usp || "";
+  const companyName = SETTINGS.company_name;
+  const tagline = SETTINGS.company_tagline;
+  const brandStoryLong = SETTINGS.brand_story_long;
+  const visionStatement = SETTINGS.vision_statement;
+  const missionStatement = SETTINGS.mission_statement;
+  const brandPhilosophy = SETTINGS.brand_philosophy;
+  const servicePhilosophy = SETTINGS.service_philosophy;
+  const brandPromise = SETTINGS.brand_promise;
+  const brandUsp = SETTINGS.brand_usp;
 
   return (
     <div style={{ background: BG, minHeight: "100vh" }}>

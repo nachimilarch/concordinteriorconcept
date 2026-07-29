@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Concord Interior Concepts</title>
+  <script>
+    // GitHub Pages SPA redirect: store the path in sessionStorage and redirect to root
+    var path = window.location.pathname;
+    // Don't redirect the root
+    if (path !== '/') {
+      sessionStorage.setItem('redirect', path);
+    }
+    window.location.replace('/');
+  </script>
+</head>
+<body></body>
+</html>

@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import logoMark from "../assets/logo-mark.png";
-import api from "../api/axios";
 
 const NAV_LINKS = [
   { to: "/", label: "Home" },
@@ -48,17 +47,9 @@ function useNavbarMode() {
 export default function Navbar() {
   const location = useLocation();
   const [menuOpen, setMenuOpen] = useState(false);
-  const [companyName, setCompanyName] = useState("Concord Interior Concepts");
+  const companyName = "Concord Interior Concepts";
   const { mode, scrolled } = useNavbarMode();
 
-  useEffect(() => {
-    api
-      .get("/settings")
-      .then((r) => {
-        if (r.data?.company_name) setCompanyName(r.data.company_name);
-      })
-      .catch(() => { });
-  }, []);
 
   useEffect(() => {
     setMenuOpen(false);

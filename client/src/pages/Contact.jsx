@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
-import api from "../api/axios";
+import { useState } from "react";
+import { SETTINGS } from "../data/settings";
 
 const NAVY = "#22221E";
 const GOLD = "#FBB316";
@@ -30,19 +30,14 @@ const inputStyle = (hasError) => ({
 });
 
 export default function Contact() {
-  const [settings, setSettings] = useState({});
   const [form, setForm] = useState({ name: "", email: "", phone: "", service: "", message: "" });
   const [errors, setErrors] = useState({});
 
-  useEffect(() => {
-    api.get("/settings").then(r => setSettings(r.data)).catch(() => {});
-  }, []);
-
-  const phone = settings.company_phone || settings.phone || "";
-  const email = settings.company_email || settings.email || "";
-  const address = settings.company_address || settings.address || "";
-  const address2 = settings.company_address_2 || "";
-  const whatsapp = settings.whatsapp_number || settings.whatsapp || "";
+  const phone = SETTINGS.company_phone;
+  const email = SETTINGS.company_email;
+  const address = SETTINGS.company_address;
+  const address2 = SETTINGS.company_address_2;
+  const whatsapp = SETTINGS.whatsapp_number;
 
   function set(field, value) {
     setForm(f => ({ ...f, [field]: value }));

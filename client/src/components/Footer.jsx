@@ -1,7 +1,6 @@
-import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import logoMark from "../assets/logo-mark.png";
-import api from "../api/axios";
+import { SETTINGS } from "../data/settings";
 
 const INK = "#181815";
 const IVORY = "#F5F0EB";
@@ -9,28 +8,16 @@ const GOLD = "#FBB316";
 const STEEL = "#778088";
 
 export default function Footer() {
-  const [settings, setSettings] = useState({});
+  const address = SETTINGS.company_address;
+  const address2 = SETTINGS.company_address_2;
+  const phone = SETTINGS.company_phone;
+  const phone2 = SETTINGS.company_phone_2;
+  const email = SETTINGS.company_email;
+  const whatsapp = SETTINGS.whatsapp_number;
+  const companyTagline = SETTINGS.company_tagline;
+  const brandTagline = SETTINGS.footer_message;
 
-  useEffect(() => {
-    api.get("/settings").then(r => setSettings(r.data)).catch(() => {});
-  }, []);
-
-  const address = settings.company_address || settings.address || "";
-  const address2 = settings.company_address_2 || "";
-  const phone = settings.company_phone || settings.phone || "";
-  const phone2 = settings.company_phone_2 || "";
-  const email = settings.company_email || settings.email || "";
-  const whatsapp = settings.whatsapp_number || settings.whatsapp || "";
-  const companyTagline = settings.company_tagline || "A Design, Build & Development Consultancy";
-  const brandTagline = settings.footer_message || "Designing Spaces. Building Experiences. Creating Sustainable Futures.";
-
-  const socials = [
-    settings.instagram && { label: "Instagram", href: settings.instagram },
-    settings.facebook && { label: "Facebook", href: settings.facebook },
-    settings.linkedin && { label: "LinkedIn", href: settings.linkedin },
-    settings.youtube && { label: "YouTube", href: settings.youtube },
-    settings.twitter && { label: "Twitter / X", href: settings.twitter },
-  ].filter(Boolean);
+  const socials = [];
 
   const linkStyle = {
     display: "block",

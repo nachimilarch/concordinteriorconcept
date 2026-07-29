@@ -1,7 +1,6 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef } from "react";
 import { Link } from "react-router-dom";
 import { motion, useInView, AnimatePresence } from "framer-motion";
-import api from "../api/axios";
 import ConnectCTA from "../components/ConnectCTA";
 import { BlueprintArch, BrickPattern, SmartNodes, WaterRipple } from "../components/AnimatedAccents";
 
@@ -418,15 +417,7 @@ function fromCms(row, i) {
 }
 
 export default function Services() {
-  // CMS-driven: the admin panel manages these via /api/services.
-  // The doc-verbatim FALLBACK_SERVICES render if the API is unreachable.
-  const [services, setServices] = useState(FALLBACK_SERVICES);
-
-  useEffect(() => {
-    api.get("/services")
-      .then((r) => { if (r.data?.length) setServices(r.data.map(fromCms)); })
-      .catch(() => {});
-  }, []);
+  const services = FALLBACK_SERVICES;
 
   return (
     <div style={{ background: BG, minHeight: "100vh" }}>

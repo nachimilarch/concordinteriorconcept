@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
-import api from "../api/axios";
 
 /**
  * Global floating WhatsApp button.
@@ -17,12 +16,6 @@ export default function WhatsAppButton({ number = "919392484660" }) {
   const [visible, setVisible] = useState(!isHome);
   const [waNumber, setWaNumber] = useState(number);
 
-  useEffect(() => {
-    api.get("/settings").then(r => {
-      const n = r.data.whatsapp_number;
-      if (n) setWaNumber(n);
-    }).catch(() => {});
-  }, []);
 
   useEffect(() => {
     if (!isHome) {

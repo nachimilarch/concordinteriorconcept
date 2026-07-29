@@ -2,7 +2,7 @@ import { useState, useEffect, useRef, useCallback } from "react";
 import { useParams, Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
-import api from "../api/axios";
+import { PROJECTS } from "../data/projects";
 
 const NAVY = "#22221E";
 const GOLD = "#FBB316";
@@ -143,23 +143,16 @@ export default function ProjectDetail() {
   const [lightboxIdx, setLightboxIdx] = useState(null);
 
   useEffect(() => {
-    setLoading(true);
-    setNotFound(false);
-    setProject(null);
-    setRelated([]);
-    api.get(`/projects/${slug}`)
-      .then(r => {
-        setProject(r.data);
-        if (r.data.category_slug) {
-          api.get("/projects", { params: { category: r.data.category_slug, limit: 4 } })
-            .then(r2 => setRelated(r2.data.filter(p => p.slug !== slug).slice(0, 3)))
-            .catch(() => {});
-        }
-      })
-      .catch(e => {
-        if (e.response?.status === 404) setNotFound(true);
-      })
-      .finally(() => setLoading(false));
+    const found = PROJECTS.find(p => p.slug === slug);
+    if (found) {
+      setProject(found);
+      setRelated(
+        PROJECTS.filter(p => p.category_slug === found.category_slug && p.slug !== slug).slice(0, 3)
+      );
+    } else {
+      setNotFound(true);
+    }
+    setLoading(false);
   }, [slug]);
 
   if (loading) return (

@@ -1,9 +1,10 @@
 import { useState, useEffect, useCallback } from "react";
 import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import api from "../api/axios";
 import ConnectCTA from "../components/ConnectCTA";
 import { HexagonGrid } from "../components/AnimatedAccents";
+import { CATEGORIES } from "../data/settings";
+import { PROJECTS } from "../data/projects";
 
 /* ── Brand tokens ─────────────────────────────── */
 const NAVY = "#22221E";
@@ -40,10 +41,9 @@ function ProjectModal({ slug, onClose }) {
 
   useEffect(() => {
     setLoading(true);
-    api.get(`/projects/${slug}`)
-      .then(r => setProject(r.data))
-      .catch(() => {})
-      .finally(() => setLoading(false));
+    const found = PROJECTS.find(p => p.slug === slug || String(p.id) === String(slug));
+    setProject(found || null);
+    setLoading(false);
   }, [slug]);
 
   const handleKey = useCallback(e => { if (e.key === "Escape") onClose(); }, [onClose]);
@@ -441,22 +441,10 @@ function PortfolioCard({ project, index, onOpen }) {
 /* ── Main Portfolio page ─────────────────────── */
 export default function Portfolio() {
   const [activeFilter, setActiveFilter] = useState("All");
-  const [projects, setProjects] = useState([]);
-  const [categories, setCategories] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const projects = PROJECTS;
+  const categories = CATEGORIES;
+  const loading = false;
   const [openSlug, setOpenSlug] = useState(null);
-
-  useEffect(() => {
-    api.get("/categories").then(r => { if (r.data?.length) setCategories(r.data); }).catch(() => {});
-  }, []);
-
-  useEffect(() => {
-    setLoading(true);
-    api.get("/projects?limit=500")
-      .then(r => { if (r.data?.length) setProjects(r.data); })
-      .catch(() => {})
-      .finally(() => setLoading(false));
-  }, []);
 
   const usedCategoryNames = [...new Set(projects.map(p => p.category_name).filter(Boolean))];
   const filters = ["All", ...categories.map(c => c.name).filter(n => usedCategoryNames.includes(n))];

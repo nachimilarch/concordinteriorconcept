@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { motion, useInView } from "framer-motion";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import api from "../api/axios";
+import { STATS } from "../data/settings";
 import ScrollJourney from "../components/ScrollJourney";
 import ConnectCTA from "../components/ConnectCTA";
 import { SpinningCompass, ConstructionCrane, MaterialSwatches, ArtCircles, LeafFronds, BuildingRise, ColorWheel, GoldenSpiral, PenDraft } from "../components/AnimatedAccents";
@@ -610,15 +610,8 @@ function disciplineFromCms(row, i) {
 }
 
 export default function Home() {
-  const [stats, setStats] = useState(null);
-  const [disciplines, setDisciplines] = useState(DISCIPLINES);
-
-  useEffect(() => {
-    api.get("/projects/stats").then((r) => setStats(r.data)).catch(() => {});
-    api.get("/services")
-      .then((r) => { if (r.data?.length) setDisciplines(r.data.map(disciplineFromCms)); })
-      .catch(() => {});
-  }, []);
+  const stats = STATS;
+  const disciplines = DISCIPLINES;
 
   return (
     <div style={{ background: IVORY, overflowX: "hidden" }}>
